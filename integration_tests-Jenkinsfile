@@ -1,0 +1,85 @@
+pipeline {
+
+    agent any
+
+    environment {
+        INTEGRATION_TESTS_VARS_FILE = "vars"
+    }
+
+    parameters {
+
+        booleanParam(name: 'skale-manager+ts_1+schains_smoke_create_destroy', defaultValue: true, description: 'Create and delete all types schains')
+        booleanParam(name: 'skale-manager+ts_1+schains_create_destroy', defaultValue: true, description: 'Create and delete schains 100 times')
+        booleanParam(name: 'skale-manager+ts_1+node_rotation', defaultValue: true, description: 'Node rotation')
+        booleanParam(name: 'skale-manager+ts_1+schains_delete_all', defaultValue: true, description: 'Delete all schains')
+        booleanParam(name: 'skale-manager+ts_1+get_schains_quantity', defaultValue: true, description: 'Get schains quantity')
+
+    }
+
+    stages {
+
+
+        stage('Update dependencies') {
+
+            steps {
+                sh 'git submodule sync'
+                sh 'git submodule update --init --recursive'
+            }
+        }
+
+        stage('Check input parameters') {
+
+            steps {
+                script {
+
+                    def tests_in_action = ""
+
+                    // get test from params
+                    for (entry in params) {
+
+                        if(entry.value == true) {
+                            def test = entry.key.toString()
+                            tests_in_action = tests_in_action + test + " "
+                        }
+                    }
+
+                    println "Tests in action: ${tests_in_action}"
+                    writeFile file: env.INTEGRATION_TESTS_VARS_FILE, text: "${tests_in_action}"
+                }
+            }
+        }
+
+        stage('Update environment') {
+
+            steps {
+
+                script {
+
+                    try {
+                        sh "./update_environment.sh"
+                    }
+                    catch (Exception e) {
+                        echo "ERROR"
+                    }
+
+                }
+
+            }
+
+        }
+
+        stage('Run tests') {
+
+            steps {
+                script {
+                    def tests_in_action = readFile file: env.INTEGRATION_TESTS_VARS_FILE
+
+                    sh "./run_tests.sh ${tests_in_action}"
+
+                    writeFile file: env.INTEGRATION_TESTS_VARS_FILE, text: ""
+
+                }
+            }
+        }
+    }
+}
