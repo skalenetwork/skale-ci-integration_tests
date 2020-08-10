@@ -1,7 +1,8 @@
 #!/bin/bash
 
 export TEST_SUITES="\
-skale-manager+ts_1"
+skale-manager+ts_1
+skaled+internals"
 
 test_suites=()
 while IFS= read -r line ; do test_suites+=($line); done <<< "$TEST_SUITES"
