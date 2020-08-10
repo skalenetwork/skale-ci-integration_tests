@@ -8,7 +8,8 @@ skale-manager+ts_1+schains_smoke_create_destroy
 skale-manager+ts_1+schains_create_destroy
 skale-manager+ts_1+node_rotation
 skale-manager+ts_1+schains_delete_all
-skale-manager+ts_1+get_schains_quantity"
+skale-manager+ts_1+get_schains_quantity
+skaled+load_js+run_angry_cats"
 
 integration_tests=()
 while IFS= read -r line ; do integration_tests+=($line); done <<< "$INTEGRATION_TESTS"
