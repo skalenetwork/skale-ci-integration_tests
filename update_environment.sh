@@ -6,6 +6,7 @@ testsuites_in_action=($TEST_SUITES_IN_ACTION)
 export TEST_SUITES="\
 skale-manager+ts_1
 skaled+internals
+skaled+load_python
 skaled+load_js"
 
 test_suites=()
