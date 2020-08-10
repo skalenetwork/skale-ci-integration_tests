@@ -7,9 +7,6 @@
 [submodule "integration_tests/skale-manager/ts_1/third_party/integration_tests_for_skale-manager"]
 	path = integration_tests/skale-manager/ts_1/third_party/integration_tests_for_skale-manager
 	url = git@github.com:skalenetwork/integration_tests_for_skale-manager.git
-[submodule "integration_tests/skaled/internals/third_party/skale-node-tests"]
-	path = integration_tests/skaled/internals/third_party/skale-node-tests
-	url = git@github.com:skalenetwork/skale-node-tests
 [submodule "integration_tests/skaled/load_js/third_party/SkaleExperimental"]
 	path = integration_tests/skaled/load_js/third_party/SkaleExperimental
 	url = git@github.com:skalenetwork/SkaleExperimental
