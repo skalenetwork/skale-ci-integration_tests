@@ -10,3 +10,6 @@
 [submodule "integration_tests/skaled/load_js/third_party/SkaleExperimental"]
 	path = integration_tests/skaled/load_js/third_party/SkaleExperimental
 	url = git@github.com:skalenetwork/SkaleExperimental
+[submodule "integration_tests/skaled/internals/third_party/skale-node-tests"]
+	path = integration_tests/skaled/internals/third_party/skale-node-tests
+	url = git@github.com:skalenetwork/skale-node-tests
