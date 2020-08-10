@@ -1,10 +1,11 @@
 #!/bin/bash
 
 export TEST_SUITES_IN_ACTION=$1
-testsuites_in_action=($TEST_IN_ACTION)
+testsuites_in_action=($TEST_SUITES_IN_ACTION)
 
 export TEST_SUITES="\
 skale-manager+ts_1
+skaled+internals
 skaled+load_js"
 
 test_suites=()

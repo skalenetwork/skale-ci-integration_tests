@@ -2,31 +2,24 @@
 #!/bin/bash
 
 echo
-echo "----- integration_tests/skale-manager/ts_1/environment.sh ----- begin"
+echo "----- integration_tests/skaled/internals/environment.sh ----- begin"
 
-export SKALE_MANAGER_TS_1=$INTEGRATION_TESTS_DIR/skale-manager/ts_1
-echo "SKALE_MANAGER_TS_1 = $SKALE_MANAGER_TS_1"
-export INTEGRATION_TESTS_FOR_SKALE_MANAGER=$SKALE_MANAGER_TS_1/third_party/integration_tests_for_skale-manager
-echo "INTEGRATION_TESTS_FOR_SKALE_MANAGER = $INTEGRATION_TESTS_FOR_SKALE_MANAGER"
+export INTERNALS=$INTEGRATION_TESTS_DIR/skaled/internals
+export SKALE_NODE_TESTS=$INTERNALS/third_party/skale-node-tests
+echo "SKALE_NODE_TESTS = $SKALE_NODE_TESTS"
 
-cd $INTEGRATION_TESTS_FOR_SKALE_MANAGER
-
-echo $INTEGRATION_TESTS_FOR_SKALE_MANAGER
+cd $SKALE_NODE_TESTS
 
 rm -rf venv
-/usr/local/bin/python3.7 -m venv venv
+python3 -m venv venv
 . venv/bin/activate
 
 python -V
 pip -V
 
-pip3 install cython
-pip3 install greenlet
-pip3 install gevent
-pip3 install setuptools
-pip3 install parallel-ssh
+pip3 install wheel
 
 pip3 install -r requirements.txt
 
-echo "----- integration_tests/skale-manager/ts_1/environment.sh ----- end"
+echo "----- integration_tests/skaled/internals/environment.sh ----- end"
 echo
