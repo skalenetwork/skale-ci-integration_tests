@@ -13,3 +13,6 @@
 [submodule "integration_tests/skaled/internals/third_party/skale-node-tests"]
 	path = integration_tests/skaled/internals/third_party/skale-node-tests
 	url = git@github.com:skalenetwork/skale-node-tests
+[submodule "integration_tests/skaled/load_python/third_party/skale-node-tests"]
+	path = integration_tests/skaled/load_python/third_party/skale-node-tests
+	url = git@github.com:skalenetwork/skale-node-tests
