@@ -14,12 +14,13 @@ cd $INTEGRATION_TESTS_FOR_SKALE_MANAGER
 echo $INTEGRATION_TESTS_FOR_SKALE_MANAGER
 
 rm -rf venv
-/usr/local/bin/python3.7 -m venv venv
+python3 -m venv venv
 . venv/bin/activate
 
 python -V
 pip -V
 
+pip3 install wheel
 pip3 install cython
 pip3 install greenlet
 pip3 install gevent
