@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Skaled Nightly Tests
 
 on:
@@ -41,13 +39,21 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install python3-pip python3-venv
-    
-    - uses: docker-practice/actions-setup-docker@0.0.1  
+
+    - name: Add secrets
+      run: |
+        touch ~/.netrc
+        chmod 600 ~/.netrc
+        echo "machine github.com" > ~/.netrc
+        echo "login ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
+        echo "password ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
 
     - uses: actions/checkout@v2
 
     - name: Update submodules
       run: git submodule update --init --recursive
+
+    - uses: docker-practice/actions-setup-docker@0.0.1  
 
     - name: Update Environment
       run: |
