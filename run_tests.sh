@@ -11,7 +11,7 @@ skale-manager+ts_1+schains_delete_all
 skale-manager+ts_1+get_schains_quantity
 skaled+load_js+run_angry_cats
 skaled+internals+pytest
-skaled+load_python"
+skaled+load_python+all"
 
 integration_tests=()
 while IFS= read -r line ; do integration_tests+=($line); done <<< "$INTEGRATION_TESTS"
