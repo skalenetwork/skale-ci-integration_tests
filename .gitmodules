@@ -9,7 +9,7 @@
 	url = https://github.com/skalenetwork/integration_tests_for_skale-manager.git
 [submodule "integration_tests/skaled/load_js/third_party/SkaleExperimental"]
 	path = integration_tests/skaled/load_js/third_party/SkaleExperimental
-	url = https://github.com:skalenetwork/SkaleExperimental
+	url = https://github.com/skalenetwork/SkaleExperimental
 [submodule "integration_tests/skaled/internals/third_party/skale-node-tests"]
 	path = integration_tests/skaled/internals/third_party/skale-node-tests
 	url = https://github.com/skalenetwork/skale-node-tests
