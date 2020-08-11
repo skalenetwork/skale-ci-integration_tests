@@ -1,12 +1,12 @@
 [submodule "integration_tests/skale-manager/ts_1/third_party/IMA"]
 	path = integration_tests/skale-manager/ts_1/third_party/IMA
-	url = git@github.com:skalenetwork/IMA.git
+	url = https://github.com/skalenetwork/IMA.git
 [submodule "integration_tests/skale-manager/ts_1/third_party/automation_validator_cli"]
 	path = integration_tests/skale-manager/ts_1/third_party/automation_validator_cli
-	url = git@github.com:skalenetwork/automation_validator_cli.git
+	url = https://github.com/skalenetwork/automation_validator_cli.git
 [submodule "integration_tests/skale-manager/ts_1/third_party/integration_tests_for_skale-manager"]
 	path = integration_tests/skale-manager/ts_1/third_party/integration_tests_for_skale-manager
-	url = git@github.com:skalenetwork/integration_tests_for_skale-manager.git
+	url = https://github.com/skalenetwork/integration_tests_for_skale-manager.git
 [submodule "integration_tests/skaled/load_js/third_party/SkaleExperimental"]
 	path = integration_tests/skaled/load_js/third_party/SkaleExperimental
 	url = https://github.com:skalenetwork/SkaleExperimental
