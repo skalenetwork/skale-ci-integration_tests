@@ -39,11 +39,15 @@ jobs:
 
     - name: Install packages
       run: |
-        sudo apt update
+        sudo apt-get update
+        sudo apt-get install python3-pip python3-venv
     
     - uses: docker-practice/actions-setup-docker@0.0.1  
 
     - uses: actions/checkout@v2
+
+    - name: Update submodules
+      run: git submodule update --init --recursive
 
     - name: Update Environment
       run: |
