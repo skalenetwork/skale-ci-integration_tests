@@ -1,0 +1,57 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Skaled Nightly Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Test Suite'
+        default: 'internals'
+        required: false
+
+      test:
+        description: 'Test'
+        default: 'pytest'
+        required: false
+
+      skaled_provider:
+        description: 'Skaled Provider (binary_from_container|binary_as_artifact|container)'
+        default: 'binary_from_container'
+        required: true
+
+      skaled_release:
+        description: 'Skaled Release'
+        default: 'develop-latest'
+        required: true
+
+jobs:
+  main_job:
+    runs-on: ubuntu-latest
+    env:
+      PROJECT: skaled
+      SUITE: ${{ github.event.inputs.suite }}
+      TEST: ${{ github.event.inputs.test }}
+      SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider }}
+      SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
+
+    steps:
+
+    - name: Install packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install python3-pip python3-venv
+    
+    - uses: docker-practice/actions-setup-docker@0.0.1  
+
+    - uses: actions/checkout@v2
+
+    - name: Update submodules
+      run: git submodule update --init --recursive
+
+    - name: Update Environment
+      run: |
+        ./update_environment.sh $PROJECT+$SUITE+$TEST
+    - name: Run Tests
+      run: |
+        ./run_tests.sh $PROJECT+$SUITE+$TEST
