@@ -27,7 +27,7 @@ on:
 
 jobs:
   main_job:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       PROJECT: skaled
       SUITE: ${{ github.event.inputs.suite }}
@@ -39,8 +39,8 @@ jobs:
 
     - name: Install packages
       run: |
-        sudo apt-get update
-        sudo apt-get install docker.io
+        sudo apt update
+        sudo apt install docker.io
 
     - uses: actions/checkout@v2
 
