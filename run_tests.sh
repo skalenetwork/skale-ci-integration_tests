@@ -51,7 +51,7 @@ do
     TEST_NAME=$(echo $test_in_action | cut -d'+' -f3)
     echo "TEST_NAME = $TEST_NAME"
 
-    bash $TEST_RUNNER_SCRIPT $TEST_NAME || $result=$?
+    bash $TEST_RUNNER_SCRIPT $TEST_NAME || result=$?
 
 done
 
