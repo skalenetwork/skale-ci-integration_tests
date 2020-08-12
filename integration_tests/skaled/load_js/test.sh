@@ -29,8 +29,13 @@ case "$TEST_NAME" in
 
       *)
             echo "Test [${TEST_NAME}] doesn't exist. Try another."
+            false
       ;;
 esac
 
+result=$?
+
 echo "----- integration_tests/skaled/load_js/test.sh ----- end"
 echo
+
+exit $result

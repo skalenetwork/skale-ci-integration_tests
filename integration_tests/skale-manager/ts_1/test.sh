@@ -93,8 +93,13 @@ case "$TEST_NAME" in
 
       *)
             echo "Test [${TEST_NAME}] doesn't exist. Try another."
+            false
       ;;
 esac
 
+result=$?
+
 echo "----- integration_tests/skale-manager/ts_1/environment.sh ----- end"
 echo
+
+exit $result
