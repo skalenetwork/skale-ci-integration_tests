@@ -19,7 +19,9 @@ pip3 -V
 
 # to fix: test_race.py
 pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py
-
+result=$?
 
 echo "----- integration_tests/skaled/internals/test.sh ----- end"
 echo
+
+exit $result

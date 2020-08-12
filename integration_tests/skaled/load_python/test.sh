@@ -19,7 +19,9 @@ pip3 -V
 
 # to fix: test_race.py
 python3 sktest_performance.py
-
+result=$?
 
 echo "----- integration_tests/skaled/load_python/test.sh ----- end"
 echo
+
+exit $result

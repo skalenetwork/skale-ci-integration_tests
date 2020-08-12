@@ -36,6 +36,8 @@ export REPO_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 &
 export INTEGRATION_TESTS_DIR=$REPO_ROOT_DIR/integration_tests
 echo "INTEGRATION_TESTS_DIR = $INTEGRATION_TESTS_DIR"
 
+result=0
+
 for test_in_action in ${tests_in_action[@]}
 do
     SOFTWARE_UNDER_TEST=$(echo $test_in_action | cut -d'+' -f1)
@@ -49,6 +51,8 @@ do
     TEST_NAME=$(echo $test_in_action | cut -d'+' -f3)
     echo "TEST_NAME = $TEST_NAME"
 
-    bash $TEST_RUNNER_SCRIPT $TEST_NAME
+    bash $TEST_RUNNER_SCRIPT $TEST_NAME || $result=$?
 
 done
+
+exit $result
