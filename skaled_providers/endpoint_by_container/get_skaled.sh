@@ -26,3 +26,5 @@ echo -- Run container --
 docker run -d -v $SCRIPT_DIR/data_dir:/data_dir -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no&
 
 ENDPOINT_URL="http://127.0.0.1:1234"
+CHAIN_ID=$(( python3 $SCRIPT_DIR/config.py extract $SCRIPT_DIR/data_dir/config.json params.chainID ))
+CHAIN_ID=$(( python3 $SCRIPT_DIR/config.py extract $SCRIPT_DIR/data_dir/config.json skaleConfig.sChain.schainOwner ))
