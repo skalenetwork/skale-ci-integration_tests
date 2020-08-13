@@ -11,15 +11,18 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+# destroy all skaled
+docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) || true
+
 echo -- Prepare data_dir --
-rm -rf $SCRIPT_DIR/data_dir
+sudo rm -rf $SCRIPT_DIR/data_dir
 mkdir $SCRIPT_DIR/data_dir
 
 echo -- Prepare config --
 python3 $SCRIPT_DIR/config.py merge $SCRIPT_DIR/config0.json ${@:2} >$SCRIPT_DIR/data_dir/config.json
 
 echo -- Get schain image --
-#SKALED_RELEASE="1.46-develop.45"
+SKALED_RELEASE="1.46-develop.45"
 docker pull skalenetwork/schain:$SKALED_RELEASE
 
 echo -- Run container --

@@ -42,6 +42,8 @@ done
 export REPO_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export INTEGRATION_TESTS_DIR=$REPO_ROOT_DIR/integration_tests
 echo "INTEGRATION_TESTS_DIR = $INTEGRATION_TESTS_DIR"
+export SKALED_PROVIDERS_DIR=$REPO_ROOT_DIR/skaled_providers
+echo "SKALED_PROVIDERS_DIR = $SKALED_PROVIDERS_DIR"
 
 result=0
 
