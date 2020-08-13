@@ -14,6 +14,8 @@ echo "CONFIGS_DIR = $CONFIGS_DIR"
 export SKALE_EXPERIMANTAL=$SKALED_LOAD_JS/third_party/SkaleExperimental
 echo "SKALE_EXPERIMANTAL = $SKALE_EXPERIMANTAL"
 
+. $SKALED_PROVIDER/get_skaled.sh $CONFIGS_DIR/accounts.json
+
 cd $SKALED_LOAD_JS
 
 case "$TEST_NAME" in
