@@ -12,15 +12,23 @@ skaled+load_js"
 test_suites=()
 while IFS= read -r line ; do test_suites+=($line); done <<< "$TEST_SUITES"
 
-echo "$test_suites"
+# if any test name is provided then run all possible tests
+[ -z $TEST_SUITES_IN_ACTION ] && testsuites_in_action=("${test_suites[@]}")
+
+echo "Test suites in action --->"
+for test_suite in ${testsuites_in_action[@]}
+do
+    printf "%s\n" "$test_suite"
+done
+echo "<--- Test suites in action"
 
 # validate that test suites is exist
-for test_in_action in ${tests_in_action[@]}
+for testsuite_in_action in ${testsuites_in_action[@]}
 do
-    if [[ ! " ${test_suites[@]} " =~ " ${testsuites_in_action} " ]]; then
+    if [[ ! " ${test_suites[@]} " =~ " ${testsuite_in_action} " ]]; then
         echo
         echo "----- ERROR -----"
-        echo "Test suite [${test_in_action}] doesnt exist. Use from list:"
+        echo "Test suite [${testsuite_in_action}] doesnt exist. Use from list:"
         echo "$TEST_SUITES"
         echo "-----------------"
         exit 1
