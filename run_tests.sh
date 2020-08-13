@@ -3,6 +3,7 @@
 export TEST_IN_ACTION=$1
 tests_in_action=($TEST_IN_ACTION)
 
+# all possible tests
 export INTEGRATION_TESTS="\
 skale-manager+ts_1+schains_smoke_create_destroy
 skale-manager+ts_1+schains_create_destroy
@@ -10,14 +11,20 @@ skale-manager+ts_1+node_rotation
 skale-manager+ts_1+schains_delete_all
 skale-manager+ts_1+get_schains_quantity
 skaled+load_js+run_angry_cats
-skaled+internals+pytest
-skaled+load_python+all"
+skaled+internals+pytest"
 
 integration_tests=()
 while IFS= read -r line ; do integration_tests+=($line); done <<< "$INTEGRATION_TESTS"
 
-echo "${integration_tests[@]}"
-echo "${tests_in_action[@]}"
+# if any test name is provided then run all possible tests
+[ -z $TEST_IN_ACTION ] && tests_in_action=("${integration_tests[@]}")
+
+echo "Tests in action --->"
+for test in ${tests_in_action[@]}
+do
+    printf "%s\n" "$test"
+done
+echo "<--- Tests in action"
 
 # validate that tests is exist
 for test_in_action in ${tests_in_action[@]}
