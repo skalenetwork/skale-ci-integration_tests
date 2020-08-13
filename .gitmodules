@@ -16,3 +16,6 @@
 [submodule "integration_tests/skaled/load_python/third_party/skale-node-tests"]
 	path = integration_tests/skaled/load_python/third_party/skale-node-tests
 	url = https://github.com/skalenetwork/skale-node-tests
+[submodule "integration_tests/skaled/contractsRunningTest/third_party/SkaleExperimental"]
+	path = integration_tests/skaled/contractsRunningTest/third_party/SkaleExperimental
+	url = https://github.com/skalenetwork/SkaleExperimental

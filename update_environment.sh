@@ -7,7 +7,8 @@ export TEST_SUITES="\
 skale-manager+ts_1
 skaled+internals
 skaled+load_python
-skaled+load_js"
+skaled+load_js
+skaled+contractsRunningTest"
 
 test_suites=()
 while IFS= read -r line ; do test_suites+=($line); done <<< "$TEST_SUITES"
