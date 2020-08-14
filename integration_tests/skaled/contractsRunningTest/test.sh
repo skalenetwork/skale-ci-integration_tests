@@ -27,8 +27,8 @@ export INSECURE_PRIVATE_KEY_1="1016316fe598b437cfd518c02f67467385b018e61fd048325
 export INSECURE_PRIVATE_KEY_2="14e7e34f77749217477a6c36ddff3f5b5f217c67782dd7cc4ec4c0f9997f968b"
 
 result=0
-npx truffle deploy --network=test || result=$?
-node ./index.js || result=$?
+npx truffle deploy --network=test && node ./index.js
+result=$?
 
 echo "----- integration_tests/skaled/load_js/test.sh ----- end"
 echo
