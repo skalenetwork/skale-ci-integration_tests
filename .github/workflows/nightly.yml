@@ -1,11 +1,11 @@
 name: Skaled Nightly Tests
 
-#on:
-#  schedule:
-#    - cron: '0 0 * * *'
-
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+#on:
+#  workflow_dispatch:
 
 jobs:
   main_job:
@@ -45,9 +45,14 @@ jobs:
         ./update_environment.sh skaled+load_js
         ./update_environment.sh skaled+contractsRunningTest
 
-    - name: Run Tests
-      run: |
-        SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+pytest
-        SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+load_python+all
-        SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+load_js+run_angry_cats
-        SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+contractsRunningTest+all
+    - name: skaled+internals+pytest
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+pytest
+      
+    - name: skaled+load_python+all
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+load_python+all
+
+    - name: skaled+load_js+run_angry_cats
+      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+load_js+run_angry_cats
+
+    - name: skaled+contractsRunningTest+all
+      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+contractsRunningTest+all
