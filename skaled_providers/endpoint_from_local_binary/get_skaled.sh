@@ -11,6 +11,9 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+# destroy all skaled
+killall -9 $SKTEST_EXE
+
 echo -- Prepare data_dir --
 rm -rf $SCRIPT_DIR/data_dir
 mkdir $SCRIPT_DIR/data_dir
