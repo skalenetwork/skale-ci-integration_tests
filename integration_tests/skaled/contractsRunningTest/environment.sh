@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 echo
 echo "----- integration_tests/skaled/contractsRunningTest/environment.sh ----- begin"
 
@@ -13,7 +11,7 @@ echo "SKALE_EXPERIMANTAL = $SKALE_EXPERIMANTAL"
 
 cd $SKALE_EXPERIMANTAL/l_sergiy/contractsRunningTest
 
-yarnpkg install
+yarn install
 npx truffle compile
 
 echo "----- integration_tests/skaled/contractsRunningTest/environment.sh ----- end"
