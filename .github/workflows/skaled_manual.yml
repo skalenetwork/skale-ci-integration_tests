@@ -65,6 +65,8 @@ jobs:
       run: |
         ./run_tests.sh $PROJECT+$SUITE+$TEST
 
+    - name: Save logs
+      run: socker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out
 
     - uses: actions/upload-artifact@v2
       with:
@@ -74,9 +76,9 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: aleth.err
-        path: skaled_providers/endpoint_by_container/data_dir/aleth.err
+        path: aleth.err
         
     - uses: actions/upload-artifact@v2
       with:
         name: aleth.out
-        path: skaled_providers/endpoint_by_container/data_dir/aleth.out
+        path: aleth.out
