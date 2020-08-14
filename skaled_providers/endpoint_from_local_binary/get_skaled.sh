@@ -1,7 +1,7 @@
 # source it!
 
 # params:
-# SKALED_RELEASE - dockerhub schain container version
+# SKTEST_EXE - path to skaled
 # arg1 - config with additional params (optional)
 
 # returns
@@ -12,7 +12,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # destroy all skaled
-docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) || true
+killall -9 $SKTEST_EXE
 
 echo -- Prepare data_dir --
 rm -rf $SCRIPT_DIR/data_dir
@@ -21,12 +21,8 @@ mkdir $SCRIPT_DIR/data_dir
 echo -- Prepare config --
 python3 $SCRIPT_DIR/config.py merge $SCRIPT_DIR/config0.json ${@:1} >$SCRIPT_DIR/data_dir/config.json
 
-echo -- Get schain image --
-SKALED_RELEASE="1.46-develop.45"
-docker pull skalenetwork/schain:$SKALED_RELEASE
-
-echo -- Run container --
-docker run -d -v $SCRIPT_DIR/data_dir:/data_dir -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
+echo -- Run binary --
+DATA_DIR=$SCRIPT_DIR/data_dir $SKTEST_EXE --http-port 1234 --config $SCRIPT_DIR/data_dir/config.json -d $SCRIPT_DIR/data_dir --ipcpath $SCRIPT_DIR/data_dir -v 2 --web3-trace --enable-debug-behavior-apis --aa no 2>$SCRIPT_DIR/data_dir/aleth.err >$SCRIPT_DIR/data_dir/aleth.out
 
 ENDPOINT_URL="http://127.0.0.1:1234"
 CHAIN_ID=$( python3 $SCRIPT_DIR/config.py extract $SCRIPT_DIR/data_dir/config.json params.chainID )

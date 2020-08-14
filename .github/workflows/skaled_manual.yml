@@ -38,9 +38,9 @@ jobs:
     - name: Install packages
       run: |
         sudo apt-get update
-        sudo apt-get install python3-pip python3-venv nodejs yarn
-        sudo npm install -g npx
+        sudo apt-get install python3-pip python3-venv nodejs
         sudo npm install -g truffle
+        sudo npm install -g yarn
 
     - name: Add secrets
       run: |
@@ -59,7 +59,7 @@ jobs:
 
     - name: Update Environment
       run: |
-        ./update_environment.sh $PROJECT+$SUITE+$TEST
+        ./update_environment.sh $PROJECT+$SUITE
     - name: Run Tests
       run: |
         ./run_tests.sh $PROJECT+$SUITE+$TEST
