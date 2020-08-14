@@ -14,7 +14,7 @@ echo "CONFIGS_DIR = $CONFIGS_DIR"
 export SKALE_EXPERIMANTAL=$SKALED_LOAD_JS/third_party/SkaleExperimental
 echo "SKALE_EXPERIMANTAL = $SKALE_EXPERIMANTAL"
 
-. $SKALED_PROVIDERS_DIR/endpoint_by_container/get_skaled.sh $CONFIGS_DIR/accounts.json
+. $SKALED_PROVIDER/get_skaled.sh $CONFIGS_DIR/accounts.json
 
 cd $SKALED_LOAD_JS
 
@@ -36,9 +36,6 @@ case "$TEST_NAME" in
 esac
 
 result=$?
-
-# remove all docker containers
-docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) || true
 
 echo "----- integration_tests/skaled/load_js/test.sh ----- end"
 echo

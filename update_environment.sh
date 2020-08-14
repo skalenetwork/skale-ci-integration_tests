@@ -40,6 +40,9 @@ export REPO_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 &
 export INTEGRATION_TESTS_DIR=$REPO_ROOT_DIR/integration_tests
 echo "INTEGRATION_TESTS_DIR = $INTEGRATION_TESTS_DIR"
 
+# exit on error
+set -e
+
 for test_suite in ${testsuites_in_action[@]}
 do
     SOFTWARE_UNDER_TEST=$(echo $test_suite | cut -d'+' -f1)
