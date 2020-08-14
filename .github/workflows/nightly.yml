@@ -1,0 +1,53 @@
+name: Skaled Nightly Tests
+
+#on:
+#  schedule:
+#    - cron: '0 0 * * *'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  main_job:
+    runs-on: ubuntu-latest
+    env:
+      SKALED_RELEASE: develop-latest
+
+    steps:
+
+    - name: Install packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install python3-pip python3-venv nodejs
+        sudo npm install -g truffle
+        sudo npm install -g yarn
+        sudo chown -R runner:runner ~/.config   # HACK
+
+    - name: Add secrets
+      run: |
+        touch ~/.netrc
+        chmod 600 ~/.netrc
+        echo "machine github.com" > ~/.netrc
+        echo "login ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
+        echo "password ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
+
+    - uses: actions/checkout@v2
+
+    - name: Update submodules
+      run: git submodule update --init --recursive
+
+    - uses: docker-practice/actions-setup-docker@0.0.1  
+
+    - name: Update Environment
+      run: |
+        ./update_environment.sh skaled+internals
+        ./update_environment.sh skaled+load_python
+        ./update_environment.sh skaled+load_js
+        ./update_environment.sh skaled+contractsRunningTest
+
+    - name: Run Tests
+      run: |
+        SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+pytest
+        SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+load_python+all
+        SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+load_js+run_angry_cats
+        SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+contractsRunningTest+all
