@@ -13,7 +13,7 @@ echo "SKALE_EXPERIMANTAL = $SKALE_EXPERIMANTAL"
 
 cd $SKALE_EXPERIMANTAL/l_sergiy/contractsRunningTest
 
-yarn install
+yarnpkg install
 npx truffle compile
 
 echo "----- integration_tests/skaled/contractsRunningTest/environment.sh ----- end"

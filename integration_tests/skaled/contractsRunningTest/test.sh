@@ -5,37 +5,30 @@ echo "----- integration_tests/skaled/load_js/test.sh ----- begin"
 
 TEST_NAME=$1
 
-export SKALED_LOAD_JS=$INTEGRATION_TESTS_DIR/skaled/load_js
-echo "SKALED_LOAD_JS = $SKALED_LOAD_JS"
+export SKALED_CONTRACTS_TEST=$INTEGRATION_TESTS_DIR/skaled/contractsRunningTest
+echo "SKALED_CONTRACTS_TEST = $SKALED_CONTRACTS_TEST"
 
-export CONFIGS_DIR=$SKALED_LOAD_JS/configs
+export CONFIGS_DIR=$SKALED_CONTRACTS_TEST/configs
 echo "CONFIGS_DIR = $CONFIGS_DIR"
 
-export SKALE_EXPERIMANTAL=$SKALED_LOAD_JS/third_party/SkaleExperimental
+export SKALE_EXPERIMANTAL=$SKALED_CONTRACTS_TEST/third_party/SkaleExperimental
 echo "SKALE_EXPERIMANTAL = $SKALE_EXPERIMANTAL"
 
 . $SKALED_PROVIDER/get_skaled.sh $CONFIGS_DIR/accounts.json
 
-cd $SKALED_LOAD_JS
+cd $SKALE_EXPERIMANTAL/l_sergiy/contractsRunningTest
 
-case "$TEST_NAME" in
+export ENDPOINT=$ENDPOINT_URL
+export CHAINID=$CHAIN_ID
 
-      "run_angry_cats")
+# from accounts.json
+export INSECURE_PRIVATE_KEY="1016316fe598b437cfd518c02f67467385b018e61fd048325c7e7c9e5e07cd2a"
+export INSECURE_PRIVATE_KEY_1="1016316fe598b437cfd518c02f67467385b018e61fd048325c7e7c9e5e07cd2a"
+export INSECURE_PRIVATE_KEY_2="14e7e34f77749217477a6c36ddff3f5b5f217c67782dd7cc4ec4c0f9997f968b"
 
-            echo
-            echo "----- integration_tests/skaled/load_js/test.sh::run_angry_cats -----"
-
-            node $SKALE_EXPERIMANTAL/skaled-tests/cat-cycle/cat-cycle.js $CONFIGS_DIR/all-ends.js $CONFIGS_DIR/all-cats.js
-
-      ;;
-
-      *)
-            echo "Test [${TEST_NAME}] doesn't exist. Try another."
-            false
-      ;;
-esac
-
-result=$?
+result=0
+npx truffle deploy --network=test || result=$?
+node ./index.js || result=$?
 
 echo "----- integration_tests/skaled/load_js/test.sh ----- end"
 echo
