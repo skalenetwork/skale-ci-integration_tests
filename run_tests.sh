@@ -3,7 +3,7 @@
 # ./run_tests.sh -g skale-manager
 # ./run_tests.sh -s skale-manage+ts_1
 # ./run_tests.sh -t skale-manager+ts_1+schains_smoke_create_destroy
-./run_tests.sh -a
+# ./run_tests.sh -a
 
 export OPTION=$1
 export VALUE=$2
