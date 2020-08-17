@@ -1,7 +1,12 @@
 #!/bin/bash
 
-export TEST_IN_ACTION=$1
-tests_in_action=($TEST_IN_ACTION)
+# ./run_tests.sh -g skale-manager
+# ./run_tests.sh -s skale-manage+ts_1
+# ./run_tests.sh -t skale-manager+ts_1+schains_smoke_create_destroy
+./run_tests.sh -a
+
+export OPTION=$1
+export VALUE=$2
 
 # all possible tests
 export INTEGRATION_TESTS="\
@@ -18,8 +23,79 @@ skaled+contractsRunningTest+all"
 integration_tests=()
 while IFS= read -r line ; do integration_tests+=($line); done <<< "$INTEGRATION_TESTS"
 
-# if any test name is provided then run all possible tests
-[ -z $TEST_IN_ACTION ] && tests_in_action=("${integration_tests[@]}")
+tests_in_action=()
+
+case "$OPTION" in
+
+      "-g")
+            # run all tests in group
+
+            # validate filter format
+            FILTER_SOFTWARE_UNDER_TEST=$(echo $VALUE | cut -d'+' -f1)
+
+            FILTER=$FILTER_SOFTWARE_UNDER_TEST
+
+            for integration_test in ${integration_tests[@]}
+            do
+                SOFTWARE_UNDER_TEST=$(echo $integration_test | cut -d'+' -f1)
+                TEST_SUITE=$(echo $integration_test | cut -d'+' -f2)
+
+                # add test in group is valid
+                if [ -z ${VALUE#"$FILTER"} ]; then
+                    if [ $FILTER_SOFTWARE_UNDER_TEST == $SOFTWARE_UNDER_TEST ]; then
+                        tests_in_action+=("$integration_test")
+                    fi
+                fi
+            done
+      ;;
+
+
+      "-s")
+            # run all tests in suite
+
+            # validate filter format
+            FILTER_SOFTWARE_UNDER_TEST=$(echo $VALUE | cut -d'+' -f1)
+            FILTER_TEST_SUITE=$(echo $VALUE | cut -d'+' -f2)
+
+            FILTER=$FILTER_SOFTWARE_UNDER_TEST+$FILTER_TEST_SUITE
+
+            for integration_test in ${integration_tests[@]}
+            do
+                SOFTWARE_UNDER_TEST=$(echo $integration_test | cut -d'+' -f1)
+                TEST_SUITE=$(echo $integration_test | cut -d'+' -f2)
+
+                # add test in testsuite is valid
+                if [ -z ${VALUE#"$FILTER"} ]; then
+                    if [ $FILTER_SOFTWARE_UNDER_TEST == $SOFTWARE_UNDER_TEST ] | [ $FILTER_TEST_SUITE == $TEST_SUITE ]; then
+                        tests_in_action+=("$integration_test")
+                    fi
+                fi
+            done
+      ;;
+
+
+      "-t")
+            # run one test
+
+            tests_in_action=("$VALUE")
+
+      ;;
+
+
+      "-a")
+            # run all tests
+
+            tests_in_action=("${integration_tests[@]}")
+
+      ;;
+
+
+      *)
+            echo "Option [${OPTION}] doesn't exist."
+            false
+      ;;
+esac
+
 
 echo "Tests in action --->"
 for test in ${tests_in_action[@]}
@@ -35,6 +111,7 @@ do
         echo
         echo "----- ERROR -----"
         echo "Test [${test_in_action}] doesnt exist. Use from list:"
+        echo
         echo "$INTEGRATION_TESTS"
         echo "-----------------"
         exit 1

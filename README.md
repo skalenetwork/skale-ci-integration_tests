@@ -7,7 +7,7 @@ This repostory is a collection of tests written by different developers whith ke
     - skale-manager+ts_1+schains_smoke_create_destroy
     - skale-manager+ts_1+schains_create_destroy
     - skale-manager+ts_1+node_rotation
-    - skale-manager+ts_1+schains_delete_all
+    - skale-manager+ts_1+schains_delete_all.
     - skale-manager+ts_1+get_schains_quantity
 - skaled
     - skaled+load_js+run_angry_cats
@@ -16,5 +16,12 @@ This repostory is a collection of tests written by different developers whith ke
 
 **Workflow**
 1. Update environment for test suites. Run command: "bash ./update_environment.sh ["*test suite name*"]". List of possible test suites is located at header of the script. If not a single test suite is provided then all tests suites' environments will be updated.
-2. Run tests. Run command: "bash ./run_tests.sh ["*test name*"]". List of possible test is located at header of the script. If not a single test is provided then all tests will be updated.
+2. Run tests. Run command: "bash ./run_tests.sh [*option*] ["*test name*"]". List of possible test is located at header of the script. If not a single test is provided then all tests will be updated.
+    Possible options:
+        -a  Run all possible tests
+        -g  Run group of tests
+        -s  Run tests in suite
+        -t  Run one test
+
+
 
