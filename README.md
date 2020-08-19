@@ -1,3 +1,5 @@
+[![Skaled Nightly Tests](https://github.com/skalenetwork/skale-ci-integration_tests/workflows/Skaled%20Nightly%20Tests/badge.svg)](https://github.com/skalenetwork/skale-ci-integration_tests/actions?query=workflow%3A%22Skaled+Nightly+Tests%22)
+
 This repostory is a collection of tests written by different developers whith keep in mind to test a main functionality of theirs code.
 
 **List of tests**
