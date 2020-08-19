@@ -6,12 +6,17 @@ name: Skaled Nightly Tests
 
 on:
   workflow_dispatch:
+      skaled_release:
+        description: 'Skaled Release'
+        default: 'develop-latest'
+        required: true
 
 jobs:
   main_job:
     runs-on: ubuntu-latest
     env:
-      SKALED_RELEASE: develop-latest
+      SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
+#      SKALED_RELEASE: develop-latest
 
     steps:
 
