@@ -6,6 +6,7 @@ name: Skaled Nightly Tests
 
 on:
   workflow_dispatch:
+    inputs:
       skaled_release:
         description: 'Skaled Release'
         default: 'develop-latest'
