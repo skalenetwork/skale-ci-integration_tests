@@ -1,23 +1,23 @@
 name: Skaled Nightly Tests
 
-#on:
-#  schedule:
-#    - cron: '0 0 * * *'
-
 on:
-  workflow_dispatch:
-    inputs:
-      skaled_release:
-        description: 'Skaled Release'
-        default: 'develop-latest'
-        required: true
+  schedule:
+    - cron: '0 0 * * *'
+
+#on:
+#  workflow_dispatch:
+#    inputs:
+#      skaled_release:
+#        description: 'Skaled Release'
+#        default: 'develop-latest'
+#        required: true
 
 jobs:
   main_job:
     runs-on: ubuntu-latest
     env:
-      SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
-#      SKALED_RELEASE: develop-latest
+#      SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
+      SKALED_RELEASE: develop-latest
 
     steps:
 
