@@ -4,8 +4,7 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-#on:
-#  workflow_dispatch:
+  workflow_dispatch:
 #    inputs:
 #      skaled_release:
 #        description: 'Skaled Release'
@@ -50,6 +49,7 @@ jobs:
         ./update_environment.sh skaled+load_python
         ./update_environment.sh skaled+load_js
         ./update_environment.sh skaled+contractsRunningTest
+        ./update_environment.sh skaled+filestorage
 
     - name: skaled+internals+pytest
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+pytest
@@ -62,3 +62,6 @@ jobs:
 
     - name: skaled+contractsRunningTest+all
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+contractsRunningTest+all
+
+    - name: skaled+contractsRunningTest+all
+      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+filestorage+all
