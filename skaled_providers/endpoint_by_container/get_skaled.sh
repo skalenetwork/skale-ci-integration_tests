@@ -11,8 +11,7 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-# destroy all skaled
-docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) || true
+$SCRIPT_DIR/free_skaled.sh
 
 echo -- Prepare data_dir --
 sudo rm -rf $SCRIPT_DIR/data_dir || true

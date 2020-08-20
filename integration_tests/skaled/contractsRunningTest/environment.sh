@@ -13,7 +13,7 @@ cd $SKALE_EXPERIMANTAL/l_sergiy/contractsRunningTest
 
 result=0
 
-yarn install || result=$?
+yarnpkg install || result=$?
 npx truffle compile || result=$?
 
 echo "----- integration_tests/skaled/contractsRunningTest/environment.sh ----- end"

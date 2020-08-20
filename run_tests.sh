@@ -48,6 +48,8 @@ echo "INTEGRATION_TESTS_DIR = $INTEGRATION_TESTS_DIR"
 export SKALED_PROVIDERS_DIR=$REPO_ROOT_DIR/skaled_providers
 echo "SKALED_PROVIDERS_DIR = $SKALED_PROVIDERS_DIR"
 
+SKALED_PROVIDER=$(realpath $SKALED_PROVIDER) || true
+
 result=0
 
 for test_in_action in ${tests_in_action[@]}
