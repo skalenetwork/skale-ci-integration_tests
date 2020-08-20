@@ -27,6 +27,8 @@ result=0
 npm test
 result=$?
 
+$SKALED_PROVIDER/free_skaled.sh
+
 echo "----- integration_tests/skaled/filestorage/test.sh ----- end"
 echo
 
