@@ -15,7 +15,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) || true
 
 echo -- Prepare data_dir --
-sudp rm -rf $SCRIPT_DIR/data_dir || true
+sudo rm -rf $SCRIPT_DIR/data_dir || true
 mkdir $SCRIPT_DIR/data_dir
 
 echo -- Prepare config --
