@@ -48,6 +48,37 @@ echo "INTEGRATION_TESTS_DIR = $INTEGRATION_TESTS_DIR"
 export SKALED_PROVIDERS_DIR=$REPO_ROOT_DIR/skaled_providers
 echo "SKALED_PROVIDERS_DIR = $SKALED_PROVIDERS_DIR"
 
+# read environment variables from config file
+PROJECT_ENV_FILE=$REPO_ROOT_DIR/.env
+set -a # automatically export all variables
+. $ENV_FILE
+set +a
+
+# environment variables test session depends
+ENVARS="\
+PROJECT
+SUITE
+TEST
+SKALED_PROVIDER
+SKALED_RELEASE"
+
+envars=()
+while IFS= read -r line ; do envars+=($line); done <<< "$ENVARS"
+
+# print
+for test_in_action in ${tests_in_action[@]}
+do
+    if [[ ! " ${integration_tests[@]} " =~ " ${test_in_action} " ]]; then
+        echo
+        echo "----- ERROR -----"
+        echo "Test [${test_in_action}] doesnt exist. Use from list:"
+        echo "$INTEGRATION_TESTS"
+        echo "-----------------"
+        exit 1
+    fi
+done
+
+
 SKALED_PROVIDER=$(realpath $SKALED_PROVIDER) || true
 
 result=0
