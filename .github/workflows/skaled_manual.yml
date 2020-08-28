@@ -67,18 +67,22 @@ jobs:
 
     - name: Save logs
       run: docker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out
+      if: ${{ always() }}
 
     - uses: actions/upload-artifact@v2
+      if: ${{ always() }}
       with:
         name: config.json
         path: skaled_providers/endpoint_by_container/data_dir/config.json
 
     - uses: actions/upload-artifact@v2
+      if: ${{ always() }}
       with:
         name: aleth.err
         path: aleth.err
         
     - uses: actions/upload-artifact@v2
+      if: ${{ always() }}
       with:
         name: aleth.out
         path: aleth.out
