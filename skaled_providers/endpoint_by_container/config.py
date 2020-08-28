@@ -4,6 +4,8 @@ import os
 import sys
 import collections
 
+print("AAAAAAAAAA")
+
 # (c) https://gist.github.com/angstwad/bf22d1822c38a92ec0a9
 def _dict_merge(dct, merge_dct):
     """ Recursive dict merge. Inspired by :meth:``dict.update()``, instead of
@@ -58,8 +60,10 @@ if __name__ == "__main__":
         _usage()
         exit()
     if( sys.argv[1] == "merge"):
-        res = _merge_cmd(sys.argv[2:])
-        print( res )
+        print(12345)
+        exit()
+        # res = _merge_cmd(sys.argv[2:])
+        # print( res )
     elif( sys.argv[1] == "extract"):
         file = sys.argv[2]
         args = sys.argv[3].split(".")

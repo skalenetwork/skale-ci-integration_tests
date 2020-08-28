@@ -10,6 +10,7 @@
 # SCHAIN_OWNER - account with money and/or special permissions
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+echo "SCRIPT_DIR = $SCRIPT_DIR"
 
 $SCRIPT_DIR/free_skaled.sh
 
@@ -17,8 +18,9 @@ echo -- Prepare data_dir --
 sudo rm -rf $SCRIPT_DIR/data_dir || true
 mkdir $SCRIPT_DIR/data_dir
 
-echo -- Prepare config --
-python3 $SCRIPT_DIR/config.py merge $SCRIPT_DIR/config0.json ${@:1} >$SCRIPT_DIR/data_dir/config.json
+echo -- Prepare config 111--
+echo "PRINT = $SCRIPT_DIR/config0.json ${@:1} >$SCRIPT_DIR/data_dir/config.json"
+# python $SCRIPT_DIR/config.py merge $SCRIPT_DIR/config0.json ${@:1} >$SCRIPT_DIR/data_dir/config.json
 
 echo -- Get schain image --
 docker pull skalenetwork/schain:$SKALED_RELEASE

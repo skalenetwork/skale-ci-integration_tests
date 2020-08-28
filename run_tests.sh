@@ -30,6 +30,7 @@ done
 echo "<--- Tests in action"
 
 # validate that tests is exist
+# TODO: separate this code into function
 for test_in_action in ${tests_in_action[@]}
 do
     if [[ ! " ${integration_tests[@]} " =~ " ${test_in_action} " ]]; then
@@ -49,9 +50,9 @@ export SKALED_PROVIDERS_DIR=$REPO_ROOT_DIR/skaled_providers
 echo "SKALED_PROVIDERS_DIR = $SKALED_PROVIDERS_DIR"
 
 # read environment variables from config file
-PROJECT_ENV_FILE=$REPO_ROOT_DIR/.env
+ENVARS_FILE=$REPO_ROOT_DIR/.env
 set -a # automatically export all variables
-. $ENV_FILE
+. $ENVARS_FILE
 set +a
 
 # environment variables test session depends
@@ -66,20 +67,21 @@ envars=()
 while IFS= read -r line ; do envars+=($line); done <<< "$ENVARS"
 
 # print
-for test_in_action in ${tests_in_action[@]}
+for envar in ${envars[@]}
 do
-    if [[ ! " ${integration_tests[@]} " =~ " ${test_in_action} " ]]; then
+    echo "${envar} = " ${!envar}
+    if [[ -z ${!envar} ]]; then
         echo
         echo "----- ERROR -----"
-        echo "Test [${test_in_action}] doesnt exist. Use from list:"
-        echo "$INTEGRATION_TESTS"
+        echo "Environment variable [${envar}] undefined"
         echo "-----------------"
         exit 1
     fi
 done
 
 
-SKALED_PROVIDER=$(realpath $SKALED_PROVIDER) || true
+SKALED_PROVIDER=$(realpath $SKALED_PROVIDERS_DIR/$SKALED_PROVIDER) || true
+echo SKALED_PROVIDER = $SKALED_PROVIDER
 
 result=0
 
