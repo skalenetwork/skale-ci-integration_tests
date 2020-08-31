@@ -11,7 +11,7 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-$SCRIPT_DIR/free_skaled.sh
+$SCRIPT_DIR/free_skaled.sh || true
 
 echo -- Prepare data_dir --
 sudo rm -rf $SCRIPT_DIR/data_dir || true

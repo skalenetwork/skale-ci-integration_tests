@@ -2,3 +2,4 @@
 
 # destroy all skaled
 killall -9 $SKTEST_EXE
+true
