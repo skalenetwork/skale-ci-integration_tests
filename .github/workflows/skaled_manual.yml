@@ -68,11 +68,9 @@ jobs:
     - name: Save logs
       if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       run: docker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out
-      if: ${{ always() }}
       continue-on-error: true
 
     - uses: actions/upload-artifact@v2
-      if: ${{ always() }}
       if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       continue-on-error: true
       with:
@@ -80,7 +78,6 @@ jobs:
         path: skaled_providers/endpoint_by_container/data_dir/config.json
 
     - uses: actions/upload-artifact@v2
-      if: ${{ always() }}
       if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       continue-on-error: true
       with:
@@ -88,15 +85,15 @@ jobs:
         path: aleth.err
         
     - uses: actions/upload-artifact@v2
-      if: ${{ always() }}
       if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
+      continue-on-error: true
       with:
         name: aleth.out
         path: aleth.out
 
     - uses: actions/upload-artifact@v2
-      if: ${{ always() }}
       if: ${{ startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
+      continue-on-error: true
       with:
         name: data_dir
         path: |
