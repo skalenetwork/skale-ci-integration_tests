@@ -66,38 +66,38 @@ jobs:
         ./run_tests.sh $PROJECT+$SUITE+$TEST
 
     - name: Save logs
-      if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
+      if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       run: docker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out
       continue-on-error: true
 
     - uses: actions/upload-artifact@v2
-      if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
+      if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       continue-on-error: true
       with:
         name: config.json
         path: skaled_providers/endpoint_by_container/data_dir/config.json
 
     - uses: actions/upload-artifact@v2
-      if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
+      if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       continue-on-error: true
       with:
         name: aleth.err
         path: aleth.err
         
     - uses: actions/upload-artifact@v2
-      if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
+      if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       continue-on-error: true
       with:
         name: aleth.out
         path: aleth.out
 
 
-    - if: ${{ startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
+    - if: ${{ always() && startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
       run: |
         sudo chown -R runner:runner /tmp/tmp*
 
     - uses: actions/upload-artifact@v2
-      if: ${{ startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
+      if: ${{ always() && startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
       continue-on-error: true
       with:
         name: data_dir
