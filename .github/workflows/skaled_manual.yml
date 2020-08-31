@@ -66,23 +66,41 @@ jobs:
         ./run_tests.sh $PROJECT+$SUITE+$TEST
 
     - name: Save logs
+      if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       run: docker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out
       if: ${{ always() }}
+      continue-on-error: true
 
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
+      if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
+      continue-on-error: true
       with:
         name: config.json
         path: skaled_providers/endpoint_by_container/data_dir/config.json
 
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
+      if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
+      continue-on-error: true
       with:
         name: aleth.err
         path: aleth.err
         
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
+      if: ${{ env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       with:
         name: aleth.out
         path: aleth.out
+
+    - uses: actions/upload-artifact@v2
+      if: ${{ always() }}
+      if: ${{ startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
+      with:
+        name: data_dir
+        path: |
+          /tmp/tmp*/**/aleth.out
+          /tmp/tmp*/**/aleth.err
+          /tmp/tmp*/**/config.json
+
