@@ -91,6 +91,11 @@ jobs:
         name: aleth.out
         path: aleth.out
 
+
+    - if: ${{ startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
+      run: |
+        chown -R runner:runner /tmp/tmp*
+
     - uses: actions/upload-artifact@v2
       if: ${{ startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
       continue-on-error: true
