@@ -56,14 +56,16 @@ jobs:
         echo "login ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
         echo "password ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
 
-    - uses: actions/checkout@v2
-
-    - name: Update submodules
-      run: git submodule update --init --recursive
-
     - uses: docker-practice/actions-setup-docker@0.0.1
     
     - uses: hashicorp/setup-terraform@v1.1.0
+
+    - uses: actions/checkout@v2
+
+    - run: terraform init
+
+    - name: Update submodules
+      run: git submodule update --init --recursive
 
     - name: Update Environment
       run: |
