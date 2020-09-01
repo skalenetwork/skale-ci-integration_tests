@@ -64,10 +64,13 @@ jobs:
     - name: Run Tests
       run: |
         ./run_tests.sh $PROJECT+$SUITE+$TEST
+        sudo docker ps -a
 
     - name: Save logs
       if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
-      run: docker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out
+      run: |
+        sudo docker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out
+        sudo chown runner:runner aleth.*
       continue-on-error: true
 
     - uses: actions/upload-artifact@v2
