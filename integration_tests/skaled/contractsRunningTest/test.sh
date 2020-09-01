@@ -30,7 +30,7 @@ result=0
 npx truffle deploy --network=test && node ./index.js
 result=$?
 
-#$SKALED_PROVIDER/free_skaled.sh
+$SKALED_PROVIDER/free_skaled.sh
 
 echo "----- integration_tests/skaled/load_js/test.sh ----- end"
 echo
