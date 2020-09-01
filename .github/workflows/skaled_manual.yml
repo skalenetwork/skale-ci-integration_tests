@@ -62,7 +62,7 @@ jobs:
 
     - uses: actions/checkout@v2
 
-    - run: cd endpoint_by_terraform_with_containers/tf/tf_scripts && terraform init
+    - run: cd skaled_providers/endpoint_by_terraform_with_containers/tf/tf_scripts && terraform init
 
     - name: Update submodules
       run: git submodule update --init --recursive
