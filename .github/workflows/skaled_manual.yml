@@ -32,6 +32,7 @@ jobs:
       TEST: ${{ github.event.inputs.test }}
       SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider }}
       SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
+      DATA_DIR: /home/runner/data_dir
 
     steps:
 
@@ -64,6 +65,7 @@ jobs:
 
     - name: Run Tests
       run: |
+        mkdir $DATA_DIR
         ./run_tests.sh $PROJECT+$SUITE+$TEST
 
     - name: Save logs
@@ -81,17 +83,13 @@ jobs:
           skaled_providers/endpoint_by_container/data_dir/config.json
           aleth.*
 
-    - if: ${{ always() && startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
-      run: |
-        sudo chown -R runner:runner /tmp/tmp*
-
     - uses: actions/upload-artifact@v2
       if: ${{ always() && startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
       continue-on-error: true
       with:
         name: data_dir
         path: |
-          /tmp/tmp*/**/aleth.out
-          /tmp/tmp*/**/aleth.err
-          /tmp/tmp*/**/config.json
+          $DATA_DIR/**/aleth.*
+          $DATA_DIR/**/aleth.err
+          $DATA_DIR/**/config.json
 
