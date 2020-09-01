@@ -67,6 +67,8 @@ jobs:
       run: |
         mkdir $DATA_DIR
         ./run_tests.sh $PROJECT+$SUITE+$TEST
+        echo "DATA_DIR:"
+        ls -l $DATA_DIR
 
     - name: Save logs
       if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
@@ -90,6 +92,5 @@ jobs:
         name: data_dir
         path: |
           $DATA_DIR/**/aleth.*
-          $DATA_DIR/**/aleth.err
           $DATA_DIR/**/config.json
 
