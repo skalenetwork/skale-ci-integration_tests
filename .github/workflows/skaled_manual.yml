@@ -61,15 +61,16 @@ jobs:
     - name: Update Environment
       run: |
         ./update_environment.sh $PROJECT+$SUITE
+
     - name: Run Tests
       run: |
-        ./run_tests.sh $PROJECT+$SUITE+$TEST
+        ./run_tests.sh $PROJECT+$SUITE+$TEST || true
         sudo docker ps -a
 
     - name: Save logs
       if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       run: |
-        sudo docker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out
+        sudo docker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out || true
         sudo chown runner:runner aleth.*
       continue-on-error: true
 
