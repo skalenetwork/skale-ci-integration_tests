@@ -33,13 +33,17 @@ jobs:
       SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider }}
       SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
       DATA_DIR: /home/runner/data_dir
+      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+      TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
 
     - name: Install packages
       run: |
         sudo apt-get update
-        sudo apt-get install python3-pip python3-venv nodejs
+        sudo apt-get install python3-pip python3-venv nodejs jq
         sudo npm install -g truffle
         sudo npm install -g yarn
         sudo chown -R runner:runner ~/.config   # HACK
@@ -51,13 +55,18 @@ jobs:
         echo "machine github.com" > ~/.netrc
         echo "login ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
         echo "password ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
+        echo "${{ secrets.k2_aws_pem }}" > ~/k2_aws.pem
+
+    - uses: docker-practice/actions-setup-docker@0.0.1
+    
+    - uses: hashicorp/setup-terraform@v1.1.0
 
     - uses: actions/checkout@v2
 
+    - run: cd skaled_providers/endpoint_by_terraform_with_containers/tf/tf_scripts && terraform init
+
     - name: Update submodules
       run: git submodule update --init --recursive
-
-    - uses: docker-practice/actions-setup-docker@0.0.1  
 
     - name: Update Environment
       run: |
