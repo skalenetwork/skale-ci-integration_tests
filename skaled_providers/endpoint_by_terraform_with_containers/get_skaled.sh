@@ -22,6 +22,7 @@ echo -- Free skaled --
 
 echo -- Terraform --
 cd tf
+cat ~/.ssh/is_rsa.pub >>tf_scripts/scripts/authorized_keys
 ./create.sh
 cd ..
 
