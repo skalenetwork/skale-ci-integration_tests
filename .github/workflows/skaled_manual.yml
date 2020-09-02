@@ -18,6 +18,11 @@ on:
         default: 'binary_from_container'
         required: true
 
+      num_nodes:
+        description: 'Num Nodes'
+        default: '1'
+        required: true
+
       skaled_release:
         description: 'Skaled Release'
         default: 'develop-latest'
@@ -32,6 +37,7 @@ jobs:
       TEST: ${{ github.event.inputs.test }}
       SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider }}
       SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
+      NUM_NODES: ${{ github.event.inputs.num_nodes }}
       DATA_DIR: /home/runner/data_dir
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
