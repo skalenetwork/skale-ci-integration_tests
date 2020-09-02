@@ -10,8 +10,10 @@
 # CHAIN_ID - chainID
 # SCHAIN_OWNER - account with money and/or special permissions
 
-SKALED_RELEASE=develop-latest
 set -x
+
+NUM_NODES="${NUM_NODES:-2}"
+SKALED_RELEASE="${SKALED_RELEASE:develop-latest}"
 
 ORIG_CWD="$( pwd )"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
