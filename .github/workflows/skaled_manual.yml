@@ -55,7 +55,7 @@ jobs:
         echo "machine github.com" > ~/.netrc
         echo "login ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
         echo "password ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
-        echo "${{ secrets.k2_aws_pem }}" > ~/k2_aws.pem
+        echo "${{ secrets.elvis_oregon_pem }}" > ~/elvis-oregon.pem
 
     - uses: docker-practice/actions-setup-docker@0.0.1
     
