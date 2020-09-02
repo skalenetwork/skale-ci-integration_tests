@@ -60,6 +60,8 @@ jobs:
     - uses: docker-practice/actions-setup-docker@0.0.1
     
     - uses: hashicorp/setup-terraform@v1.1.0
+      with:
+        terraform_wrapper: false
 
     - uses: actions/checkout@v2
 
