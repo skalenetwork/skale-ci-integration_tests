@@ -77,6 +77,13 @@ jobs:
         mkdir $DATA_DIR
         ./run_tests.sh $PROJECT+$SUITE+$TEST
 
+    - uses: actions/upload-artifact@v2
+      if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_terraform_with_containers' }}
+      continue-on-error: true
+      with:
+        path: |
+          skaled_providers/endpoint_by_terraform_with_containers/tf/output.json
+
     - name: Save logs
       if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       run: |
