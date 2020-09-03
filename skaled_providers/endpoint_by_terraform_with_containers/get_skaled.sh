@@ -29,15 +29,17 @@ cat ~/.ssh/id_rsa.pub >>tf_scripts/scripts/authorized_keys
 ./create.sh
 cd ..
 
-IP1=$( jq -r '.public_ips.value."skale-ci-0"' tf/output.json )
-IP2=$( jq -r '.public_ips.value."skale-ci-1"' tf/output.json )
+for i in $( seq 0 $(($NUM_NODES-1)) )
+do
+	IPS[$i]=$( jq -r '.public_ips.value."skale-ci-'${i}'"' tf/output.json )
+done
 
 echo -- Prepare config --
 
 echo '{ "skaleConfig": {"sChain": { "nodes": [' > _nodes.json
 
 I=0
-for IP in $IP1 $IP2
+for IP in ${IPS[*]}
 do
 	
 	I=$((I+1))
@@ -54,7 +56,7 @@ do
 
 	echo "$NODE_CFG" >> _nodes.json
 
-	if [[ "$IP" != "$IP2" ]]; then
+	if [[ "$I" != "$NUM_NODES" ]]; then
 		echo "," >>_nodes.json
 	fi
 
@@ -66,7 +68,7 @@ python3 config.py merge config0.json ${@:1} _nodes.json >config.json
 rm _nodes.json
 
 I=0
-for IP in $IP1 $IP2
+for IP in ${IPS[*]}
 do
 	
 	I=$((I+1))
@@ -95,7 +97,7 @@ rm _node_info.json
 echo -- Prepare nodes —
 
 I=0
-for IP in $IP1 $IP2
+for IP in ${IPS[*]}
 do
 	
 	I=$((I+1))
@@ -119,7 +121,7 @@ do
 
 done
 
-export ENDPOINT_URL="http://${IP1}:1234"
+export ENDPOINT_URL="http://${IPS[0]}:1234"
 export CHAIN_ID=$( python3 config.py extract $SCRIPT_DIR/config.json params.chainID )
 export SCHAIN_OWNER=$( python3 config.py extract $SCRIPT_DIR/config.json skaleConfig.sChain.schainOwner )
 
