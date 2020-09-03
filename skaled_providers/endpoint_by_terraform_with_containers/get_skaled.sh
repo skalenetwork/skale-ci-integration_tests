@@ -24,7 +24,10 @@ echo -- Free skaled --
 
 echo -- Terraform --
 cd tf
-ssh-keygen -f ~/.ssh/id_rsa -N ""
+if [[ ! -f ~/.ssh/id_rsa.pub ]]
+then
+	ssh-keygen -f ~/.ssh/id_rsa -N ""
+fi
 cat ~/.ssh/id_rsa.pub >>tf_scripts/scripts/authorized_keys
 ./create.sh
 cd ..
@@ -103,11 +106,17 @@ do
 	I=$((I+1))
 
 	scp -o "StrictHostKeyChecking no" config$I.json ubuntu@$IP:/home/ubuntu/config.json
+	scp -o "StrictHostKeyChecking no" filebeat.yml ubuntu@$IP:/home/ubuntu/filebeat.yml
 
 	ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
 
 	curl -fsSL https://get.docker.com -o get-docker.sh
 	sudo sh get-docker.sh
+
+	sudo docker pull docker.elastic.co/beats/filebeat:7.3.1
+	sudo chmod go-w filebeat.yml
+	sudo chown root:root filebeat.yml
+	sudo docker run -d --network host -u root -e FILEBEAT_HOST=3.17.12.121:5000 -v /home/ubuntu/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro -v /var/lib/docker:/var/lib/docker:ro -v /var/run/docker.sock:/var/run/docker.sock docker.elastic.co/beats/filebeat:7.3.1
 
 	sudo rm -rf data_dir	
 	mkdir data_dir
@@ -115,7 +124,7 @@ do
 	mv config.json data_dir/config.json
 	
 	sudo docker pull skalenetwork/schain:$SKALED_RELEASE
-	sudo docker run -d -v /home/ubuntu/data_dir:/data_dir -p 1231-1239:1231-1239/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
+	sudo docker run -d -v /home/ubuntu/data_dir:/data_dir -p 1231-1239:1231-1239/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no --name=skale-ci-$I
 	
 	****
 
