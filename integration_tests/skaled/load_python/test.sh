@@ -9,7 +9,7 @@ export LOAD_PYTHON=$INTEGRATION_TESTS_DIR/skaled/load_python
 export SKALE_NODE_TESTS=$LOAD_PYTHON/third_party/skale-node-tests
 echo "SKALE_NODE_TESTS = $SKALE_NODE_TESTS"
 
-. $SKALED_PROVIDER/get_skaled.sh
+. $SKALED_PROVIDER/get_skaled.sh $LOAD_PYTHON/accounts.json
 
 cd $SKALE_NODE_TESTS
 
