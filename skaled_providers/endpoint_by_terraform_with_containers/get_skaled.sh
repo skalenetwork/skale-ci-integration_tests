@@ -124,7 +124,7 @@ do
 	mv config.json data_dir/config.json
 	
 	sudo docker pull skalenetwork/schain:$SKALED_RELEASE
-	sudo docker run -d --name=skale-ci-$I --cpus="0.0625" -v /home/ubuntu/data_dir:/data_dir -p 1231-1239:1231-1239/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
+	sudo docker run -d --name=skale-ci-$I -v /home/ubuntu/data_dir:/data_dir -p 1231-1239:1231-1239/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
 	
 	****
 
