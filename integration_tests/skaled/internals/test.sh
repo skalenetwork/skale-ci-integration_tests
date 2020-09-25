@@ -19,10 +19,10 @@ pip3 -V
 
 case "$TEST_NAME" in
 
-      "all")
+      "pytest")
 
             echo
-            echo "----- integration_tests/skaled/internals/test.sh::all -----"
+            echo "----- integration_tests/skaled/internals/test.sh::pytest -----"
 
             # to fix: test_race.py
             pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py
