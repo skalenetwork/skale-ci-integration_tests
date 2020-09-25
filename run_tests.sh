@@ -11,6 +11,8 @@ skale-manager+ts_1+node_rotation
 skale-manager+ts_1+schains_delete_all
 skale-manager+ts_1+get_schains_quantity
 skaled+internals+pytest
+skaled+internals+sktest_snapshot
+skaled+internals+sktest_node_rotation
 skaled+load_python+all
 skaled+load_js+run_angry_cats
 skaled+contractsRunningTest+all

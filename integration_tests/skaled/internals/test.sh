@@ -17,8 +17,42 @@ source venv/bin/activate
 python -V
 pip3 -V
 
-# to fix: test_race.py
-pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py
+case "$TEST_NAME" in
+
+      "all")
+
+            echo
+            echo "----- integration_tests/skaled/internals/test.sh::all -----"
+
+            # to fix: test_race.py
+            pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py
+
+      ;;
+
+      "sktest_snapshot")
+
+            echo
+            echo "----- integration_tests/skaled/internals/test.sh::sktest_snapshot -----"
+
+            sudo ./create_btrfs.sh; sudo NO_ULIMIT_CHECK=1 DATA_DIR=btrfs python3 sktest_snapshot.py
+
+      ;;
+
+      "sktest_node_rotation")
+
+            echo
+            echo "----- integration_tests/skaled/internals/test.sh::sktest_node_rotation -----"
+
+            sudo ./create_btrfs.sh; sudo NO_ULIMIT_CHECK=1 DATA_DIR=btrfs python3 sktest_node_rotation.py
+
+      ;;
+      
+      *)
+            echo "Test [${TEST_NAME}] doesn't exist. Try another."
+            false
+      ;;
+esac
+
 result=$?
 
 echo "----- integration_tests/skaled/internals/test.sh ----- end"

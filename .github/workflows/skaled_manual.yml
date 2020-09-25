@@ -49,7 +49,7 @@ jobs:
     - name: Install packages
       run: |
         sudo apt-get update
-        sudo apt-get install python3-pip python3-venv nodejs jq
+        sudo apt-get install python3-pip python3-venv nodejs jq btrfs-progs
         sudo npm install -g truffle
         sudo npm install -g yarn
         sudo chown -R runner:runner ~/.config   # HACK
