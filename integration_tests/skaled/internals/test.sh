@@ -38,12 +38,15 @@ case "$TEST_NAME" in
 
       ;;
 
-      "sktest_node_rotation")
+      "test_node_rotation")
 
             echo
-            echo "----- integration_tests/skaled/internals/test.sh::sktest_node_rotation -----"
+            echo "----- integration_tests/skaled/internals/test.sh::test_node_rotation -----"
 
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 sktest_node_rotation.py
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest 'test_node_rotation.py::test_download_snapshot[True-False]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest 'test_node_rotation.py::test_download_snapshot[True-True]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest 'test_node_rotation.py::test_download_snapshot[False-False]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest 'test_node_rotation.py::test_download_snapshot[False-True]'
 
       ;;
       
