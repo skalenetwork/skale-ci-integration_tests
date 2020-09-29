@@ -76,6 +76,13 @@ jobs:
     - name: Update submodules
       run: git submodule update --init --recursive
 
+    - name: Prepare SGX keys/certs
+      run: |
+        sudo mkdir /skale_node_data
+        sudo cp -r sgx_certs /skale_node_data
+        sudo echo "${{ secrets.sgx_key }}" > /skale_node_data/sgx_certs/sgx.key
+        
+
     - name: Update Environment
       run: |
         ./update_environment.sh $PROJECT+$SUITE
