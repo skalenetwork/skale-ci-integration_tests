@@ -74,8 +74,7 @@ jobs:
     - run: cd skaled_providers/endpoint_by_terraform_with_containers/tf/tf_scripts && terraform init
 
     - name: Update submodules
-
-   git submodule update --init --recursive
+      run: git submodule update --init --recursive
 
     - name: Prepare SGX keys/certs
       run: |
