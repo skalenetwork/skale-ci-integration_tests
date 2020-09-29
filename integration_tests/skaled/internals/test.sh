@@ -34,7 +34,7 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/internals/test.sh::sktest_snapshot -----"
 
-            sudo ../../create_btrfs.sh; sudo NO_ULIMIT_CHECK=1 DATA_DIR=btrfs python3 sktest_snapshot.py
+            sudo ../../create_btrfs.sh; sudo NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 sktest_snapshot.py
 
       ;;
 
@@ -43,7 +43,7 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/internals/test.sh::sktest_node_rotation -----"
 
-            sudo ../../create_btrfs.sh; sudo NO_ULIMIT_CHECK=1 DATA_DIR=btrfs python3 sktest_node_rotation.py
+            sudo ../../create_btrfs.sh; sudo NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 sktest_node_rotation.py
 
       ;;
       
