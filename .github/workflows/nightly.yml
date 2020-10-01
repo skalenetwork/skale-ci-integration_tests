@@ -17,6 +17,10 @@ jobs:
     env:
 #      SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
       SKALED_RELEASE: develop-latest
+      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+      TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
 
@@ -35,13 +39,27 @@ jobs:
         echo "machine github.com" > ~/.netrc
         echo "login ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
         echo "password ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
+        echo "${{ secrets.elvis_oregon_pem }}" > ~/elvis-oregon.pem
+
+    - uses: docker-practice/actions-setup-docker@0.0.1
+    
+    - uses: hashicorp/setup-terraform@v1.1.0
+      with:
+        terraform_wrapper: false
 
     - uses: actions/checkout@v2
+
+    - run: cd skaled_providers/endpoint_by_terraform_with_containers/tf/tf_scripts && terraform init
 
     - name: Update submodules
       run: git submodule update --init --recursive
 
-    - uses: docker-practice/actions-setup-docker@0.0.1  
+    - name: Prepare SGX keys/certs
+      run: |
+        echo "${{ secrets.sgx_key }}" > sgx_certs/sgx.key
+        chmod 600 sgx_certs/sgx.key
+        sudo mkdir /skale_node_data
+        sudo cp -r sgx_certs /skale_node_data
 
     - name: Update Environment
       run: |
@@ -53,7 +71,13 @@ jobs:
 
     - name: skaled+internals+pytest
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+pytest
+
+    - name: skaled+internals+test_node_rotation
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_node_rotation
       
+    - name: skaled+internals+sktest_snapshot
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+sktest_snapshot
+
     - name: skaled+contractsRunningTest+all
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+contractsRunningTest+all
 
