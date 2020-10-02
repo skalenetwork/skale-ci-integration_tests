@@ -72,9 +72,6 @@ jobs:
     - name: skaled+internals+pytest
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+pytest
 
-    - name: skaled+internals+sktest_snapshot
-      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+sktest_snapshot
-
     - name: skaled+internals+test_node_rotation
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_node_rotation
 
