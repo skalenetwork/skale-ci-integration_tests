@@ -13,6 +13,7 @@ skale-manager+ts_1+get_schains_quantity
 skaled+internals+pytest
 skaled+internals+sktest_snapshot
 skaled+internals+test_node_rotation
+skaled+internals+test_snapshot_api
 skaled+load_python+all
 skaled+load_js+run_angry_cats
 skaled+contractsRunningTest+all
