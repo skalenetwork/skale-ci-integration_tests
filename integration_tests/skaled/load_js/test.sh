@@ -38,7 +38,7 @@ case "$TEST_NAME" in
 
             ./skaled_to_chart.sh $ENDPOINT_URL&
             node $SKALE_EXPERIMANTAL/skaled-tests/cat-cycle/cat-cycle.js $ENDPOINT_URL 1000000000 2>&1 1>/dev/null&
-            sleep 60
+            sleep 15000
             kill $(jobs -p)
             gnuplot skaled_chart.plt
 
