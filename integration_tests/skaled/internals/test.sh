@@ -43,10 +43,10 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/internals/test.sh::test_node_rotation -----"
 
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest 'test_node_rotation.py::test_download_snapshot[True-False]'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest 'test_node_rotation.py::test_download_snapshot[True-True]'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest 'test_node_rotation.py::test_download_snapshot[False-False]'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest 'test_node_rotation.py::test_download_snapshot[False-True]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[True-False]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[True-True]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[False-False]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[False-True]'
 
       ;;
       
@@ -55,8 +55,8 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/internals/test.sh::test_snapshot_api -----"
 
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest 'test_snapshot_api.py::test_main'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest 'test_snapshot_api.py::test_corner_cases'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_main'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_corner_cases'
 
       ;;
       *)
