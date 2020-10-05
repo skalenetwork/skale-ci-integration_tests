@@ -16,6 +16,7 @@ skaled+internals+test_node_rotation
 skaled+internals+test_snapshot_api
 skaled+load_python+all
 skaled+load_js+run_angry_cats
+skaled+load_js+skaled_chart
 skaled+contractsRunningTest+all
 skaled+filestorage+all"
 

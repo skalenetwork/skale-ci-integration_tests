@@ -16,6 +16,8 @@ echo "SKALE_EXPERIMANTAL = $SKALE_EXPERIMANTAL"
 
 . $SKALED_PROVIDER/get_skaled.sh $CONFIGS_DIR/accounts.json
 
+sleep 20
+
 cd $SKALED_LOAD_JS
 
 case "$TEST_NAME" in
@@ -26,6 +28,19 @@ case "$TEST_NAME" in
             echo "----- integration_tests/skaled/load_js/test.sh::run_angry_cats -----"
 
             node $SKALE_EXPERIMANTAL/skaled-tests/cat-cycle/cat-cycle.js $ENDPOINT_URL 100
+
+      ;;
+      
+      "skaled_chart")
+
+            echo
+            echo "----- integration_tests/skaled/load_js/test.sh::skaled_chart -----"
+
+            ./skaled_to_chart.sh $ENDPOINT_URL&
+            node $SKALE_EXPERIMANTAL/skaled-tests/cat-cycle/cat-cycle.js $ENDPOINT_URL 1000000000 2>&1 1>/dev/null&
+            sleep 60
+            kill $(jobs -p)
+            gnuplot skaled_chart.plt
 
       ;;
 
