@@ -124,7 +124,7 @@ jobs:
           ${{ env.DATA_DIR }}/**/config.json
           
     - uses: actions/upload-artifact@v2
-      if: ${{ always() && env.TEST == 'skaled_chart'
+      if: ${{ always() && env.TEST == 'skaled_chart' }}
       continue-on-error: true
       with:
         name: skaled_chart.png
