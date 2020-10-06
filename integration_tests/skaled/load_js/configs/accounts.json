@@ -1,4 +1,16 @@
 {
+    "unddos": {
+        "origins": [
+            {
+                "origin": [ "*" ],
+                "ban_lengthy": 0,
+                "ban_peak": 0,
+                "max_calls_per_minute": 1000000000,
+                "max_calls_per_second": 1000000000,
+                "max_ws_conn": 65535
+            }
+        ]
+    },
     "accounts":
     {
         "0xa68f946090c600eda6f139783077ee802afeb990": { "balance": "1000000000000000000000000000000" } ,
