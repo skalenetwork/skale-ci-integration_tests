@@ -96,6 +96,7 @@ jobs:
       if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_terraform_with_containers' }}
       continue-on-error: true
       with:
+        name: aws_config
         path: |
           skaled_providers/endpoint_by_terraform_with_containers/tf/output.json
 
@@ -127,5 +128,7 @@ jobs:
       if: ${{ always() && env.TEST == 'skaled_chart' }}
       continue-on-error: true
       with:
-        name: skaled_chart.png
-        path: integration_tests/skaled/load_js/skaled_chart.png
+        name: skaled_chart
+        path: |
+          integration_tests/skaled/load_js/skaled_chart.png
+          integration_tests/skaled/load_js/skaled_chart.txt
