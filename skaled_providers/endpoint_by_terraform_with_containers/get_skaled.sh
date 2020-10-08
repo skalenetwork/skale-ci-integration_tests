@@ -13,7 +13,7 @@
 set -x
 
 NUM_NODES="${NUM_NODES:-2}"
-SKALED_RELEASE="${SKALED_RELEASE:develop-latest}"
+SKALED_RELEASE="${SKALED_RELEASE:-develop-latest}"
 
 ORIG_CWD="$( pwd )"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -53,7 +53,11 @@ do
     	"ip": "$IP",
     	"basePort": 1231,
     	"schainIndex" : $I,
-    	"publicKey":""
+    	"publicKey":$(jq '.result.publicKey' ecdsa$I.json),
+        "blsPublicKey0": $(jq '.BLSPublicKey["'$((I-1))'"]["0"]' keys4.json),
+        "blsPublicKey1": $(jq '.BLSPublicKey["'$((I-1))'"]["1"]' keys4.json),
+        "blsPublicKey2": $(jq '.BLSPublicKey["'$((I-1))'"]["2"]' keys4.json),
+        "blsPublicKey3": $(jq '.BLSPublicKey["'$((I-1))'"]["3"]' keys4.json)
 	}
 	****
 
@@ -83,7 +87,25 @@ do
 	      				"nodeName": "Node$I",
 	      				"nodeID": $I,
 	      				"bindIP": "0.0.0.0",
-	      				"basePort": 1231
+	      				"basePort": 1231,
+	      				"ecdsaKeyName": $(jq '.result.keyName' ecdsa$I.json),
+	      				   "wallets": {
+                                "ima": {
+                                 "url": "https://45.76.3.64:1026",
+                                 "keyShareName": "BLS_KEY:SCHAIN_ID:70314811723:NODE_ID:$I:DKG_ID:0",
+                                 "t": 3,
+                                 "n": 4,
+                                 "BLSPublicKey0": $(jq '.BLSPublicKey["'$((I-1))'"]["0"]' keys4.json),
+                                 "BLSPublicKey1": $(jq '.BLSPublicKey["'$((I-1))'"]["1"]' keys4.json),
+                                 "BLSPublicKey2": $(jq '.BLSPublicKey["'$((I-1))'"]["2"]' keys4.json),
+                                 "BLSPublicKey3": $(jq '.BLSPublicKey["'$((I-1))'"]["3"]' keys4.json),
+                                 "commonBLSPublicKey0": $(jq '.commonBLSPublicKey["0"]' keys4.json),
+                                 "commonBLSPublicKey1": $(jq '.commonBLSPublicKey["1"]' keys4.json),
+                                 "commonBLSPublicKey2": $(jq '.commonBLSPublicKey["2"]' keys4.json),
+                                 "commonBLSPublicKey3": $(jq '.commonBLSPublicKey["3"]' keys4.json)
+                                }
+                               }
+
 			}
 		}
 	}
@@ -97,7 +119,7 @@ done
 
 rm _node_info.json
 
-echo -- Prepare nodes —
+echo -- Prepare nodes ---
 
 I=0
 for IP in ${IPS[*]}
