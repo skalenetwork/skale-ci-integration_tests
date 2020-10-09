@@ -53,7 +53,7 @@ do
     	"ip": "$IP",
     	"basePort": 1231,
     	"schainIndex" : $I,
-    	"publicKey":$(jq '.result.publicKey' ecdsa$I.json),
+    	"publicKey":"0x$(echo $(jq '.result.publicKey' ecdsa$I.json) | xargs echo)",
         "blsPublicKey0": $(jq '.BLSPublicKey["'$((I-1))'"]["0"]' keys4.json),
         "blsPublicKey1": $(jq '.BLSPublicKey["'$((I-1))'"]["1"]' keys4.json),
         "blsPublicKey2": $(jq '.BLSPublicKey["'$((I-1))'"]["2"]' keys4.json),
@@ -92,7 +92,7 @@ do
 	      				   "wallets": {
                                 "ima": {
                                  "url": "https://45.76.3.64:1026",
-                                 "keyShareName": "BLS_KEY:SCHAIN_ID:70314811723:NODE_ID:$I:DKG_ID:0",
+                                 "keyShareName": "BLS_KEY:SCHAIN_ID:70314811531:NODE_ID:$I:DKG_ID:0",
                                  "t": 3,
                                  "n": 4,
                                  "BLSPublicKey0": $(jq '.BLSPublicKey["'$((I-1))'"]["0"]' keys4.json),
@@ -130,8 +130,10 @@ do
 	scp -o "StrictHostKeyChecking no" config$I.json ubuntu@$IP:/home/ubuntu/config.json
 	scp -o "StrictHostKeyChecking no" filebeat.yml ubuntu@$IP:/home/ubuntu/filebeat.yml
 
+	scp -r -o "StrictHostKeyChecking no" /skale_node_data ubuntu@$IP:/home/ubuntu
+	
 	ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
-
+	
 	curl -fsSL https://get.docker.com -o get-docker.sh
 	sudo sh get-docker.sh
 
@@ -146,7 +148,7 @@ do
 	mv config.json data_dir/config.json
 	
 	sudo docker pull skalenetwork/schain:$SKALED_RELEASE
-	sudo docker run -d --name=skale-ci-$I -v /home/ubuntu/data_dir:/data_dir -p 1231-1239:1231-1239/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
+	sudo docker run -d --name=skale-ci-$I -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir:/data_dir -p 1231-1239:1231-1239/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
 	
 	****
 
