@@ -78,8 +78,8 @@ jobs:
     - name: skaled+internals+test_node_rotation
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_node_rotation
 
-#    - name: skaled+internals+test_snapshot_api
-#      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_snapshot_api
+    - name: skaled+internals+test_snapshot_api
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_snapshot_api
 
     - name: skaled+contractsRunningTest+all
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+contractsRunningTest+all
