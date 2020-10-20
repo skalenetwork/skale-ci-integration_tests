@@ -25,7 +25,7 @@ case "$TEST_NAME" in
             echo "----- integration_tests/skaled/internals/test.sh::pytest -----"
 
             # to fix: test_race.py
-            pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py
+            pytest-3 --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py
 
       ;;
 
@@ -35,7 +35,6 @@ case "$TEST_NAME" in
             echo "----- integration_tests/skaled/internals/test.sh::sktest_snapshot -----"
 
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 sktest_snapshot.py
-
       ;;
 
       "test_node_rotation")
@@ -47,7 +46,14 @@ case "$TEST_NAME" in
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[True-True]'
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[False-False]'
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[False-True]'
+      ;;
 
+      "test_restart")
+
+            echo
+            echo "----- integration_tests/skaled/internals/test.sh::test_restart -----"
+
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_restart'
       ;;
       
       "test_snapshot_api")
@@ -57,7 +63,6 @@ case "$TEST_NAME" in
 
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_main'
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_corner_cases'
-
       ;;
       *)
             echo "Test [${TEST_NAME}] doesn't exist. Try another."
