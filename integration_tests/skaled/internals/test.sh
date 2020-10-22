@@ -55,12 +55,13 @@ case "$TEST_NAME" in
 
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_restart'
       ;;
-      
+
       "test_snapshot_api")
 
             echo
             echo "----- integration_tests/skaled/internals/test.sh::test_snapshot_api -----"
 
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_stateRoot_conflict'
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_main'
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_corner_cases'
       ;;
