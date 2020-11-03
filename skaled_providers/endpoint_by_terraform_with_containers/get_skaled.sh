@@ -130,7 +130,7 @@ do
 	scp -o "StrictHostKeyChecking no" config$I.json ubuntu@$IP:/home/ubuntu/config.json
 	scp -o "StrictHostKeyChecking no" filebeat.yml ubuntu@$IP:/home/ubuntu/filebeat.yml
 
-	scp -r -o "StrictHostKeyChecking no" /skale_node_data ubuntu@$IP:/home/ubuntu
+	sudo scp -r -o "StrictHostKeyChecking no" /skale_node_data ubuntu@$IP:/home/ubuntu
 	
 	ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
 	
