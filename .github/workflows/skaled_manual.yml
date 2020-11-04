@@ -82,6 +82,7 @@ jobs:
         chmod 600 sgx_certs/sgx.key
         sudo mkdir /skale_node_data
         sudo cp -r sgx_certs /skale_node_data
+        sudo chown -R runner:runner /skale_node_data/sgx_certs/*
         wc /skale_node_data/sgx_certs/sgx.key
 
     - name: Update Environment
