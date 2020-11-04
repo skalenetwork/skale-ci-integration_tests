@@ -30,7 +30,7 @@ on:
 
 jobs:
   main_job:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     env:
       PROJECT: skaled
       SUITE: ${{ github.event.inputs.suite }}
