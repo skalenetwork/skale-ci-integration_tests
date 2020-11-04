@@ -2,6 +2,8 @@
 
 #input: keysN.json and SGX server
 
+set -x
+
 N=$1
 SGX_URL=$2
 CERTS_PATH=/skale_node_data/sgx_certs
