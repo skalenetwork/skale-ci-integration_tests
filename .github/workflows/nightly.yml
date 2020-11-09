@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SKALED_RELEASE: ${{ github.event.inputs.skaled_release || 'develop-latest' }}
-      SKALED_RELEASE: develop-latest
+      #SKALED_RELEASE: develop-latest
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
