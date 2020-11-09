@@ -5,17 +5,17 @@ on:
     - cron: '0 0 * * *'
 
   workflow_dispatch:
-#    inputs:
-#      skaled_release:
-#        description: 'Skaled Release'
-#        default: 'develop-latest'
-#        required: true
+    inputs:
+      skaled_release:
+        description: 'Skaled Release'
+        default: 'develop-latest'
+        required: true
 
 jobs:
   main_job:
     runs-on: ubuntu-latest
     env:
-#      SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
+      SKALED_RELEASE: ${{ github.event.inputs.skaled_release || develop-latest}}
       SKALED_RELEASE: develop-latest
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
