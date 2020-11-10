@@ -54,6 +54,26 @@ jobs:
         sudo npm install -g yarn
         sudo chown -R runner:runner ~/.config   # HACK
 
+    - name: NODE 10.x
+      run: |
+        echo ------------ uninstall
+        sudo apt-get remove nodejs || true
+        echo ------------ force remove
+        sudo rm -f /usr/local/bin/node || true
+        sudo rm -f /usr/local/bin/npm || true
+        sudo rm -f /usr/bin/node || true
+        sudo rm -f /usr/bin/npm || true
+        echo ------------ download
+        curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+        echo ------------ install
+        sudo apt-get install nodejs
+        echo ------------ node version check
+        which node || echo "----> Looks like node was not installed, next command will fail"
+        node --version
+        echo ------------ npm version check
+        which npm || echo "----> Looks like npm was not installed, next command will fail"
+        npm --version
+
     - name: Add secrets
       run: |
         touch ~/.netrc
