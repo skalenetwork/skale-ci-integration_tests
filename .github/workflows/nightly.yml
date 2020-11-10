@@ -89,6 +89,10 @@ jobs:
         ./update_environment.sh skaled+contractsRunningTest
         ./update_environment.sh skaled+filestorage
 
+
+    - name: skaled+load_python+all
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+load_python+all
+
     - name: skaled+internals+pytest
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+pytest
 
@@ -107,8 +111,14 @@ jobs:
     - name: skaled+load_js+run_angry_cats
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+load_js+run_angry_cats
 
-    - name: skaled+load_python+all
-      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+load_python+all
-
     - name: skaled+filestorage+all
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+filestorage+all
+
+    - uses: actions/upload-artifact@v2
+      if: ${{ always() }}
+      continue-on-error: true
+      with:
+        name: debug
+        path: |
+          skaled_providers
+          /tmp/tmp*
