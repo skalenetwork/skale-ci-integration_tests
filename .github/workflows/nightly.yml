@@ -114,6 +114,9 @@ jobs:
     - name: skaled+filestorage+all
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+filestorage+all
 
+    - run: |
+        sudo chown -R runner:runner /tmp/tmp*
+
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       continue-on-error: true
