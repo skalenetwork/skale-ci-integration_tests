@@ -116,6 +116,7 @@ jobs:
 
     - run: |
         sudo chown -R runner:runner /tmp/tmp*
+      if: ${{ always() }}
 
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
