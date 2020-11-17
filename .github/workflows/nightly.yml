@@ -129,3 +129,6 @@ jobs:
         path: |
           skaled_providers
           /tmp/tmp*
+          !**/skaled
+          !**/.env
+          !**/*.tfvars
