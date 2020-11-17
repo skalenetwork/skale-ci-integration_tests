@@ -15,6 +15,7 @@ jobs:
   main_job:
     runs-on: ubuntu-latest
     env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       SKALED_RELEASE: ${{ github.event.inputs.skaled_release || 'develop-latest' }}
       #SKALED_RELEASE: develop-latest
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}

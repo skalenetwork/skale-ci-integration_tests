@@ -32,6 +32,7 @@ jobs:
   main_job:
     runs-on: ubuntu-18.04
     env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       PROJECT: skaled
       SUITE: ${{ github.event.inputs.suite }}
       TEST: ${{ github.event.inputs.test }}
