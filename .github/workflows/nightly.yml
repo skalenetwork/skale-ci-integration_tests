@@ -129,6 +129,7 @@ jobs:
         path: |
           skaled_providers
           /tmp/tmp*
+          integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
           !**/skaled
           !**/.env
           !**/*.tfvars
