@@ -19,6 +19,7 @@ ORIG_CWD="$( pwd )"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$SCRIPT_DIR"
 
+#SGX_URL="https://35.161.69.138:1026"
 SGX_URL="https://45.76.3.64:1026"
 if [ ! -f uniq.txt ]
 then
@@ -122,7 +123,6 @@ do
 	echo "$NODE_INFO" > _node_info.json
 
 	python3 config.py merge config.json _node_info.json >config$I.json
-
 done
 
 rm _node_info.json
@@ -136,7 +136,8 @@ do
 	I=$((I+1))
 
 	scp -o "StrictHostKeyChecking no" config$I.json ubuntu@$IP:/home/ubuntu/config.json
-	scp -o "StrictHostKeyChecking no" filebeat.yml ubuntu@$IP:/home/ubuntu/filebeat.yml
+	scp -o "StrictHostKeyChecking no" filebeat.yml ubuntu@$IP:/home/ubuntu
+	scp -o "StrictHostKeyChecking no" create_btrfs.sh ubuntu@$IP:/home/ubuntu
 
 	sudo scp -r -o "StrictHostKeyChecking no" /skale_node_data ubuntu@$IP:/home/ubuntu
 	
@@ -150,13 +151,15 @@ do
 	sudo chown root:root filebeat.yml
 	sudo docker run -d --network host -u root -e FILEBEAT_HOST=3.17.12.121:5000 -v /home/ubuntu/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro -v /var/lib/docker:/var/lib/docker:ro -v /var/run/docker.sock:/var/run/docker.sock docker.elastic.co/beats/filebeat:7.3.1
 
-	sudo rm -rf data_dir	
-	mkdir data_dir
+	#sudo rm -rf data_dir	
+	#mkdir data_dir	
+	sudo BTRFS_DIR_PATH=data_dir ./create_btrfs.sh
+	sudo chown $USER:$USER data_dir
 	
 	mv config.json data_dir/config.json
 	
 	sudo docker pull skalenetwork/schain:$SKALED_RELEASE
-	sudo docker run -d --name=skale-ci-$I -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir:/data_dir -p 1231-1239:1231-1239/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
+	sudo docker run -d --cap-add SYS_ADMIN --name=skale-ci-$I -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir:/data_dir -p 1231-1239:1231-1239/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
 	
 	****
 

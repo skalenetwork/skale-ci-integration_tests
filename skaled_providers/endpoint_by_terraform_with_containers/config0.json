@@ -116,7 +116,8 @@
 	        "schainName": "TestChain",
 	        "schainID": 1,
 	        "storageLimit": 1000000,
-	        "emptyBlockIntervalMs": 3000,
+	        "emptyBlockIntervalMs": 1,
+		"snapshotIntervalSec": 60,
 	        "nodes": [
 	          { "nodeID": 1112, "ip": "127.0.0.1", "basePort": 1231, "schainIndex" : 1, "publicKey":""}
 	        ]
