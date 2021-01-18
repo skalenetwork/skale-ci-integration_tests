@@ -106,3 +106,7 @@ venv*
 
 # VS Code
 .vscode
+
+# other
+ecdsa*.json
+authorized_keys
