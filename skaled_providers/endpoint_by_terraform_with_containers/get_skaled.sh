@@ -19,8 +19,8 @@ ORIG_CWD="$( pwd )"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$SCRIPT_DIR"
 
-#SGX_URL="https://35.161.69.138:1026"
-SGX_URL="https://45.76.3.64:1026"
+SGX_URL="https://35.161.69.138:1026"
+#SGX_URL="https://45.76.3.64:1026"
 if [ ! -f uniq.txt ]
 then
     ./prepare_keys.sh $NUM_NODES $SGX_URL
@@ -44,7 +44,10 @@ cd ..
 for i in $( seq 0 $(($NUM_NODES-1)) )
 do
 	IPS[$i]=$( jq -r '.public_ips.value."skale-ci-'${i}'"' tf/output.json )
+	if [ "${IPS[$i]}" = "null" ]; then exit 1; fi
 done
+
+set +x
 
 echo -- Prepare config --
 
@@ -125,12 +128,14 @@ do
 	python3 config.py merge config.json _node_info.json >config$I.json
 done
 
+set -x
+
 rm _node_info.json
 
 echo -- Prepare nodes ---
 
 I=0
-for IP in ${IPS[*]}
+for IP in ${IPS[*]} #:0:11}
 do
 	
 	I=$((I+1))
@@ -154,12 +159,21 @@ do
 	#sudo rm -rf data_dir	
 	#mkdir data_dir	
 	sudo BTRFS_DIR_PATH=data_dir ./create_btrfs.sh
-	sudo chown $USER:$USER data_dir
-	
-	mv config.json data_dir/config.json
+	sudo chown \$USER:\$USER data_dir
 	
 	sudo docker pull skalenetwork/schain:$SKALED_RELEASE
-	sudo docker run -d --cap-add SYS_ADMIN --name=skale-ci-$I -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir:/data_dir -p 1231-1239:1231-1239/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
+	
+	for J in {0..7}
+	do
+
+		#mv config.json data_dir/config.json
+		mkdir data_dir/\$J
+	
+		sed "s/1231,/1\$((2+J))31,/g" config.json > data_dir/\$J/config.json
+
+		sudo docker run -d -e catchupIntervalMs=60000 --cap-add SYS_ADMIN --name=skale-ci-$I-\$J -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir/\$J:/data_dir -p 1\$((2+J))31-1\$((2+J))39:1\$((2+J))31-1\$((2+J))39/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1\$((2+J))34 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 2 --web3-trace --enable-debug-behavior-apis --aa no
+	
+	done
 	
 	****
 
