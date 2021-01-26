@@ -24,7 +24,7 @@ echo -- Get schain image --
 docker pull skalenetwork/schain:$SKALED_RELEASE
 
 echo -- Run container --
-docker run -d -v $SCRIPT_DIR/data_dir:/data_dir -p	127.0.0.1:1234:1234/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
+docker run -d -v $SCRIPT_DIR/data_dir:/data_dir -p	127.0.0.1:1233-1234:1233-1234/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1234 --ws-port 1233 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no
 
 export ENDPOINT_URL="http://127.0.0.1:1234"
 export CHAIN_ID=$( python3 $SCRIPT_DIR/config.py extract $SCRIPT_DIR/data_dir/config.json params.chainID )

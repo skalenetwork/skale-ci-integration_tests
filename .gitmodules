@@ -22,3 +22,6 @@
 [submodule "integration_tests/skaled/filestorage/third_party/filestorage.js"]
 	path = integration_tests/skaled/filestorage/third_party/filestorage.js
 	url = https://github.com/skalenetwork/filestorage.js
+[submodule "integration_tests/skaled/api/third_party/SkaleExperimental"]
+	path = integration_tests/skaled/api/third_party/SkaleExperimental
+	url = http://github.com/skalenetwork/SkaleExperimental
