@@ -116,8 +116,9 @@ jobs:
 
     - run: |
         sudo chown -R runner:runner /tmp/tmp*
-        sudo find ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs -type d -exec btrfs property set {} ro false \; || true
+        sudo find ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs -type d -exec btrfs property set {} ro false \;
         sudo chown -R runner:runner .
+        ls -l ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
       if: ${{ always() }}
 
     - uses: actions/upload-artifact@v2
@@ -128,7 +129,7 @@ jobs:
         path: |
           skaled_providers
           /tmp/tmp*
-          integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
+          ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
           !**/skaled
           !**/.env
           !**/*.tfvars
