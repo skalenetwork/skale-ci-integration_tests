@@ -105,6 +105,9 @@ jobs:
     - name: skaled+load_js+run_angry_cats
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+load_js+run_angry_cats
 
+    - name: Test Events
+      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+api+all
+
     - name: skaled+filestorage+all
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+filestorage+all
 

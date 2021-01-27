@@ -19,8 +19,9 @@ echo "SKALE_EXPERIMANTAL = $SKALE_EXPERIMANTAL"
 cd $SKALE_EXPERIMANTAL/skaled-tests/test-events
 
 result=0
-node eth-subscribe.js ws://127.0.0.1:1233
-result=$?
+node eth-subscribe.js ws://127.0.0.1:1233 || result=$?
+node contract-once.js ws://127.0.0.1:1233 || result=$?
+#node contract-watch.js ws://127.0.0.1:1233
 
 $SKALED_PROVIDER/free_skaled.sh
 
