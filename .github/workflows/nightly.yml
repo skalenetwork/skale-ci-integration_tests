@@ -91,7 +91,7 @@ jobs:
         ./update_environment.sh skaled+load_js
         ./update_environment.sh skaled+contractsRunningTest
         ./update_environment.sh skaled+filestorage
-
+        ./update_environment.sh skaled+api
 
     - name: skaled+load_python+all
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+load_python+all
