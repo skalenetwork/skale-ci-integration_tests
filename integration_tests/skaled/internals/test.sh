@@ -9,7 +9,8 @@ export INTERNALS=$INTEGRATION_TESTS_DIR/skaled/internals
 export SKALE_NODE_TESTS=$INTERNALS/third_party/skale-node-tests
 echo "SKALE_NODE_TESTS = $SKALE_NODE_TESTS"
 
-. $SKALED_PROVIDER/get_skaled.sh
+# use "" to make subscript's arguments empty
+. $SKALED_PROVIDER/get_skaled.sh ""
 
 cd $SKALE_NODE_TESTS
 
