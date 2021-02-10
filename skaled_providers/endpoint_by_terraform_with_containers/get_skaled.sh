@@ -127,7 +127,7 @@ do
 
 	python3 config.py merge config.json _node_info.json >config$I.json
 done
-exit
+
 set -x
 
 rm _node_info.json
