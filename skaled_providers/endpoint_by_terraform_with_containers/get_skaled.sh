@@ -163,7 +163,7 @@ do
 	
 	sudo docker pull skalenetwork/schain:$SKALED_RELEASE
 	
-	for J in {0..7}
+	for J in {0..0}
 	do
 
 		#mv config.json data_dir/config.json
