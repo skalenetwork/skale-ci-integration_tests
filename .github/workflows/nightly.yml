@@ -123,6 +123,8 @@ jobs:
         sudo chown -R runner:runner .
         pwd
         mount
+        ls -l
+        echo "btrfs directory content"
         ls -l ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
       if: ${{ always() }}
 
