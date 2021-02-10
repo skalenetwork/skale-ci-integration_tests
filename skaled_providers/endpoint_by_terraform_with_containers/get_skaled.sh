@@ -19,8 +19,8 @@ ORIG_CWD="$( pwd )"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$SCRIPT_DIR"
 
-SGX_URL="https://35.161.69.138:1026"
-#SGX_URL="https://45.76.3.64:1026"
+#SGX_URL="https://35.161.69.138:1026"
+SGX_URL="https://45.76.3.64:1026"
 if [ ! -f uniq.txt ]
 then
     ./prepare_keys.sh $NUM_NODES $SGX_URL
@@ -127,7 +127,7 @@ do
 
 	python3 config.py merge config.json _node_info.json >config$I.json
 done
-
+exit
 set -x
 
 rm _node_info.json
