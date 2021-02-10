@@ -121,9 +121,9 @@ jobs:
         sudo chown -R runner:runner /tmp/tmp*
         sudo find ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs -type d -exec btrfs property set {} ro false \;
         sudo chown -R runner:runner .
-        pwd
+        pwd 
         mount
-        ls -l
+        ls -l integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
         echo "btrfs directory content"
         ls -l ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
       if: ${{ always() }}
