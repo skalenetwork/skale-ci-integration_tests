@@ -25,3 +25,6 @@
 [submodule "integration_tests/skaled/api/third_party/SkaleExperimental"]
 	path = integration_tests/skaled/api/third_party/SkaleExperimental
 	url = http://github.com/skalenetwork/SkaleExperimental
+[submodule "skaled_providers/endpoint_by_terraform_with_containers/config_tools"]
+	path = skaled_providers/endpoint_by_terraform_with_containers/config_tools
+	url = https://github.com/skalenetwork/config_tools
