@@ -1,4 +1,4 @@
-name: Skaled Nightly Tests
+name: Run sktest_3of4 Nightly
 
 on:
   schedule:
