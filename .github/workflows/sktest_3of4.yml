@@ -1,0 +1,75 @@
+name: Skaled Nightly Tests
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+  workflow_dispatch:
+    inputs:
+      skaled_release:
+        description: 'Skaled Release'
+        default: 'develop-latest'
+        required: true
+
+jobs:
+  main_job:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      SKALED_RELEASE: ${{ github.event.inputs.skaled_release || 'develop-latest' }}
+      #SKALED_RELEASE: develop-latest
+      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+      TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    steps:
+
+    - name: Install packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install python3-pip python3-venv jq btrfs-progs
+        sudo chown -R runner:runner ~/.config   # HACK
+
+    - name: Add secrets
+      run: |
+        touch ~/.netrc
+        chmod 600 ~/.netrc
+        echo "machine github.com" > ~/.netrc
+        echo "login ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
+        echo "password ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
+        echo "${{ secrets.elvis_oregon_pem }}" > ~/elvis-oregon.pem
+
+    - uses: docker-practice/actions-setup-docker@0.0.1
+    
+    - uses: actions/checkout@v2
+
+    - name: Update submodules
+      run: git submodule update --init --recursive
+
+    - name: Update Environment
+      run: |
+        ./update_environment.sh skaled+internals
+
+    - name: skaled+internals+sktest_3of4
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+sktest_3of4
+
+    - run: |
+        sudo chown -R runner:runner /tmp/tmp*
+        sudo find ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs -type d -exec btrfs property set {} ro false \;
+        sudo chown -R runner:runner .
+        ls -l ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
+      if: ${{ always() }}
+
+    - uses: actions/upload-artifact@v2
+      if: ${{ always() }}
+      continue-on-error: true
+      with:
+        name: debug
+        path: |
+          skaled_providers
+          !skaled_providers/**/skaled
+          /tmp/tmp*
+          ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
+          !**/.env
+          !**/*.tfvars

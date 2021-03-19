@@ -15,6 +15,7 @@ skaled+internals+sktest_snapshot
 skaled+internals+test_node_rotation
 skaled+internals+test_restart
 skaled+internals+test_snapshot_api
+skaled+internals+sktest_3of4
 skaled+load_python+all
 skaled+load_js+run_angry_cats
 skaled+load_js+skaled_chart

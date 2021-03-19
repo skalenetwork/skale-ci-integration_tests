@@ -30,6 +30,15 @@ case "$TEST_NAME" in
 
       ;;
 
+      "sktest_3of4")
+
+            echo
+            echo "----- integration_tests/skaled/internals/test.sh::sktest_3of4 -----"
+
+            ./sktest_3of4.sh
+
+      ;;
+
       "sktest_snapshot")
 
             echo
