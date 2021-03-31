@@ -62,7 +62,7 @@ jobs:
         sudo chown -R runner:runner .
         sleep 60
         echo data_dir
-        tree ./integration_tests/skaled/internals/third_party/skale-node-tests/data_dir
+        cp -r ./integration_tests/skaled/internals/third_party/skale-node-tests/data_dir .
       if: ${{ always() }}
     
     - uses: actions/upload-artifact@v2
@@ -71,4 +71,4 @@ jobs:
       with:
         name: data_dir
         path: |
-          ./integration_tests/skaled/internals/third_party/skale-node-tests/data_dir
+          ./data_dir
