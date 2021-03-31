@@ -56,10 +56,15 @@ jobs:
         mkdir data_dir || true
         rm -rf data_dir/* || true
         SKALED_PROVIDER=skaled_providers/binary_from_container DATA_DIR=data_dir ./run_tests.sh skaled+internals+sktest_3of4
-
+    
+    - run: |
+        sudo chown -R runner:runner .
+      if: ${{ always() }}
+    
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       continue-on-error: true
       with:
         name: data_dir
-        path: data_dir
+        path: |
+          ./integration_tests/skaled/internals/third_party/skale-node-tests/data_dir
