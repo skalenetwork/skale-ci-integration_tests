@@ -52,24 +52,14 @@ jobs:
         ./update_environment.sh skaled+internals
 
     - name: skaled+internals+sktest_3of4
-      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+sktest_3of4
-
-    - run: |
-        sudo chown -R runner:runner /tmp/tmp*
-        sudo find ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs -type d -exec btrfs property set {} ro false \;
-        sudo chown -R runner:runner .
-        ls -l ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
-      if: ${{ always() }}
+      run: |
+        mkdir data_dir || true
+        rm -rf data_dir/* || true
+        SKALED_PROVIDER=skaled_providers/binary_from_container DATA_DIR=data_dir ./run_tests.sh skaled+internals+sktest_3of4
 
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       continue-on-error: true
       with:
-        name: debug
-        path: |
-          skaled_providers
-          !skaled_providers/**/skaled
-          /tmp/tmp*
-          ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
-          !**/.env
-          !**/*.tfvars
+        name: data_dir
+        path: data_dir
