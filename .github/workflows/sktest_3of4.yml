@@ -52,6 +52,7 @@ jobs:
         ./update_environment.sh skaled+internals
 
     - name: skaled+internals+sktest_3of4
+      timeout-minutes: 10
       run: |
         mkdir data_dir || true
         rm -rf data_dir/* || true
