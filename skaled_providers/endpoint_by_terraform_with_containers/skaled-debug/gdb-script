@@ -1,0 +1,2 @@
+set solib-absolute-prefix /home/dimalit/chad
+set substitute-path /home/ubuntu/.jenkins/workspace/skale-develop /home/dimalit/skaled
