@@ -54,6 +54,7 @@ imports:
 grok_patterns:
   - 'C_PREFIX \[%{TIMESTAMP_ISO8601}\] \[%{NUMBER:node_id}:%{WORD}\] \[%{WORD}\]'
   - 'C_PREFIX_BLOCK %{C_PREFIX} %{NUMBER}'
+  - 'TIME_PREFIX %{TIMESTAMP_ISO8601}\s+'
 input:
 ${INPUT}
 metrics:
@@ -99,6 +100,34 @@ metrics:
   labels:
     proposer: '{{.proposer}}'
     node_id: '{{.node_id}}'
+    logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
+- type: gauge
+  name: logs_received
+  help: Number of txns in received queue
+  match: '%{TIME_PREFIX}m_received = %{NUMBER:received}'
+  value: '{{.received}}'
+  labels:
+    logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
+- type: gauge
+  name: logs_sent
+  help: Number of txns sent to cons
+  match: '%{TIME_PREFIX}sent_to_consensus = %{NUMBER:sent} got_from_consensus = %{NUMBER:got} m_transaction_cache = %{NUMBER:cache} m_tq = %{NUMBER:tq} m_bcast_counter = %{NUMBER:bcast_counter}'
+  value: '{{.sent}}'
+  labels:
+    logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
+- type: gauge
+  name: logs_got
+  help: Number of txns got committed
+  match: '%{TIME_PREFIX}sent_to_consensus = %{NUMBER:sent} got_from_consensus = %{NUMBER:got} m_transaction_cache = %{NUMBER:cache} m_tq = %{NUMBER:tq} m_bcast_counter = %{NUMBER:bcast_counter}'
+  value: '{{.got}}'
+  labels:
+    logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
+- type: gauge
+  name: logs_tq
+  help: Number of txns in transaction queue
+  match: '%{TIME_PREFIX}sent_to_consensus = %{NUMBER:sent} got_from_consensus = %{NUMBER:got} m_transaction_cache = %{NUMBER:cache} m_tq = %{NUMBER:tq} m_bcast_counter = %{NUMBER:bcast_counter}'
+  value: '{{.tq}}'
+  labels:
     logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
 
 server:
