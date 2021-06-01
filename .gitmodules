@@ -28,3 +28,6 @@
 [submodule "skaled_providers/endpoint_by_terraform_with_containers/config_tools"]
 	path = skaled_providers/endpoint_by_terraform_with_containers/config_tools
 	url = https://github.com/skalenetwork/config_tools
+[submodule "integration_tests/skaled/stability/third_party/skale-node-tests"]
+	path = integration_tests/skaled/stability/third_party/skale-node-tests
+	url = https://github.com/skalenetwork/skale-node-tests
