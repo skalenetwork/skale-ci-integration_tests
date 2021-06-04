@@ -95,7 +95,7 @@ PARALLEL_FUNC () {
 }
 
 ./make_prom_targets.sh >skale_ci.yml
-ssh ubuntu@35.180.187.149 <<- 111
+ssh -i ~/grafana_ci ubuntu@35.180.187.149 <<- 111
 sudo -i
 cat >/opt/prometheus/conf/skale_ci.yml <<- 222
 $(cat skale_ci.yml)
