@@ -115,7 +115,7 @@
 	      {
 	        "schainName": "TestChain",
 	        "schainID": 1,
-	        "storageLimit": 1000000,
+	        "contractStorageLimit": 1000000,
 	        "emptyBlockIntervalMs": 1,
 		"snapshotIntervalSec": 60,
 	        "nodes": [

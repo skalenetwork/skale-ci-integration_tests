@@ -12,6 +12,7 @@
 
 export NUM_NODES="${NUM_NODES:-4}"
 export SKALED_RELEASE="${SKALED_RELEASE:-develop-latest}"
+export NUM_SCHAINS="${NUM_SCHAINS:-5}"
 
 ORIG_CWD="$( pwd )"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -47,11 +48,8 @@ SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "$
 
 echo -- Prepare nodes ---
 
-I=0
-for IP in ${IPS[*]} #:0:11}
-do
-
-	I=$((I+1))
+#input: $IP, $I
+PARALLEL_FUNC () {
 
 	scp -o "StrictHostKeyChecking no" config$I.json ubuntu@$IP:/home/ubuntu/config.json
 	scp -o "StrictHostKeyChecking no" filebeat.yml ubuntu@$IP:/home/ubuntu
@@ -75,7 +73,7 @@ do
 
 	sudo docker pull skalenetwork/schain:$SKALED_RELEASE
 
-	for J in {0..3}
+	for J in {0..0}
 	do
 
 		#mv config.json data_dir/config.json
@@ -83,22 +81,67 @@ do
 
 		sed "s/1231,/1\$((2+J))31,/g" config.json > data_dir/\$J/config.json
 
-		#sudo docker start skale-ci-$I-\$J
-		sudo docker run -d -e catchupIntervalMs=60000 --cap-add SYS_ADMIN --name=skale-ci-$I-\$J -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir/\$J:/data_dir -p 1\$((2+J))31-1\$((2+J))39:1\$((2+J))31-1\$((2+J))39/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1\$((2+J))34 --ws-port 1\$((2+J))33 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 2 --web3-trace --enable-debug-behavior-apis --aa no
+		#sudo docker start skale-ci-\$J
+		sudo docker run -d -e catchupIntervalMs=60000 --cap-add SYS_ADMIN --name=skale-ci-\$J -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir/\$J:/data_dir -p 1\$((2+J))31-1\$((2+J))39:1\$((2+J))31-1\$((2+J))39/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1\$((2+J))34 --ws-port 1\$((2+J))33 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 2 --web3-trace --enable-debug-behavior-apis --aa no
 
 	done
 
-        cd skaled_monitor
-        sudo ./node-side-monitor.sh </dev/null 2>/dev/null >/dev/null &
-        cd ..
+	cd skaled_monitor
+	sudo ./node-side-monitor.sh </dev/null 2>/dev/null >/dev/null &
+	cd ..
 
 	****
+
+}
+
+./make_prom_targets.sh >skale_ci.yml
+ssh ubuntu@35.180.187.149 <<- 111
+sudo -i
+cat >/opt/prometheus/conf/skale_ci.yml <<- 222
+$(cat skale_ci.yml)
+222
+docker restart prometheus
+111
+
+# leave 10
+#./kick.sh ban all 10&
+#./kick.sh ban all 11&
+#./kick.sh ban all 12&
+#./kick.sh ban all 13&
+#./kick.sh ban all 14&
+#./kick.sh ban all 15&
+#wait
+
+# add 1 to 5 and another 1 to another 5
+#./kick.sh unban 0 10&
+#./kick.sh unban 1 10&
+#./kick.sh unban 2 10&
+#./kick.sh unban 3 10&
+#./kick.sh unban 4 10&
+#./kick.sh unban 5 11&
+#./kick.sh unban 6 11&
+#./kick.sh unban 7 11&
+#./kick.sh unban 8 11&
+#./kick.sh unban 9 11&
+#wait
+
+# enable that two
+#./kick.sh unban 10 all
+#./kick.sh unban 11 all
+
+I=0
+for IP in ${IPS[*]} #:0:11}
+do
+	I=$((I+1))
+	IP=$IP I=$I PARALLEL_FUNC&
 done
 
+wait
+
 export ENDPOINT_URL="http://${IPS[0]}:1234"
+export IPS=
+export PORTS=(1234)
 export CHAIN_ID=$( python3 config.py extract $SCRIPT_DIR/config.json params.chainID )
 export SCHAIN_OWNER=$( python3 config.py extract $SCRIPT_DIR/config.json skaleConfig.sChain.schainOwner )
 
 cd "$ORIG_CWD"
-
-sleep 5

@@ -6,6 +6,8 @@ echo "----- integration_tests/skaled/stability/environment.sh ----- begin"
 
 export STABILITY=$INTEGRATION_TESTS_DIR/skaled/stability
 
+cd $STABILITY
+
 rm -rf venv
 python3 -m venv venv
 . venv/bin/activate

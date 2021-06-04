@@ -21,7 +21,8 @@ skaled+load_js+run_angry_cats
 skaled+load_js+skaled_chart
 skaled+contractsRunningTest+all
 skaled+filestorage+all
-skaled+api+all"
+skaled+api+all
+skaled+stability+all"
 
 integration_tests=()
 while IFS= read -r line ; do integration_tests+=($line); done <<< "$INTEGRATION_TESTS"
