@@ -48,14 +48,14 @@ IFS=$'\t'
 
 for A in ${ARGS[*]}
 do
-    sleep 300
+    sleep 30
     echo $A
     bash $SKALED_PROVIDER/kick.sh $A    
 done
 
 IFS=' '
 
-sleep 300
+sleep 30
 
 kill $(jobs -p)
 result=0

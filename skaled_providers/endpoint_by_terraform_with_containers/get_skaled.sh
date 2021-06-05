@@ -95,39 +95,13 @@ PARALLEL_FUNC () {
 }
 
 ./make_prom_targets.sh >skale_ci.yml
-ssh -i ~/grafana_ci ubuntu@35.180.187.149 <<- 111
+ssh -o "StrictHostKeyChecking no" -i ~/grafana_ci ubuntu@35.180.187.149 <<- 111
 sudo -i
 cat >/opt/prometheus/conf/skale_ci.yml <<- 222
 $(cat skale_ci.yml)
 222
 docker restart prometheus
 111
-
-# leave 10
-#./kick.sh ban all 10&
-#./kick.sh ban all 11&
-#./kick.sh ban all 12&
-#./kick.sh ban all 13&
-#./kick.sh ban all 14&
-#./kick.sh ban all 15&
-#wait
-
-# add 1 to 5 and another 1 to another 5
-#./kick.sh unban 0 10&
-#./kick.sh unban 1 10&
-#./kick.sh unban 2 10&
-#./kick.sh unban 3 10&
-#./kick.sh unban 4 10&
-#./kick.sh unban 5 11&
-#./kick.sh unban 6 11&
-#./kick.sh unban 7 11&
-#./kick.sh unban 8 11&
-#./kick.sh unban 9 11&
-#wait
-
-# enable that two
-#./kick.sh unban 10 all
-#./kick.sh unban 11 all
 
 I=0
 for IP in ${IPS[*]} #:0:11}
