@@ -85,6 +85,7 @@ jobs:
         echo "password ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
         echo "${{ secrets.elvis_oregon_pem }}" > ~/elvis-oregon.pem
         echo "${{ secrets.GRAFANA_CI_KEY }}" > ~/grafana_ci
+        chmod 600 ~/grafana_ci
 
     - uses: docker-practice/actions-setup-docker@0.0.1
     
