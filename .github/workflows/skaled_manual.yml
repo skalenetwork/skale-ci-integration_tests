@@ -58,7 +58,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y python3-pip python3-venv jq btrfs-progs gnuplot
-        sudo chown -R runner:runner ~/.config   # HACK
+        sudo chown -R $USER:$USER ~/.config   # HACK
 
     - name: NODE 10.x
       run: |
