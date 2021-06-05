@@ -4,6 +4,7 @@ echo
 echo "----- integration_tests/skaled/stability/test.sh ----- begin"
 
 TEST_NAME=$1
+KICK_INTERVAL=${KICK_INTERVAL:-30}
 
 export STABILITY=$INTEGRATION_TESTS_DIR/skaled/stability
 
@@ -48,14 +49,14 @@ IFS=$'\t'
 
 for A in ${ARGS[*]}
 do
-    sleep 30
+    sleep $KICK_INTERVAL
     echo $A
     bash $SKALED_PROVIDER/kick.sh $A    
 done
 
 IFS=' '
 
-sleep 30
+sleep $KICK_INTERVAL
 
 kill $(jobs -p)
 result=0
