@@ -79,10 +79,9 @@ jobs:
       run: |
         echo "${{ secrets.sgx_key }}" > sgx_certs/sgx.key
         chmod 600 sgx_certs/sgx.key
-        sudo mkdir /skale_node_data
+        sudo mkdir /skale_node_data || true
         sudo cp -r sgx_certs /skale_node_data
         sudo chown -R $USER:$USER /skale_node_data/sgx_certs/*
-        wc /skale_node_data/sgx_certs/sgx.key
 
     - name: Update Environment
       run: |
