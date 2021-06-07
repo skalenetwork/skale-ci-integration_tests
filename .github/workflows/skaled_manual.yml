@@ -89,7 +89,7 @@ jobs:
 
     - name: Run Tests
       env:
-        DATA_DIR: ${{ env.HOME }}/data_dir
+        DATA_DIR: /home/vagrant/data_dir
       run: |
         mkdir $DATA_DIR
         ./run_tests.sh $PROJECT+$SUITE+$TEST
