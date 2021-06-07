@@ -35,7 +35,7 @@ on:
 
 jobs:
   main_job:
-    runs-on: ubuntu-18.04
+    runs-on: self-hosted
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       PROJECT: skaled
@@ -44,43 +44,14 @@ jobs:
       SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider }}
       SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
       NUM_NODES: ${{ github.event.inputs.num_nodes }}
-      DATA_DIR: /home/runner/data_dir
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
       TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       NO_ULIMIT_CHECK: 1
-      KICK_INTERVAL: ${{ secrets.kick_interval }}
+      KICK_INTERVAL: ${{ github.event.inputs.kick_interval }}
 
     steps:
-
-    - name: Install packages
-      run: |
-        sudo apt-get update
-        sudo apt-get install python3-pip python3-venv jq btrfs-progs gnuplot
-        sudo npm install -g truffle
-        sudo npm install -g yarn
-        sudo chown -R runner:runner ~/.config   # HACK
-
-    - name: NODE 10.x
-      run: |
-        echo ------------ uninstall
-        sudo apt-get remove nodejs || true
-        echo ------------ force remove
-        sudo rm -f /usr/local/bin/node || true
-        sudo rm -f /usr/local/bin/npm || true
-        sudo rm -f /usr/bin/node || true
-        sudo rm -f /usr/bin/npm || true
-        echo ------------ download
-        curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-        echo ------------ install
-        sudo apt-get install nodejs
-        echo ------------ node version check
-        which node || echo "----> Looks like node was not installed, next command will fail"
-        node --version
-        echo ------------ npm version check
-        which npm || echo "----> Looks like npm was not installed, next command will fail"
-        npm --version
 
     - name: Add secrets
       run: |
@@ -93,8 +64,6 @@ jobs:
         echo "${{ secrets.GRAFANA_CI_KEY }}" > ~/grafana_ci
         chmod 600 ~/grafana_ci
 
-    - uses: docker-practice/actions-setup-docker@0.0.1
-    
     - uses: hashicorp/setup-terraform@v1.1.0
       with:
         terraform_wrapper: false
@@ -110,18 +79,20 @@ jobs:
       run: |
         echo "${{ secrets.sgx_key }}" > sgx_certs/sgx.key
         chmod 600 sgx_certs/sgx.key
-        sudo mkdir /skale_node_data
+        sudo mkdir /skale_node_data || true
         sudo cp -r sgx_certs /skale_node_data
-        sudo chown -R runner:runner /skale_node_data/sgx_certs/*
-        wc /skale_node_data/sgx_certs/sgx.key
+        sudo chown -R $USER:$USER /skale_node_data/sgx_certs/*
 
     - name: Update Environment
       run: |
         ./update_environment.sh $PROJECT+$SUITE
 
     - name: Run Tests
+      env:
+        DATA_DIR: /home/vagrant/data_dir
       run: |
-        mkdir $DATA_DIR
+        mkdir $DATA_DIR || true
+        rm -rf $DATA_DIR/*
         ./run_tests.sh $PROJECT+$SUITE+$TEST
 
     - uses: actions/upload-artifact@v2
@@ -136,7 +107,7 @@ jobs:
       if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       run: |
         sudo docker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out || true
-        sudo chown runner:runner aleth.*
+        sudo chown $USER:$USER aleth.*
       continue-on-error: true
 
     - uses: actions/upload-artifact@v2
