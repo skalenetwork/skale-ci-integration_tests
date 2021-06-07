@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# fail on first fail
+set -e
+
 echo
 echo "----- integration_tests/skaled/internals/test.sh ----- begin"
 
