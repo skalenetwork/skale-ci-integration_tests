@@ -44,7 +44,6 @@ jobs:
       SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider }}
       SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
       NUM_NODES: ${{ github.event.inputs.num_nodes }}
-      DATA_DIR: /home/${{ env.USER }}/data_dir
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -90,6 +89,8 @@ jobs:
         ./update_environment.sh $PROJECT+$SUITE
 
     - name: Run Tests
+      env:
+        DATA_DIR: /home/${{ env.USER }}/data_dir
       run: |
         mkdir $DATA_DIR
         ./run_tests.sh $PROJECT+$SUITE+$TEST
