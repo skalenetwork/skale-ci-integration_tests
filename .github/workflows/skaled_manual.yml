@@ -44,7 +44,7 @@ jobs:
       SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider }}
       SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
       NUM_NODES: ${{ github.event.inputs.num_nodes }}
-      DATA_DIR: /home/runner/data_dir
+      DATA_DIR: /home/${{ env.USER }}/data_dir
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -82,7 +82,7 @@ jobs:
         chmod 600 sgx_certs/sgx.key
         sudo mkdir /skale_node_data
         sudo cp -r sgx_certs /skale_node_data
-        sudo chown -R runner:runner /skale_node_data/sgx_certs/*
+        sudo chown -R $USER:$USER /skale_node_data/sgx_certs/*
         wc /skale_node_data/sgx_certs/sgx.key
 
     - name: Update Environment
@@ -106,7 +106,7 @@ jobs:
       if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       run: |
         sudo docker logs $(docker ps -a -q) 2>aleth.err 1>aleth.out || true
-        sudo chown runner:runner aleth.*
+        sudo chown $USER:$USER aleth.*
       continue-on-error: true
 
     - uses: actions/upload-artifact@v2
