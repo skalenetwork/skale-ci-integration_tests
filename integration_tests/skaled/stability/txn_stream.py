@@ -145,9 +145,12 @@ while True:
         time2 = time.time()
         print("%.2f txn/s\tqueue = %d txns"%((received)/(time2-time1), sent-received))
         for a in changed:
-            send(eth, a, address2key[a], address2nonce[a])
-            address2nonce[a] += 1
-            sent += 1
+            try:
+                send(eth, a, address2key[a], address2nonce[a])
+                address2nonce[a] += 1
+                sent += 1
+            except Exception as x:
+                print(str(x))
     else:
         time.sleep(0.1)
     changed = mon.get_changed_addresses()
