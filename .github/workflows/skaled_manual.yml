@@ -2,7 +2,7 @@ name: Skaled Manually-Running Tests
 
 on:
   schedule:
-    - cron: '25 22 * * *'
+    - cron: '30 15 * * *'
 
   workflow_dispatch:
     inputs:
@@ -43,17 +43,17 @@ jobs:
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       PROJECT: skaled
-      SUITE: ${{ github.event.inputs.suite }}
-      TEST: ${{ github.event.inputs.test }}
-      SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider }}
-      SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
-      NUM_NODES: ${{ github.event.inputs.num_nodes }}
+      SUITE: ${{ github.event.inputs.suite || 'stability' }}
+      TEST: ${{ github.event.inputs.test || 'all' }}
+      SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider || 'endpoint_by_terraform_with_containers' }}
+      SKALED_RELEASE: ${{ github.event.inputs.skaled_release || 'develop-latest' }}
+      NUM_NODES: ${{ github.event.inputs.num_nodes || '16' }}
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
       TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       NO_ULIMIT_CHECK: 1
-      KICK_INTERVAL: ${{ github.event.inputs.kick_interval }}
+      KICK_INTERVAL: ${{ github.event.inputs.kick_interval || '7200' }}
 
     steps:
 
