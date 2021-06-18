@@ -70,6 +70,8 @@ PARALLEL_FUNC () {
 
 	sudo BTRFS_DIR_PATH=data_dir ./create_btrfs.sh
 	sudo chown \$USER:\$USER data_dir
+        mkdir shared_space
+        mkdir shared_space/data
 
 	sudo docker pull skalenetwork/schain:$SKALED_RELEASE
 
@@ -82,7 +84,7 @@ PARALLEL_FUNC () {
 		sed "s/1231,/1\$((2+J))31,/g" config.json > data_dir/\$J/config.json
 
 		#sudo docker start skale-ci-\$J
-		sudo docker run -d -e catchupIntervalMs=60000 --cap-add SYS_ADMIN --name=skale-ci-\$J -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir/\$J:/data_dir -p 1\$((2+J))31-1\$((2+J))39:1\$((2+J))31-1\$((2+J))39/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1\$((2+J))34 --ws-port 1\$((2+J))33 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 2 --web3-trace --enable-debug-behavior-apis --aa no
+		sudo docker run -d -e catchupIntervalMs=60000 --cap-add SYS_ADMIN --name=skale-ci-\$J -v /home/ubuntu/shared_space:/shared_space -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir/\$J:/data_dir -p 1\$((2+J))31-1\$((2+J))39:1\$((2+J))31-1\$((2+J))39/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 40 skalenetwork/schain:$SKALED_RELEASE --http-port 1\$((2+J))34 --ws-port 1\$((2+J))33 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 2 --web3-trace --enable-debug-behavior-apis --aa no --sgx-url ${SGX_URL} --shared-space-path /shared_space/data
 
 	done
 
