@@ -2,7 +2,7 @@ name: Skaled Manually-Running Tests
 
 on:
   schedule:
-    - cron: '30 15 * * *'
+    - cron: '00 18 * * *'
 
   workflow_dispatch:
     inputs:
