@@ -1,26 +1,29 @@
 name: Skaled Manually-Running Tests
 
 on:
+  schedule:
+    - cron: '30 15 * * *'
+
   workflow_dispatch:
     inputs:
       suite:
         description: 'Test Suite'
-        default: 'internals'
-        required: false
+        default: 'stability'
+        required: true
 
       test:
         description: 'Test'
-        default: 'pytest'
-        required: false
+        default: 'all'
+        required: true
 
       skaled_provider:
         description: 'Skaled Provider (binary_from_container|binary_as_artifact|container)'
-        default: 'binary_from_container'
+        default: 'endpoint_by_terraform_with_containers'
         required: true
 
       num_nodes:
         description: 'Num Nodes'
-        default: '1'
+        default: '16'
         required: true
 
       skaled_release:
@@ -30,27 +33,27 @@ on:
 
       kick_interval:
         description: 'KICK_INTERVAL (stability test)'
-        default: '30'
+        default: '7200'
         required: true
 
 jobs:
   main_job:
     runs-on: self-hosted
-    timeout-minutes: 1400
+    timeout-minutes: 4200
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       PROJECT: skaled
-      SUITE: ${{ github.event.inputs.suite }}
-      TEST: ${{ github.event.inputs.test }}
-      SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider }}
-      SKALED_RELEASE: ${{ github.event.inputs.skaled_release }}
-      NUM_NODES: ${{ github.event.inputs.num_nodes }}
+      SUITE: ${{ github.event.inputs.suite || 'stability' }}
+      TEST: ${{ github.event.inputs.test || 'all' }}
+      SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider || 'endpoint_by_terraform_with_containers' }}
+      SKALED_RELEASE: ${{ github.event.inputs.skaled_release || 'develop-latest' }}
+      NUM_NODES: ${{ github.event.inputs.num_nodes || '16' }}
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
       TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       NO_ULIMIT_CHECK: 1
-      KICK_INTERVAL: ${{ github.event.inputs.kick_interval }}
+      KICK_INTERVAL: ${{ github.event.inputs.kick_interval || '7200' }}
 
     steps:
 
