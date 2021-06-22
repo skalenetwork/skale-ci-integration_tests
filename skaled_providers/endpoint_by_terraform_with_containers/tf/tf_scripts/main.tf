@@ -151,15 +151,15 @@ resource "aws_spot_instance_request" "node" {
 // OR this ctructure
 // add elasticIP to instance
 // second var
-resource "aws_eip" "ip" {
-  count    = var.COUNT
-  vpc      = true
-}
-resource "aws_eip_association" "eip_assoc" {
-  count = var.COUNT
-  instance_id   = aws_spot_instance_request.node[count.index].spot_instance_id
-  allocation_id = aws_eip.ip[count.index].id
-}
+#resource "aws_eip" "ip" {
+#  count    = var.COUNT
+#  vpc      = true
+#}
+#resource "aws_eip_association" "eip_assoc" {
+#  count = var.COUNT
+#  instance_id   = aws_spot_instance_request.node[count.index].spot_instance_id
+#  allocation_id = aws_eip.ip[count.index].id
+#}
 
 
 // outputs
@@ -168,8 +168,8 @@ output "public_ips" {
   value = zipmap(
   # data.template_file.node_names.*.rendered,
   aws_spot_instance_request.node.*.tags.Name,
-  #aws_spot_instance_request.node.*.public_ip,
-  aws_eip.ip.*.public_ip
+  aws_spot_instance_request.node.*.public_ip,
+  #aws_eip.ip.*.public_ip
   )
 }
 
