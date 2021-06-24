@@ -2,7 +2,7 @@ name: Skaled Manually-Running Tests
 
 on:
   schedule:
-    - cron: '30 12 * * *'
+    - cron: '30 10 * * 2,4,6'
 
   workflow_dispatch:
     inputs:
@@ -33,7 +33,7 @@ on:
 
       kick_interval:
         description: 'KICK_INTERVAL (stability test)'
-        default: '3600'
+        default: '7200'
         required: true
 
 jobs:
@@ -53,7 +53,7 @@ jobs:
       TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
       TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       NO_ULIMIT_CHECK: 1
-      KICK_INTERVAL: ${{ github.event.inputs.kick_interval || '3600' }}
+      KICK_INTERVAL: ${{ github.event.inputs.kick_interval || '7200' }}
 
     steps:
 
