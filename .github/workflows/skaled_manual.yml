@@ -64,7 +64,7 @@ jobs:
         echo "machine github.com" > ~/.netrc
         echo "login ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
         echo "password ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
-        echo "${{ secrets.elvis_oregon_pem }}" > ~/elvis-oregon.pem
+        echo "${{ secrets.D4_AWS_PEM }}" > ~/d4_aws.pem
         echo "${{ secrets.GRAFANA_CI_KEY }}" > ~/grafana_ci
         chmod 600 ~/grafana_ci
 
