@@ -19,7 +19,8 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$SCRIPT_DIR"
 
 #SGX_URL="https://35.161.69.138:1026"
-SGX_URL="https://45.76.3.64:1026"
+#SGX_URL="https://45.76.3.64:1026"
+SGX_URL="https://44.234.59.98:1026"
 
 echo -- Free skaled --
 ./free_skaled.sh || true
@@ -46,7 +47,6 @@ done
 
 set -x
 SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "${LONG_IPS[*]}") $1
-
 echo -- Prepare nodes ---
 
 #input: $IP, $I
