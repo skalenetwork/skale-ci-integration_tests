@@ -4,9 +4,10 @@ import sys
 import pickle
 import binascii
 import time
+import concurrent.futures
 import web3
 from web3.auto import w3
-        
+
 # transparently and synchronously accesses multiple endpoints
 class EthProxy:
 
@@ -133,6 +134,8 @@ for a in addresses:
 mon = NonceMonitor(eth)
 mon.start()
 
+executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
+
 time1 = time.time()
 sent = 0
 received = 0
@@ -146,7 +149,8 @@ while True:
         print("%.2f txn/s\tqueue = %d txns"%((received)/(time2-time1), sent-received))
         for a in changed:
             try:
-                send(eth, a, address2key[a], address2nonce[a])
+                #send(eth, a, address2key[a], address2nonce[a])
+                executor.submit(send, eth, a, address2key[a], address2nonce[a])
                 address2nonce[a] += 1
                 sent += 1
             except Exception as x:
