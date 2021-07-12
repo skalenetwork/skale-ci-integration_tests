@@ -141,6 +141,13 @@ metrics:
   value: '{{.num}}'
   labels:
     logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
+- type: counter
+  name: logs_queued
+  help: Queued vaguely legit-looking transaction
+  match: '%{TIME_PREFIX}Queued vaguely legit-looking transaction'
+  value: '1'
+  labels:
+    logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
 
 server:
   port: ${PORT}
