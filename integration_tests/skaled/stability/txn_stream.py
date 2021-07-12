@@ -44,14 +44,18 @@ class EthProxy:
                             try:
                                 nonlocal val
                                 return val(*args, **kwargs)
-                            except:
+                            except urllib3.exceptions.HTTPError as ex:
+                                print(str(ex))
                                 self._eth = self.connect_eth()
                                 val = getattr(self._eth, name)
                                 continue
+                            except Exception as ex:
+                                raise ex
                     return f
                 else:
                     return val
-            except:
+            except Exception as ex:
+                print(str(ex))
                 self._eth = self.connect_eth()
                 continue
 
@@ -91,7 +95,10 @@ def send(eth, addr, key, nonce):
         private_key=key
     )
     signed_str = "0x" + binascii.hexlify(signed.rawTransaction).decode("utf-8")
-    h = eth.sendRawTransaction(signed_str)
+    try:
+        h = eth.sendRawTransaction(signed_str)
+    except Exception as ex:
+        print(str(ex))
     return h
 
 def load_addresses_and_keys(num_addresses):
