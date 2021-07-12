@@ -14,6 +14,11 @@ process_names:
   - exe:
     - skaled
     cmdline:
+    - --config /skale_schain_data/schain_(?P<schainName>.+).json
+    name: "{{.Matches.schainName}}"
+  - exe:
+    - skaled
+    cmdline:
     - --ws-port (?P<wsPort>\d+)
     name: "{{.ExeBase}}:{{.Matches.wsPort}}"
 ****
@@ -127,6 +132,13 @@ metrics:
   help: Number of txns in transaction queue
   match: '%{TIME_PREFIX}sent_to_consensus = %{NUMBER:sent} got_from_consensus = %{NUMBER:got} m_transaction_cache = %{NUMBER:cache} m_tq = %{NUMBER:tq} m_bcast_counter = %{NUMBER:bcast_counter}'
   value: '{{.tq}}'
+  labels:
+    logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
+- type: gauge
+  name: logs_imported
+  help: Number of txns block
+  match: '%{TIME_PREFIX}Successfully imported %{NUMBER} of %{NUMBER:num} transactions'
+  value: '{{.num}}'
   labels:
     logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
 
