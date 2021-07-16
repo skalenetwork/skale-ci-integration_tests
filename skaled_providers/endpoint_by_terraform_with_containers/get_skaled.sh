@@ -20,7 +20,7 @@ cd "$SCRIPT_DIR"
 
 #SGX_URL="https://35.161.69.138:1026"
 #SGX_URL="https://45.76.3.64:1026"
-SGX_URL="https://44.234.59.98:1026"
+SGX_URL="https://44.234.110.29:1026"
 
 echo -- Free skaled --
 ./free_skaled.sh || true
