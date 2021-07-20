@@ -28,26 +28,26 @@ set +x
 
 ARGS=()
 ARGS+=("ban all 2")
-#ARGS+=("down 12 0")
+ARGS+=("down 12 0")
 ARGS+=("ban all 3")
-#ARGS+=("down 13 0")
+ARGS+=("down 13 0")
 ARGS+=("ban all 4")
-#ARGS+=("down 14 0")
+ARGS+=("down 14 0")
 ARGS+=("ban all 5")
-#ARGS+=("down 15 0")
+ARGS+=("down 15 0")
 
-ARGS+=("ban all 6")
-ARGS+=("ban all 7")
-ARGS+=("unban all 7")
-ARGS+=("unban all 6")
+ARGS+=("down 6 0")
+ARGS+=("down 7 0")
+ARGS+=("up 7 0")
+ARGS+=("up 6 0")
 
-#ARGS+=("up 15 0")
+ARGS+=("up 15 0")
 ARGS+=("unban all 5")
-#ARGS+=("up 14 0")
+ARGS+=("up 14 0")
 ARGS+=("unban all 4")
-#ARGS+=("up 13 0")
+ARGS+=("up 13 0")
 ARGS+=("unban all 3")
-#ARGS+=("up 12 0")
+ARGS+=("up 12 0")
 ARGS+=("unban all 2")
 
 IFS=$'\t'
@@ -61,9 +61,7 @@ done
 
 IFS=' '
 
-sleep $KICK_INTERVAL
-sleep $KICK_INTERVAL
-
+sleep 21600
 kill $(jobs -p)
 result=0
 

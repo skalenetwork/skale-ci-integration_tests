@@ -1,8 +1,8 @@
 name: Skaled Manually-Running Tests
 
 on:
-  schedule:
-    - cron: '30 10 * * 2,4,6'
+#  schedule:
+#    - cron: '30 10 * * 2,4,6'
 
   workflow_dispatch:
     inputs:
