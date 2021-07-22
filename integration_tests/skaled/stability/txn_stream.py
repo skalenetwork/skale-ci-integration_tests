@@ -6,6 +6,7 @@ import binascii
 import time
 import concurrent.futures
 import web3
+import urllib3.exceptions
 from web3.auto import w3
 
 # transparently and synchronously accesses multiple endpoints
