@@ -62,11 +62,18 @@ class EthProxy:
 
 # upon request returns which addresses changed their nonce
 class NonceMonitor:
-    def __init__(self, eth):
+    def __init__(self, eth, addresses):
         self._eth = eth
+        self._address2nonce = {}
+        self._addresses = addresses
 
     def start(self):
         self._block_number = self._eth.blockNumber
+        for a in self._addresses:
+            self._address2nonce[a] = self._eth.getTransactionCount(a)
+
+    def nonce(self, a):
+        return self._address2nonce[a]
 
     def get_changed_addresses(self):
         new_block = self._eth.blockNumber
@@ -77,6 +84,7 @@ class NonceMonitor:
             bb = self._eth.getBlock(b, True)
             for t in bb['transactions']:
                 ret.append(t['from'])
+                self._address2nonce[t['from']] = t['nonce'] + 1
         self._block_number = new_block
         return ret
 
@@ -126,7 +134,7 @@ if len(sys.argv) < 2:
     print(f"USAGE: {sys.argv[0]} url1 url2 ...")
     exit(1)
 
-num_addresses = 200
+num_addresses = 20
 
 print(f"Loading {num_addresses} accounts...")
 address2key = load_addresses_and_keys(num_addresses)
@@ -134,12 +142,8 @@ addresses = address2key.keys()
 
 eth = EthProxy(sys.argv[1:])
 
+mon = NonceMonitor(eth, addresses)
 print(f"Requesting nonces for {num_addresses} accounts...")
-address2nonce = {}
-for a in addresses:
-    address2nonce[a] = eth.getTransactionCount(a)
-
-mon = NonceMonitor(eth)
 mon.start()
 
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
@@ -147,8 +151,6 @@ executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
 time1 = time.time()
 sent = 0
 received = 0
-lost = 0
-max_nonce = 0
 
 changed = addresses
 received = -len(changed)
@@ -156,16 +158,13 @@ while True:
     if len(changed) > 0:
         received += len(changed)
         time2 = time.time()
-        print("%.2f txn/s\tqueue = %d txns"%((received)/(time2-time1), sent-lost-received))
+        print("%.2f txn/s\tqueue = %d txns"%((received)/(time2-time1), sent-received))
         for a in changed:
             try:
                 #send(eth, a, address2key[a], address2nonce[a])
-                executor.submit(send, eth, a, address2key[a], address2nonce[a])
-                print(a, address2nonce[a])
-                address2nonce[a] += 1
+                executor.submit(send, eth, a, address2key[a], mon.nonce(a))
+                print(a, mon.nonce(a))
                 sent += 1
-                if max_nonce < address2nonce[a]:
-                    max_nonce = address2nonce[a]
             except Exception as x:
                 print(str(x))
         print("-----------")
@@ -174,11 +173,3 @@ while True:
         time.sleep(0.1)
 
     changed = mon.get_changed_addresses()
-
-    # append changed addresses with lost transactions
-    if len(changed) < 2:
-        for a in addresses:
-            if address2nonce[a] < max_nonce - 10:
-                changed.append(a)
-                address2nonce[a] -= 1
-                lost += 1
