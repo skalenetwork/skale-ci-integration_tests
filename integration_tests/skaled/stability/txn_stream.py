@@ -134,7 +134,7 @@ if len(sys.argv) < 2:
     print(f"USAGE: {sys.argv[0]} url1 url2 ...")
     exit(1)
 
-num_addresses = 20
+num_addresses = 200
 
 print(f"Loading {num_addresses} accounts...")
 address2key = load_addresses_and_keys(num_addresses)
