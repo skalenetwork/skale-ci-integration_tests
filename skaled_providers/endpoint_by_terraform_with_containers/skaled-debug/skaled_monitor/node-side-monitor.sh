@@ -2,6 +2,10 @@
 
 apt install unzip
 
+trap "" SIGTERM
+killall -r node-side-mon
+trap - SIGTERM
+
 if [ ! -f grok_exporter-1.0.0.RC5.linux-amd64.zip ]
 then
     wget https://github.com/fstab/grok_exporter/releases/download/v1.0.0.RC5/grok_exporter-1.0.0.RC5.linux-amd64.zip
@@ -34,6 +38,7 @@ make_grok_input () {
   cd log_links
   for I in ${!IMAGES[@]}
   do
+    rm -f ${NAMES[$I]}
     ln -s /var/lib/docker/containers/${IMAGES[$I]} ${NAMES[$I]} 2>/dev/null
   done
   cd ..
@@ -159,7 +164,7 @@ PATTERNS=$(echo grok_exporter*/patterns)
 INPUT="$INPUT" PORT=9144 PATTERNS="$PATTERNS" create_grok_yml
 sudo iptables -I INPUT -p tcp --dport 9144 -j ACCEPT
 ./grok_exporter-*/grok_exporter -config grok-exporter.yml&
-trap "killall grok_exporter" EXIT
+trap "killall grok_exporter; killall -r process-expor" EXIT
 
 while true
 do
