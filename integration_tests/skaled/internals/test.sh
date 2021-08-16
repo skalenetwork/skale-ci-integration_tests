@@ -30,7 +30,7 @@ case "$TEST_NAME" in
 
             # to fix: test_race.py
             # to fix: test_rotation.py
-            pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py
+            pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py
 
       ;;
 
