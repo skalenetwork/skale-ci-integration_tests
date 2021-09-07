@@ -99,6 +99,13 @@ jobs:
         rm -rf $DATA_DIR/*
         ./run_tests.sh $PROJECT+$SUITE+$TEST
 
+    - name: Clean up AWS
+      if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_terraform_with_containers' }}
+      continue-on-error: true
+      run: |
+        cd skaled_providers/endpoint_by_terraform_with_containers
+        ./free_skaled.sh
+
     - uses: actions/upload-artifact@v2
       if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_terraform_with_containers' }}
       continue-on-error: true
