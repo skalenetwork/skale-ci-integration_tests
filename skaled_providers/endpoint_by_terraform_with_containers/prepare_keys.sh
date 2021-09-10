@@ -14,8 +14,9 @@ do
     dec=$( jq -r ".privateKey[\"$i\"]" keys$N.json )
     hex=$( echo "obase=16;$dec" | bc )
     
-    curl --cert $CERTS_PATH/sgx.crt --key $CERTS_PATH/sgx.key -X POST --data '{"id":1, "jsonrpc":"2.0","method":"importBLSKeyShare","params":{"keyShareName":"BLS_KEY:SCHAIN_ID:'$uniq':NODE_ID:'$((i+1))':DKG_ID:0","keyShare":"0x'$hex'"}}' -H 'content-type:application/json;' $SGX_URL -k
-    curl --cert $CERTS_PATH/sgx.crt --key $CERTS_PATH/sgx.key -X POST --data '{"id":1, "jsonrpc":"2.0","method":"generateECDSAKey","params":{}}' -H 'content-type:application/json;' $SGX_URL -k >ecdsa$((i+1)).json
+    #NB using infinite timeout!
+    curl -m 1000000 --cert $CERTS_PATH/sgx.crt --key $CERTS_PATH/sgx.key -X POST --data '{"id":1, "jsonrpc":"2.0","method":"importBLSKeyShare","params":{"keyShareName":"BLS_KEY:SCHAIN_ID:'$uniq':NODE_ID:'$((i+1))':DKG_ID:0","keyShare":"0x'$hex'"}}' -H 'content-type:application/json;' $SGX_URL -k
+    curl -m 1000000 --cert $CERTS_PATH/sgx.crt --key $CERTS_PATH/sgx.key -X POST --data '{"id":1, "jsonrpc":"2.0","method":"generateECDSAKey","params":{}}' -H 'content-type:application/json;' $SGX_URL -k >ecdsa$((i+1)).json
 done
 
 echo $uniq >uniq.txt
