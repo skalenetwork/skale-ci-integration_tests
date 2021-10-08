@@ -1,4 +1,9 @@
 {
+ "skaleConfig": {
+  "sChain": {
+   "dbStorageLimit": 20000000
+  }
+ },
  "accounts": {
   "0x4f41f793D7083db98F1b70037435B7af920E61E7": {
    "balance": "1000000000000000000000"
