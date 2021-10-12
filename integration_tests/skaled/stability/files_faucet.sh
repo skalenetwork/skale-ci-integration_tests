@@ -14,5 +14,5 @@ do
   done
   pack=$((pack + N))
   echo $pack
-  sleep 1
+  sleep 10
 done
