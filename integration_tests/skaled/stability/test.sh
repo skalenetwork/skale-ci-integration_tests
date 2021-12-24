@@ -22,10 +22,10 @@ for IP in ${IPS[*]}
 do
     URLS+=("http://$IP:${PORTS[0]}")
 
-    scp -o "StrictHostKeyChecking no" files_faucet.sh ubuntu@$IP:/home/ubuntu/
-    ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
-    sudo ./files_faucet.sh ./data_dir/0/a5cf2af8/blocks_and_extras/* </dev/null 2>/dev/null >/dev/null &
-****
+    #scp -o "StrictHostKeyChecking no" files_faucet.sh ubuntu@$IP:/home/ubuntu/
+    #ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
+    #sudo ./files_faucet.sh ./data_dir/0/a5cf2af8/blocks_and_extras/* </dev/null 2>/dev/null >/dev/null &
+#****
 
 done
 python3 txn_stream.py ${URLS[*]}&
