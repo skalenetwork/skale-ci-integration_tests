@@ -29,8 +29,6 @@ case "$TEST_NAME" in
             echo "----- integration_tests/skaled/internals/test.sh::pytest -----"
 
             # to fix: test_race.py
-            # to fix: test_rotation.py
-            # to fix: test_stop.py (https://skalelabs.atlassian.net/browse/SKALE-4910)
             pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py
 
       ;;
