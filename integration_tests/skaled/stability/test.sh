@@ -47,16 +47,13 @@ ARGS+=("down 15 0")
 #ARGS+=("up 7 0")
 #ARGS+=("up 6 0")
 
-ARGS+=("down all 0")
-ARGS+=("up all 0")
-
-#ARGS+=("up 15 0")
+ARGS+=("up 15 0")
 ARGS+=("unban all 5")
-#ARGS+=("up 14 0")
+ARGS+=("up 14 0")
 ARGS+=("unban all 4")
-#ARGS+=("up 13 0")
+ARGS+=("up 13 0")
 ARGS+=("unban all 3")
-#ARGS+=("up 12 0")
+ARGS+=("up 12 0")
 ARGS+=("unban all 2")
 
 IFS=$'\t'
