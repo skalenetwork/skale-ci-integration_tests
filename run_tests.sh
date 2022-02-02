@@ -22,7 +22,7 @@ skaled+load_js+skaled_chart
 skaled+contractsRunningTest+all
 skaled+filestorage+all
 skaled+api+all
-skaled+stability+down_up"
+skaled+stability+down_up
 skaled+stability+8x8"
 
 integration_tests=()
