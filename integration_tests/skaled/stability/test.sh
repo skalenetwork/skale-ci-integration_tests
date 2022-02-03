@@ -87,7 +87,17 @@ do
         done
     done
 
-    sleep $KICK_INTERVAL
+    #sleep $KICK_INTERVAL
+    for I in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+    do
+        echo Down $I
+        bash $SKALED_PROVIDER/kick.sh down $J 0
+    done
+    for I in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+    do
+        echo Up $I
+        bash $SKALED_PROVIDER/kick.sh up $J 0
+    done
 
     bash $SKALED_PROVIDER/kick.sh unban all all
 
