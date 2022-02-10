@@ -12,7 +12,7 @@ on:
 
       test:
         description: 'Test'
-        default: 'all'
+        default: 'down_up'
         required: true
 
       skaled_provider:
