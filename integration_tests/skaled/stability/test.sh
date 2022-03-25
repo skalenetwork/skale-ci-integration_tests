@@ -32,6 +32,9 @@ python3 txn_stream.py ${URLS[*]}&
 
 set +x
 
+if [ "$TEST_NAME" == "down_up" ]
+then
+
 ARGS=()
 ARGS+=("ban all 2")
 ARGS+=("down 12 0")
@@ -42,10 +45,10 @@ ARGS+=("down 14 0")
 ARGS+=("ban all 5")
 ARGS+=("down 15 0")
 
-ARGS+=("down 6 0")
-ARGS+=("down 7 0")
-ARGS+=("up 7 0")
-ARGS+=("up 6 0")
+#ARGS+=("down 6 0")
+#ARGS+=("down 7 0")
+#ARGS+=("up 7 0")
+#ARGS+=("up 6 0")
 
 ARGS+=("up 15 0")
 ARGS+=("unban all 5")
@@ -66,6 +69,41 @@ do
 done
 
 IFS=' '
+
+elif [ "$TEST_NAME" == "8x8" ]
+then
+
+while [ true ]
+do
+    sleep $KICK_INTERVAL
+
+    for I in 0 1 2 3 4 5 6 7
+    do
+        for J in 8 9 10 11 12 13 14 15
+        do
+            echo ban $I $J
+            bash $SKALED_PROVIDER/kick.sh ban $I $J
+            bash $SKALED_PROVIDER/kick.sh ban $J $I
+        done
+    done
+
+    #sleep $KICK_INTERVAL
+    for I in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+    do
+        echo Down $I
+        bash $SKALED_PROVIDER/kick.sh down $J 0
+    done
+    for I in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+    do
+        echo Up $I
+        bash $SKALED_PROVIDER/kick.sh up $J 0
+    done
+
+    bash $SKALED_PROVIDER/kick.sh unban all all
+
+done
+
+fi
 
 sleep 21600
 kill $(jobs -p)

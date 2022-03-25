@@ -12,7 +12,7 @@ on:
 
       test:
         description: 'Test'
-        default: 'all'
+        default: 'down_up'
         required: true
 
       skaled_provider:
@@ -43,7 +43,7 @@ jobs:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       PROJECT: skaled
       SUITE: ${{ github.event.inputs.suite || 'stability' }}
-      TEST: ${{ github.event.inputs.test || 'all' }}
+      TEST: ${{ github.event.inputs.test || 'down_up' }}
       SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider || 'endpoint_by_terraform_with_containers' }}
       SKALED_RELEASE: ${{ github.event.inputs.skaled_release || 'develop-latest' }}
       NUM_NODES: ${{ github.event.inputs.num_nodes || '16' }}

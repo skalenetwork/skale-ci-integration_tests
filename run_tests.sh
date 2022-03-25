@@ -22,7 +22,8 @@ skaled+load_js+skaled_chart
 skaled+contractsRunningTest+all
 skaled+filestorage+all
 skaled+api+all
-skaled+stability+all"
+skaled+stability+down_up
+skaled+stability+8x8"
 
 integration_tests=()
 while IFS= read -r line ; do integration_tests+=($line); done <<< "$INTEGRATION_TESTS"
