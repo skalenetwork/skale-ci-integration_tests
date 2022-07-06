@@ -9,6 +9,7 @@ ARGS=$( cat /proc/$1/cmdline | xargs -0 )
 IN=$( readlink /proc/$1/fd/0 )
 OUT=$( readlink /proc/$1/fd/1 )
 ERR=$( readlink /proc/$1/fd/2 )
+CWD=$( readlink /proc/$1/cwd )
 
 while IFS= read -r -d '' line; do
     locVar="${line/=/=\"}\""
@@ -27,4 +28,5 @@ echo "Running:"
 CMD="$ARGS 1>>$OUT 2>>$ERR"
 echo "$CMD&"
 
+cd $CWD
 $ARGS 1>>$OUT 2>>$ERR&
