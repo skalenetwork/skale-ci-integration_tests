@@ -28,7 +28,7 @@ export INSECURE_PRIVATE_KEY_2="14e7e34f77749217477a6c36ddff3f5b5f217c67782dd7cc4
 
 result=0
 env
-npx truffle deploy --network=test && node ./index.js
+npx hardhat deploy --network test && node ./index.js
 result=$?
 
 $SKALED_PROVIDER/free_skaled.sh
