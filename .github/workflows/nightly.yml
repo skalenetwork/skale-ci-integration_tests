@@ -27,9 +27,9 @@ jobs:
     steps:
 
     - name: Set up Node 
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3.4.0
       with:
-        node-version: 12
+        node-version: 14
 
     - name: Install packages
       run: |
