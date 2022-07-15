@@ -27,9 +27,9 @@ jobs:
     steps:
 
     - name: Set up Node 
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3.4.0
       with:
-        node-version: 12
+        node-version: 14
 
     - name: Install packages
       run: |
@@ -85,15 +85,6 @@ jobs:
     - name: skaled+internals+pytest
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+pytest
 
-    - name: skaled+contractsRunningTest+all
-      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+contractsRunningTest+all
-
-    - name: skaled+load_js+run_angry_cats
-      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+load_js+run_angry_cats
-
-    - name: Test Events
-      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+api+all
-
     - name: skaled+filestorage+all
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+filestorage+all
 
@@ -102,6 +93,15 @@ jobs:
 
     - name: skaled+internals+test_node_rotation
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_node_rotation
+
+    - name: skaled+contractsRunningTest+all
+      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+contractsRunningTest+all
+
+    - name: skaled+load_js+run_angry_cats
+      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+load_js+run_angry_cats
+
+    - name: Test Events
+      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+api+all
 
     - name: Fix access rights
       run: |
