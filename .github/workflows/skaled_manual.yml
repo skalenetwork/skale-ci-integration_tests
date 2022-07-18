@@ -89,9 +89,8 @@ jobs:
         ./update_environment.sh $PROJECT+$SUITE
 
     - name: Run Tests
-      env:
-        DATA_DIR: ${{ env.HOME }}/data_dir
       run: |
+        echo "::set-env name=DATA_DIR::$HOME/data_dir"
         sudo rm -rf $DATA_DIR || true
         mkdir $DATA_DIR
         ./run_tests.sh $PROJECT+$SUITE+$TEST
