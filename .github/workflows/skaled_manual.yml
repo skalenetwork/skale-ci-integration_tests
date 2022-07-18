@@ -90,7 +90,8 @@ jobs:
 
     - name: Run Tests
       run: |
-        echo "::set-env name=DATA_DIR::$HOME/data_dir"
+        export DATA_DIR="$HOME/data_dir"
+        echo "::set-env name=DATA_DIR::$DATA_DIR"
         sudo rm -rf $DATA_DIR || true
         mkdir $DATA_DIR
         ./run_tests.sh $PROJECT+$SUITE+$TEST
