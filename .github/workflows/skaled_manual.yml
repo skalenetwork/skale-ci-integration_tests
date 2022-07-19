@@ -89,11 +89,11 @@ jobs:
         ./update_environment.sh $PROJECT+$SUITE
 
     - name: Run Tests
-      env:
-        DATA_DIR: /home/vagrant/data_dir
       run: |
-        mkdir $DATA_DIR || true
-        rm -rf $DATA_DIR/*
+        export DATA_DIR="$HOME/data_dir"
+        echo "::set-env name=DATA_DIR::$DATA_DIR"
+        sudo rm -rf $DATA_DIR || true
+        mkdir $DATA_DIR
         ./run_tests.sh $PROJECT+$SUITE+$TEST
 
     - name: Clean up AWS
