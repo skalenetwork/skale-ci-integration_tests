@@ -23,7 +23,8 @@ skaled+contractsRunningTest+all
 skaled+filestorage+all
 skaled+api+all
 skaled+stability+down_up
-skaled+stability+8x8"
+skaled+stability+8x8
+skaled+upgrade_test+all"
 
 integration_tests=()
 while IFS= read -r line ; do integration_tests+=($line); done <<< "$INTEGRATION_TESTS"

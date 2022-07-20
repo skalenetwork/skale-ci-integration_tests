@@ -11,7 +11,8 @@ skaled+load_js
 skaled+contractsRunningTest
 skaled+filestorage
 skaled+api
-skaled+stability"
+skaled+stability
+skaled+upgrade_test"
 
 test_suites=()
 while IFS= read -r line ; do test_suites+=($line); done <<< "$TEST_SUITES"

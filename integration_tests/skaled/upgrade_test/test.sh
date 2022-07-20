@@ -15,7 +15,7 @@ SKALED_PROVIDER=$SKALED_PROVIDERS_DIR/binary_from_container
 
 cd $SKALE_NODE_TESTS
 
-VERSIONS=(3.7.3-stable.0 3.7.5-stable.0 3.14.9-stable.1 3.14.9-stable.3 3.14.9_is-83_6)
+VERSIONS=(3.7.3-stable.0 3.7.5-stable.0 3.14.9-stable.1 3.14.9-stable.3 3.14.14-stable.6)
 #VERSIONS=(3.7.5-stable.0 3.14.9-stable.1 3.14.9-stable.3 3.14.9_is-83_6)
 
 LEN=${#VERSIONS[@]}
@@ -56,7 +56,7 @@ do
       sleep 200
     fi
 
-    if [[ "$VERSION" == "3.14.9_is-83_6" ]]
+    if [[ "$VERSION" == "3.14.14-stable.6" ]]
     then
       echo "Enter last good block number:"
       read SKALED_TEST_LAST_GOOD_BLOCK_FOR_AMSTERDAM_FIX
