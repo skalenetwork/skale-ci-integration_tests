@@ -15,6 +15,7 @@ export SKALE_EXPERIMANTAL=$SKALED_API_TEST/third_party/SkaleExperimental
 echo "SKALE_EXPERIMANTAL = $SKALE_EXPERIMANTAL"
 
 . $SKALED_PROVIDER/get_skaled.sh $CONFIGS_DIR/accounts.json
+export CHAINID="$CHAIN_ID"
 
 cd $SKALE_EXPERIMANTAL/skaled-tests/test-events
 
