@@ -72,8 +72,7 @@ jobs:
     - name: Clean up
       run: |
         pwd
-        cd ..
-        sudo rm -rf skale-ci-integration_tests
+        sudo rm -rf *
 
     - uses: actions/checkout@v2
 
