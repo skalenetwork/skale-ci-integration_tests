@@ -1,10 +1,10 @@
 name: Test
 
 on:
-  workflow-dispatch
+  workflow_dispatch
 
 jobs:
   main-job:
-  runs-on: self-hosted
-  steps:
-    - run: pwd
+    runs-on: self-hosted
+    steps:
+      - run: pwd
