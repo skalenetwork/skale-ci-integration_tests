@@ -69,6 +69,11 @@ jobs:
       with:
         terraform_wrapper: false
 
+    - name: Clean up
+      run: |
+        pwd
+        sudo rm -rf *
+
     - uses: actions/checkout@v2
 
     - run: cd skaled_providers/endpoint_by_terraform_with_containers/tf/tf_scripts && terraform init
