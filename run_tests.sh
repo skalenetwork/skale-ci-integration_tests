@@ -24,7 +24,8 @@ skaled+filestorage+all
 skaled+api+all
 skaled+stability+down_up
 skaled+stability+8x8
-skaled+upgrade_test+all"
+skaled+upgrade_test+all
+skaled+sync_node+sync_simple"
 
 integration_tests=()
 while IFS= read -r line ; do integration_tests+=($line); done <<< "$INTEGRATION_TESTS"
