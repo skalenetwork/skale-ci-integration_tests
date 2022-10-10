@@ -1,0 +1,16 @@
+{
+    "skaleConfig": {
+	"nodeInfo": {
+	    "nodeID": 555,
+	    "nodeName": "SyncNode1",
+	    "basePort": 5128,
+	    "httpRpcPort": 5131,
+	    "httpsRpcPort": 5136,
+	    "wsRpcPort": 5130,
+	    "wssRpcPort": 5135,
+	    "infoHttpRpcPort": 5137,
+	    "bindIP": "127.0.0.55",
+	    "syncNode": true
+	}
+    }
+}
