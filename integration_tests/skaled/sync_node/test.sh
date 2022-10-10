@@ -35,7 +35,8 @@ run_4_nodes() {
   for I in {1..4}
   do
     mkdir $I
-    NO_ULIMIT_CHECK=1 DATA_DIR=./$I $SKTEST_EXE -d $I --config config$I.json --http-port 1$((I+1))34 -v 4 2>$I/aleth.err 1>$I/aleth.out &
+    mv config$I.json ./$I/config.json
+    NO_ULIMIT_CHECK=1 DATA_DIR=./$I $SKTEST_EXE -d $I --config ./$I/config.json --http-port 1$((I+1))34 -v 4 2>$I/aleth.err 1>$I/aleth.out &
   done
   cd ..
   sleep 20
@@ -60,10 +61,11 @@ case "$TEST_NAME" in
             echo "----- integration_tests/skaled/sync_node/test.sh::sync_simple -----"
 	    run_4_nodes
 	    cd btrfs
-	    python3 ../third_party/config_tools/config.py merge config1.json ../config_addons_sync.json >config_sync.json
+	    python3 ../third_party/config_tools/config.py merge 1/config.json ../config_addons_sync.json >config_sync.json
 	    mkdir 5
 	    rm -rf 5/*
-	    NO_ULIMIT_CHECK=1 DATA_DIR=./5 $SKTEST_EXE -d 5 --config ./config_sync.json -v 4 2>5/aleth.err 1>5/aleth.out &
+	    mv config_sync.json ./5/config.json
+	    NO_ULIMIT_CHECK=1 DATA_DIR=./5 $SKTEST_EXE -d 5 --config ./5/config.json -v 4 2>5/aleth.err 1>5/aleth.out &
 	    check_started http://127.0.0.55:5131
 	    check_block_hashes  http://127.0.0.55:5131 http://127.0.0.1:1234
 	    sleep 15000
