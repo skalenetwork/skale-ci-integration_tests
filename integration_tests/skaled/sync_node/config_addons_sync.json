@@ -10,7 +10,8 @@
 	    "wssRpcPort": 5135,
 	    "infoHttpRpcPort": 5137,
 	    "bindIP": "127.0.0.55",
-	    "syncNode": true
+	    "syncNode": true,
+	    "archiveMode": true
 	}
     }
 }

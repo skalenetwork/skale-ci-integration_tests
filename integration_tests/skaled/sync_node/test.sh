@@ -19,7 +19,7 @@ cd $SYNC_NODE
 _die() {
   printf "❌  "
   "${@}" 1>&2
-  . $SKALED_PROVIDER/free_skaled.sh
+  #. $SKALED_PROVIDER/free_skaled.sh
   exit 1
 }
 
@@ -36,15 +36,42 @@ run_4_nodes() {
   do
     mkdir $I
     mv config$I.json ./$I/config.json
-    NO_ULIMIT_CHECK=1 DATA_DIR=./$I $SKTEST_EXE -d $I --config ./$I/config.json --http-port 1$((I+1))34 -v 4 2>$I/aleth.err 1>$I/aleth.out &
+    NO_ULIMIT_CHECK=1 DATA_DIR=./$I $SKTEST_EXE -d $I --config ./$I/config.json --sgx-url $SGX_URL --http-port 1$((I+1))34 --web3-trace -v 4 2>$I/aleth.err 1>$I/aleth.out &
   done
   cd ..
   sleep 20
 }
 
+query() {
+    URL=$1
+    FUNC=$2
+    PARAMS=$3
+    RESP=$(curl -s -S -X POST --data "{\"jsonrpc\":\"2.0\",\"method\":\"$FUNC\",\"params\":[$PARAMS],\"id\":1}" $URL)
+    STATUS=$?
+
+    ERR=$(echo "$RESP" | jq .error)
+    if [[ $STATUS != 0 || "$ERR" != "null" ]]
+    then
+	echo "$URL $FUNC $PARAMS" >&2
+        echo "$RESP" >&2
+    fi
+
+    echo "$RESP" | jq .result 
+    return $STATUS
+}
+
+query_wait() {
+    EXPECT=$1
+    shift
+    while [[ $(query $@) != "$EXPECT" ]]
+    do
+        sleep 1
+    done
+}
+
 check_started() {
 	sleep 20
-	curl -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' $1 || die "Sync Node not up"
+	query $1 eth_blockNumber || die "Sync Node not up"
 }
 
 check_block_hashes() {
@@ -65,7 +92,7 @@ case "$TEST_NAME" in
 	    mkdir 5
 	    rm -rf 5/*
 	    mv config_sync.json ./5/config.json
-	    NO_ULIMIT_CHECK=1 DATA_DIR=./5 $SKTEST_EXE -d 5 --config ./5/config.json -v 4 2>5/aleth.err 1>5/aleth.out &
+	    NO_ULIMIT_CHECK=1 DATA_DIR=./5 $SKTEST_EXE -d 5 --config ./5/config.json --web3-trace -v 4 2>5/aleth.err 1>5/aleth.out &
 	    check_started http://127.0.0.55:5131
 	    check_block_hashes  http://127.0.0.55:5131 http://127.0.0.1:1234
 	    sleep 15000
@@ -78,11 +105,59 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/sync_node/test.sh::archive_node_block_rotation -----"
 
-            ./skaled_to_chart.sh $ENDPOINT_URL&
-            node $SKALE_EXPERIMANTAL/skaled-tests/cat-cycle/cat-cycle.js $ENDPOINT_URL 1000000000 15000 2>&1 1>/dev/null&
-            sleep 15000
-            kill $(jobs -p)
-            gnuplot skaled_chart.plt
+	    echo "Starting 4 nodes"
+	    run_4_nodes
+
+	    echo "Waiting for block 1 = null"
+	    query_wait null http://127.0.0.1:1234 eth_getBlockByNumber \"0x1\",false
+
+	    echo "Waiting 2 snapshots"
+	    sleep 120
+
+	    echo "Starting sync node"
+	    cd btrfs
+	    python3 ../third_party/config_tools/config.py merge 1/config.json ../config_addons_sync.json >config_sync.json
+	    mkdir 5
+	    rm -rf 5/*
+	    mv config_sync.json ./5/config.json
+
+	    NO_ULIMIT_CHECK=1 DATA_DIR=./5 $SKTEST_EXE -d 5 --config ./5/config.json --sgx-url="$SGX_URL" --web3-trace -v 4 2>5/aleth.err 1>5/aleth.out &
+
+	    echo "Checking it started"
+	    check_started http://127.0.0.55:5131
+
+	    echo "Checking it started from snapshot"
+	    b1="$(query http://127.0.0.55:5131 eth_getBlockByNumber \"0x1\",false)"
+	    b_start="$(query http://127.0.0.55:5131 eth_blockNumber)"
+	    echo "Query block 1: $b1"
+	    echo "Starting block = $b_start"
+	    test "$b1"  = "null" || die "Sync node started should not have block 0x1"
+
+	    echo "Waiting for current block to disappear on normal node"
+	    query_wait null http://127.0.0.1:1234 eth_getBlockByNumber $b_start,false
+	    b_norm="$(query http://127.0.0.1:1234 eth_getBlockByNumber $b_start,false)"
+	    test "$b_norm" = "null" || die "Block $b_start should disappear from normal node"
+
+	    echo "Ckecking it is present on sync node"
+	    b_sync="$(query http://127.0.0.55:5131 eth_getBlockByNumber $b_start,false)"
+	    test "$b_sync" != "null" || die "Blocks should not disappear from sync node"
+
+	    echo "Checking that sync node catches up"
+	    b_after="$(query http://127.0.0.55:5131 eth_blockNumber)"
+	    echo "sync node current block = $b_after"
+	    test "$b_after" != "$b_start" || die "Sync node should do catch-up"
+
+	    echo "Waiting 2 snapshots"
+	    sleep 120
+
+	    echo "Checking latest hashes"
+	    bn="$(query http://127.0.0.55:5131 eth_blockNumber)"
+	    echo "Block number = $bn"
+	    hash_sync=$(query http://127.0.0.55:5131 eth_getBlockByNumber $bn,false | jq .hash)
+	    echo "Hash on sync node = $hash_sync"
+	    hash_normal=$(query http://127.0.0.1:1234 eth_getBlockByNumber $bn,false | jq .hash)
+	    echo "Hash on normal node = $hash_normal"
+	    [[ "$hash_normal" == "$hash_sync" ]] || die "Hashes are incorrect"
 
       ;;
 

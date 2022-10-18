@@ -1,1 +1,9 @@
-{}
+{
+  "skaleConfig": {
+    "sChain": {
+      "dbStorageLimit": 20000,
+      "snapshotIntervalSec": 60,
+      "emptyBlockIntervalMs": 10000
+    }
+  }
+}
