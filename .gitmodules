@@ -43,4 +43,4 @@
 	url = https://github.com/skalenetwork/config_tools
 [submodule "integration_tests/skaled/sync_node/third_party/skaled-debug"]
 	path = integration_tests/skaled/sync_node/third_party/skaled-debug
-	url = git@github.com:skalenetwork/skaled-debug
+	url = https://github.com/skalenetwork/skaled-debug
