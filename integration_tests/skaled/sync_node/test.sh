@@ -95,8 +95,6 @@ case "$TEST_NAME" in
 	    NO_ULIMIT_CHECK=1 DATA_DIR=./5 $SKTEST_EXE -d 5 --config ./5/config.json --web3-trace -v 4 2>5/aleth.err 1>5/aleth.out &
 	    check_started http://127.0.0.55:5131
 	    check_block_hashes  http://127.0.0.55:5131 http://127.0.0.1:1234
-	    sleep 15000
-            #node $SKALE_EXPERIMANTAL/skaled-tests/cat-cycle/cat-cycle.js $ENDPOINT_URL 100
 
       ;;
 
