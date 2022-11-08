@@ -28,7 +28,7 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/internals/test.sh::pytest -----"
 
-            pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py test_race.py
+            pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py
 
       ;;
 
