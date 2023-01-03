@@ -13,7 +13,7 @@ on:
 
 jobs:
   main_job:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       SKALED_RELEASE: ${{ github.event.inputs.skaled_release || 'develop-latest' }}
@@ -79,29 +79,29 @@ jobs:
         ./update_environment.sh skaled+filestorage
         ./update_environment.sh skaled+api
 
-    - name: skaled+load_python+all
-      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+load_python+all
-
     - name: skaled+internals+pytest
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+pytest
 
     - name: skaled+filestorage+all
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+filestorage+all
 
-    - name: skaled+internals+test_snapshot_api
-      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_snapshot_api
-
-    - name: skaled+internals+test_node_rotation
-      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_node_rotation
-
     - name: skaled+contractsRunningTest+all
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+contractsRunningTest+all
+
+    - name: skaled+load_python+all
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+load_python+all
 
     - name: skaled+load_js+run_angry_cats
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+load_js+run_angry_cats
 
     - name: Test Events
       run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+api+all
+
+    - name: skaled+internals+test_snapshot_api
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_snapshot_api
+
+    - name: skaled+internals+test_node_rotation
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_node_rotation
 
     - name: Fix access rights
       run: |
