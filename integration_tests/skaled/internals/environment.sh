@@ -8,7 +8,7 @@ export INTERNALS=$INTEGRATION_TESTS_DIR/skaled/internals
 export SKALE_NODE_TESTS=$INTERNALS/third_party/skale-node-tests
 echo "SKALE_NODE_TESTS = $SKALE_NODE_TESTS"
 
-sudo apt install python3-venv jq curl cython
+sudo apt install python3-venv jq curl
 
 cd $SKALE_NODE_TESTS
 
@@ -19,7 +19,7 @@ python3 -m venv venv
 python -V
 pip -V
 
-pip3 install wheel docker
+pip3 install wheel docker cython
 
 pip3 install -r requirements.txt
 
