@@ -8,7 +8,7 @@ export INTERNALS=$INTEGRATION_TESTS_DIR/skaled/internals
 export SKALE_NODE_TESTS=$INTERNALS/third_party/skale-node-tests
 echo "SKALE_NODE_TESTS = $SKALE_NODE_TESTS"
 
-sudo apt install python3-venv jq curl
+sudo apt install python3-venv jq curl cython
 
 cd $SKALE_NODE_TESTS
 
