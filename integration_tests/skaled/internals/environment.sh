@@ -19,7 +19,7 @@ python3 -m venv venv
 python -V
 pip -V
 
-pip3 install wheel docker
+pip3 install wheel docker cython
 
 pip3 install -r requirements.txt
 
