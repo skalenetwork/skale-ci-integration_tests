@@ -17,7 +17,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 5,
-  "iteration": 1622903478934,
+  "iteration": 1634120646538,
   "links": [
     {
       "asDropdown": false,
@@ -219,7 +219,7 @@
         {
           "targetBlank": true,
           "title": "Shain details",
-          "url": "/d/GmHhVJrMk/schain-details?orgId=1&var-logfile=$logfile&${__url_time_range}"
+          "url": "/d/GmHhVJrMk/schain-details?orgId=1&var-logfile=$logfile&${__url_time_range}&${node_id:queryparam}"
         }
       ],
       "nullPointMode": "null as zero",
@@ -625,5 +625,5 @@
   "timezone": "",
   "title": "Schains Overview",
   "uid": "WU-8zt9Gz",
-  "version": 52
+  "version": 53
 }

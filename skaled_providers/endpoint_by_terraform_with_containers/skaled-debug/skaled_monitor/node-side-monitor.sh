@@ -69,9 +69,9 @@ input:
 ${INPUT}
 metrics:
 - type: gauge
-  name: logs_BLOCK_COMMIT
+  name: logs_BLOCK_COMMITED
   help: Block committed in bin-consensus
-  match: '%{C_PREFIX_BLOCK}:BLOCK_COMMIT: PRPSR:%{NUMBER:proposer}:BID: %{NUMBER:block_id}'
+  match: '%{C_PREFIX_BLOCK}:BLOCK_COMMITED: PRPSR:%{NUMBER:proposer}:BID: %{NUMBER:block_id}'
   value: '{{.block_id}}'
   labels:
     node_id: '{{.node_id}}'

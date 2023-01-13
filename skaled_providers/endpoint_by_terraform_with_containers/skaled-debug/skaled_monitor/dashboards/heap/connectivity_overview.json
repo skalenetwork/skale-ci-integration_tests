@@ -1,0 +1,314 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 10,
+  "iteration": 1634121085935,
+  "links": [],
+  "panels": [
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "min": 0,
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(56, 56, 56)",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "process details",
+          "url": "/d/Txdf9ulGz/process-stats?orgId=1&var-process=$process"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 12
+        },
+        "textMode": "name"
+      },
+      "pluginVersion": "7.5.4",
+      "repeat": "process",
+      "repeatDirection": "v",
+      "scopedVars": {
+        "process": {
+          "selected": false,
+          "text": "skaled:1233",
+          "value": "skaled:1233"
+        }
+      },
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "namedprocess_namegroup_num_procs{groupname=\"$process\", instance=~\"$instance\"}",
+          "instant": false,
+          "interval": "1m",
+          "intervalFactor": 1,
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$process",
+      "type": "stat"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": [
+            ""
+          ],
+          "value": [
+            ""
+          ]
+        },
+        "datasource": null,
+        "definition": "label_values(namedprocess_namegroup_cpu_seconds_total,groupname)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "process",
+        "options": [
+          {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "skaled:1233",
+            "value": "skaled:1233"
+          },
+          {
+            "selected": false,
+            "text": "skaled:1333",
+            "value": "skaled:1333"
+          },
+          {
+            "selected": false,
+            "text": "skaled:1433",
+            "value": "skaled:1433"
+          },
+          {
+            "selected": false,
+            "text": "skaled:1533",
+            "value": "skaled:1533"
+          },
+          {
+            "selected": false,
+            "text": "skaled:1633",
+            "value": "skaled:1633"
+          }
+        ],
+        "query": {
+          "query": "label_values(namedprocess_namegroup_cpu_seconds_total,groupname)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 3,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": [
+            ""
+          ],
+          "value": [
+            ""
+          ]
+        },
+        "datasource": null,
+        "definition": "label_values(namedprocess_namegroup_cpu_seconds_total,instance)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "instance",
+        "options": [
+          {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "100.20.221.55:9256",
+            "value": "100.20.221.55:9256"
+          },
+          {
+            "selected": false,
+            "text": "35.155.29.88:9256",
+            "value": "35.155.29.88:9256"
+          },
+          {
+            "selected": false,
+            "text": "35.155.50.236:9256",
+            "value": "35.155.50.236:9256"
+          },
+          {
+            "selected": false,
+            "text": "35.80.121.143:9256",
+            "value": "35.80.121.143:9256"
+          },
+          {
+            "selected": false,
+            "text": "35.80.144.73:9256",
+            "value": "35.80.144.73:9256"
+          },
+          {
+            "selected": false,
+            "text": "35.81.147.253:9256",
+            "value": "35.81.147.253:9256"
+          },
+          {
+            "selected": false,
+            "text": "35.81.16.154:9256",
+            "value": "35.81.16.154:9256"
+          },
+          {
+            "selected": false,
+            "text": "35.82.48.31:9256",
+            "value": "35.82.48.31:9256"
+          },
+          {
+            "selected": false,
+            "text": "35.82.73.6:9256",
+            "value": "35.82.73.6:9256"
+          },
+          {
+            "selected": false,
+            "text": "44.228.4.231:9256",
+            "value": "44.228.4.231:9256"
+          },
+          {
+            "selected": false,
+            "text": "44.230.159.164:9256",
+            "value": "44.230.159.164:9256"
+          },
+          {
+            "selected": false,
+            "text": "44.231.65.19:9256",
+            "value": "44.231.65.19:9256"
+          },
+          {
+            "selected": false,
+            "text": "44.237.134.108:9256",
+            "value": "44.237.134.108:9256"
+          },
+          {
+            "selected": false,
+            "text": "52.27.36.57:9256",
+            "value": "52.27.36.57:9256"
+          },
+          {
+            "selected": false,
+            "text": "52.40.162.187:9256",
+            "value": "52.40.162.187:9256"
+          },
+          {
+            "selected": false,
+            "text": "54.203.242.134:9256",
+            "value": "54.203.242.134:9256"
+          }
+        ],
+        "query": {
+          "query": "label_values(namedprocess_namegroup_cpu_seconds_total,instance)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Connectivity Overview",
+  "uid": "FwgzNo9Gk",
+  "version": 9
+}

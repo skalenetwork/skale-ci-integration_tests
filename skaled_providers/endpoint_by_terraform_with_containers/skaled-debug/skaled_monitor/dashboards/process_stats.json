@@ -17,7 +17,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 7,
-  "iteration": 1622903479980,
+  "iteration": 1634120875925,
   "links": [],
   "panels": [
     {
@@ -222,6 +222,102 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 12,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "namedprocess_namegroup_memory_bytes{instance=\"$instance\", groupname=\"$process\", memtype=\"resident\"}",
+          "interval": "",
+          "legendFormat": "RSS",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "RSS",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:45",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:46",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
       "description": "",
       "fieldConfig": {
         "defaults": {},
@@ -233,7 +329,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 16
       },
       "hiddenSeries": false,
       "id": 2,
@@ -330,7 +426,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 15
+        "y": 23
       },
       "hiddenSeries": false,
       "id": 4,
@@ -426,7 +522,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 22
+        "y": 30
       },
       "hiddenSeries": false,
       "id": 8,
@@ -509,7 +605,7 @@
       }
     }
   ],
-  "refresh": "5s",
+  "refresh": false,
   "schemaVersion": 27,
   "style": "dark",
   "tags": [],
@@ -550,8 +646,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "34.215.236.248:9256",
-          "value": "34.215.236.248:9256"
+          "text": "18.236.223.87:9256",
+          "value": "18.236.223.87:9256"
         },
         "datasource": null,
         "definition": "label_values(namedprocess_namegroup_cpu_seconds_total,instance)",
@@ -587,5 +683,5 @@
   "timezone": "",
   "title": "Process Stats",
   "uid": "Txdf9ulGz",
-  "version": 7
+  "version": 8
 }
