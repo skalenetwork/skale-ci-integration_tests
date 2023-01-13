@@ -153,6 +153,13 @@ metrics:
   value: '1'
   labels:
     logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
+- type: counter
+  name: logs_requests
+  help: JSON-RPC Requests counter
+  match: '%{TIME_PREFIX}%{URI} >>> %{GREEDYDATA}'
+  value: '1'
+  labels:
+    logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
 
 server:
   port: ${PORT}
