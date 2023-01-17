@@ -5,7 +5,8 @@ echo "----- integration_tests/skaled/stability/test.sh ----- begin"
 
 TEST_NAME=$1
 KICK_INTERVAL=${KICK_INTERVAL:-30}
-SGX_URL="https://34.223.63.227:1026"
+SGX_IP="34.223.63.227"
+SGX_URL="https://${SGX_IP}:1026"
 
 export STABILITY=$INTEGRATION_TESTS_DIR/skaled/stability
 

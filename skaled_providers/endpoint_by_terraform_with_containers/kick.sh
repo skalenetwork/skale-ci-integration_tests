@@ -91,7 +91,11 @@ ban_cmd () {
   local I=$1
   local J=$2
   IP=${IPS[$I]}
-  BAN_IP=${IPS[$J]}
+  if [[ ${#J} -le 2 ]]
+  then
+    BAN_IP=${IPS[$J]}
+  else
+    BAN_IP="$J"
   ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
     sudo route add $BAN_IP gw 127.0.0.1
 ****
@@ -101,7 +105,11 @@ unban_cmd () {
   local I=$1
   local J=$2
   IP=${IPS[$I]}
-  BAN_IP=${IPS[$J]}
+  if [[ ${#J} -le 2 ]]
+  then
+    BAN_IP=${IPS[$J]}
+  else
+    BAN_IP="$J"
   ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
     sudo route del $BAN_IP
 ****
