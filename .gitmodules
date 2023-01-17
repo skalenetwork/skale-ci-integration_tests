@@ -44,3 +44,6 @@
 [submodule "integration_tests/skaled/sync_node/third_party/skaled-debug"]
 	path = integration_tests/skaled/sync_node/third_party/skaled-debug
 	url = https://github.com/skalenetwork/skaled-debug
+[submodule "integration_tests/skaled/stability/third_party/rpc_bomber"]
+	path = integration_tests/skaled/stability/third_party/rpc_bomber
+	url = https://github.com/skalenetwork/rpc_bomber
