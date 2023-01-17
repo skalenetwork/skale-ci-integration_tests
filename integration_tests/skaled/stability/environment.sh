@@ -19,5 +19,9 @@ pip3 install wheel
 
 pip3 install -r requirements.txt
 
+cd third_party/rpc_bomber
+npm install
+cd ../..
+
 echo "----- integration_tests/skaled/stability/environment.sh ----- end"
 echo

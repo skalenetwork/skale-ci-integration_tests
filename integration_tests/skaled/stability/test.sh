@@ -5,6 +5,7 @@ echo "----- integration_tests/skaled/stability/test.sh ----- begin"
 
 TEST_NAME=$1
 KICK_INTERVAL=${KICK_INTERVAL:-30}
+SGX_URL="https://34.223.63.227:1026"
 
 export STABILITY=$INTEGRATION_TESTS_DIR/skaled/stability
 
@@ -28,7 +29,10 @@ do
 #****
 
 done
-python3 txn_stream.py ${URLS[*]}&
+#python3 txn_stream.py 0 ${URLS[*]}&
+cd third_party/rpc_bomber
+node rpc_bomber.js -t ${URLS[0]}&
+cd ../..
 
 set +x
 
@@ -36,36 +40,29 @@ if [ "$TEST_NAME" == "down_up" ]
 then
 
 ARGS=()
-ARGS+=("ban all 2")
-ARGS+=("down 12 0")
-ARGS+=("ban all 3")
-ARGS+=("down 13 0")
-ARGS+=("ban all 4")
-ARGS+=("down 14 0")
-ARGS+=("ban all 5")
 ARGS+=("down 15 0")
+ARGS+=("down 14 0")
+ARGS+=("ban all 2")
+ARGS+=("ban all 3")
+ARGS+=("ban 4 $SGX_URL")
+ARGS+=("ban 5 $SGX_URL")
 
-#ARGS+=("down 6 0")
-#ARGS+=("down 7 0")
-#ARGS+=("up 7 0")
-#ARGS+=("up 6 0")
-
-ARGS+=("up 15 0")
-ARGS+=("unban all 5")
-ARGS+=("up 14 0")
-ARGS+=("unban all 4")
-ARGS+=("up 13 0")
+ARGS+=("unban 5 $SGX_URL")
+ARGS+=("unban 4 $SGX_URL")
 ARGS+=("unban all 3")
-ARGS+=("up 12 0")
 ARGS+=("unban all 2")
+ARGS+=("up 14 0")
+ARGS+=("up 15 0")
 
 IFS=$'\t'
 
+I=1
 for A in ${ARGS[*]}
 do
     sleep $KICK_INTERVAL
     echo $A
-    bash $SKALED_PROVIDER/kick.sh $A    
+    bash $SKALED_PROVIDER/kick.sh $A
+    I=$((I+1))
 done
 
 IFS=' '
