@@ -111,6 +111,7 @@ unban_cmd () {
     BAN_IP=${IPS[$J]}
   else
     BAN_IP="$J"
+  fi
   ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
     sudo route del $BAN_IP
 ****
