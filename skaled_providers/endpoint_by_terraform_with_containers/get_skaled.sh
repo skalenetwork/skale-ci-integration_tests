@@ -61,6 +61,11 @@ PARALLEL_FUNC () {
 
 	ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
 
+        sudo fallocate -l 1G /swapfile
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
+
 	curl -fsSL https://get.docker.com -o get-docker.sh
 	sudo sh get-docker.sh
 
@@ -85,7 +90,7 @@ PARALLEL_FUNC () {
 		sed "s/1231,/1\$((2+J))31,/g" config.json > data_dir/\$J/config.json
 
 		#sudo docker start skale-ci-\$J
-		sudo docker run -d -e catchupIntervalMs=60000 --cap-add SYS_ADMIN --name=skale-ci-\$J -v /home/ubuntu/shared_space:/shared_space -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir/\$J:/data_dir -p 1\$((2+J))31-1\$((2+J))39:1\$((2+J))31-1\$((2+J))39/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 60 --restart=always skalenetwork/schain:$SKALED_RELEASE --http-port 1\$((2+J))34 --ws-port 1\$((2+J))33 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no --sgx-url ${SGX_URL} --shared-space-path /shared_space/data
+		sudo docker run -d -e catchupIntervalMs=60000 --cap-add SYS_ADMIN --name=skale-ci-\$J -v /home/ubuntu/shared_space:/shared_space -v /home/ubuntu/skale_node_data:/skale_node_data -v /home/ubuntu/data_dir/\$J:/data_dir -p 1\$((2+J))31-1\$((2+J))39:1\$((2+J))31-1\$((2+J))39/tcp -e DATA_DIR=/data_dir -i -t --stop-timeout 60 --restart=always -m 1g skalenetwork/schain:$SKALED_RELEASE --http-port 1\$((2+J))34 --ws-port 1\$((2+J))33 --config /data_dir/config.json -d /data_dir --ipcpath /data_dir -v 3 --web3-trace --enable-debug-behavior-apis --aa no --sgx-url ${SGX_URL} --shared-space-path /shared_space/data
 
 	done
 
@@ -114,6 +119,8 @@ do
 done
 
 wait
+
+sleep 30	# sometimes transaction script cannot connect, so wait
 
 export ENDPOINT_URL="http://${IPS[0]}:1234"
 export IPS=
