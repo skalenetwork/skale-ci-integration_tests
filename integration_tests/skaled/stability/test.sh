@@ -31,9 +31,7 @@ do
 
 done
 #python3 txn_stream.py 0 ${URLS[*]}&
-cd third_party/rpc_bomber
-node rpc_bomber.js -t ${URLS[0]}&
-cd ../..
+bash ./load_many_transactions.sh ${URLS[*]}&
 
 set +x
 
