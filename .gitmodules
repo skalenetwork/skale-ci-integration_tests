@@ -47,3 +47,6 @@
 [submodule "integration_tests/skaled/stability/third_party/rpc_bomber"]
 	path = integration_tests/skaled/stability/third_party/rpc_bomber
 	url = https://github.com/skalenetwork/rpc_bomber
+[submodule "integration_tests/skaled/stability/third_party/blockchain-killer"]
+	path = integration_tests/skaled/stability/third_party/blockchain-killer
+	url = git@github.com:skalenetwork/blockchain-killer

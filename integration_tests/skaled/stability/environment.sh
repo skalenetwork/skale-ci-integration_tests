@@ -23,5 +23,9 @@ cd third_party/rpc_bomber
 npm install
 cd ../..
 
+cd third_party/blockchain-killer
+yarn
+cd ../..
+
 echo "----- integration_tests/skaled/stability/environment.sh ----- end"
 echo
