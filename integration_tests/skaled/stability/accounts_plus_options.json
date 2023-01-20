@@ -1,7 +1,8 @@
 {
  "skaleConfig": {
   "sChain": {
-   "dbStorageLimit": 20000000
+   "dbStorageLimit": 20000000,
+   "contractStorageLimit": 2000000000
   }
  },
  "accounts": {
