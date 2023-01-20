@@ -6,14 +6,14 @@ echo PRIVATE_KEY=0x72280f79fb45fa984fe2c5677141419cf3bf4fe239857a8f9ea7d302d75b2
 
 npx hardhat run scripts/deploy.ts --network custom
 
-npx hardhat setStorageUsage --size 1g --network custom 2>&1 >blockchain-killer.log&
+npx -d hardhat setStorageUsage --size 1g --network custom 2>&1 >blockchain-killer.log&
 
 cd ../..
 
 cd third_party/rpc_bomber 
 
-I=0
-for URL in $@
+I=1
+for URL in ${@:2}
 do
 	node rpc_bomber.js -t --from $((I*1000)) $URL 2>&1 >bomber_${I}.log&
 	I=$((I+1))
