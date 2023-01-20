@@ -75,11 +75,11 @@ jobs:
         sudo rm -rf *
 
     - uses: actions/checkout@v2
+      with:
+        ssh-key: '${{secrets.RUNNER_SSH_KEY}}'
+        submodules: 'recursive'
 
     - run: cd skaled_providers/endpoint_by_terraform_with_containers/tf/tf_scripts && terraform init
-
-    - name: Update submodules
-      run: git submodule update --init --recursive
 
     - name: Prepare SGX keys/certs
       run: |
