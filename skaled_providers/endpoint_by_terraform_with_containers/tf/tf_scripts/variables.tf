@@ -2,6 +2,8 @@ variable "access_key" {}
 variable "secret_key" {}
 variable "region" {}
 variable "availability_zone" {}
+variable "region_alt" {}
+variable "availability_zone_alt" {}
 variable "instance_type" {}
 variable "root_volume_size" {}
 variable "lvm_volume_size" {}

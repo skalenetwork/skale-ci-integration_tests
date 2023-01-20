@@ -2,6 +2,8 @@
 # availability_zone = "us-east-2c"
 region = "us-west-2"
 availability_zone = "us-west-2c"
+region_alt = "us-east-2"
+availability_zone_alt = "us-east-2a"
 # instance_type = "t2.2xlarge" # 32Gb $0.371200 hourly
 # instance_type = "t2.xlarge"   # 16Gb $0.185600 hourly
 instance_type = "t2.large"   # 8Gb  $0.092800 hourly
