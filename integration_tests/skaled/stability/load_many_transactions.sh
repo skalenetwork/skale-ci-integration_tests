@@ -6,7 +6,15 @@ echo PRIVATE_KEY=0x72280f79fb45fa984fe2c5677141419cf3bf4fe239857a8f9ea7d302d75b2
 
 npx hardhat run scripts/deploy.ts --network custom
 
-nohup watch 'npx hardhat setStorageUsage --size 1g --network custom'&
+killer_func () {
+while true
+do
+	npx hardhat setStorageUsage --size 1g --network custom
+	sleep 10
+done
+}
+
+killer_func&
 
 cd ../..
 
