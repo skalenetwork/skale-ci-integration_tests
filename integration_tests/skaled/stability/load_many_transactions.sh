@@ -4,7 +4,7 @@ cd third_party/blockchain-killer
 echo ENDPOINT=$1 >.env
 echo PRIVATE_KEY=0x72280f79fb45fa984fe2c5677141419cf3bf4fe239857a8f9ea7d302d75b2af0 >>.env
 
-npx hardhat run scripts/deploy.ts --network custom
+while ! npx hardhat run scripts/deploy.ts --network custom
 
 killer_func () {
 while true
@@ -14,7 +14,7 @@ do
 done
 }
 
-killer_func&
+killer_func >blockchain-killer.log&
 
 cd ../..
 
