@@ -5,6 +5,9 @@ echo ENDPOINT=$1 >.env
 echo PRIVATE_KEY=0x72280f79fb45fa984fe2c5677141419cf3bf4fe239857a8f9ea7d302d75b2af0 >>.env
 
 while ! npx hardhat run scripts/deploy.ts --network custom
+do
+true
+done
 
 killer_func () {
 while true
