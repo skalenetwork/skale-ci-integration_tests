@@ -2,7 +2,7 @@
 
 cd third_party/blockchain-killer
 echo ENDPOINT=$1 >.env
-echo PRIVATE_KEY=0x72280f79fb45fa984fe2c5677141419cf3bf4fe239857a8f9ea7d302d75b2af0 >>.env
+echo PRIVATE_KEY=0x21ec9f01cee2a87f8071c4c6ca6a8b218607bd4faa8b1bdacc71ff8c0618b2dd >>.env
 
 while ! npx hardhat run scripts/deploy.ts --network custom
 do
