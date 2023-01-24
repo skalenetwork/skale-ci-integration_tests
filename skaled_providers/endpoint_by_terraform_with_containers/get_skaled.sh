@@ -74,7 +74,7 @@ PARALLEL_FUNC () {
 	sudo chown root:root filebeat.yml
 	sudo docker run -d --network host -u root -e FILEBEAT_HOST=3.17.12.121:5000 -v /home/ubuntu/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro -v /var/lib/docker:/var/lib/docker:ro -v /var/run/docker.sock:/var/run/docker.sock docker.elastic.co/beats/filebeat:7.3.1
 
-	sudo BTRFS_DIR_PATH=data_dir ./create_btrfs.sh
+	sudo BTRFS_DIR_PATH=data_dir BTRFS_FILE_PATH=/dev/xvdd ./create_btrfs.sh
 	sudo chown \$USER:\$USER data_dir
         mkdir shared_space
         mkdir shared_space/data
@@ -103,13 +103,13 @@ PARALLEL_FUNC () {
 }
 
 ./make_prom_targets.sh >skale_ci.yml
-ssh -o "StrictHostKeyChecking no" -i ~/grafana_ci root@116.203.203.249 <<- 111
-sudo -i
-cat >/opt/prometheus/conf/skale_ci.yml <<- 222
-$(cat skale_ci.yml)
-222
-docker restart prometheus
-111
+#ssh -o "StrictHostKeyChecking no" -i ~/grafana_ci root@116.203.203.249 <<- 111
+#sudo -i
+#cat >/opt/prometheus/conf/skale_ci.yml <<- 222
+#$(cat skale_ci.yml)
+#222
+#docker restart prometheus
+#111
 
 I=0
 for IP in ${IPS[*]} #:0:11}
