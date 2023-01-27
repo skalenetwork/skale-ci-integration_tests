@@ -46,7 +46,7 @@ do
 done
 
 set -x
-SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "${LONG_IPS[*]}") $1
+SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "${LONG_IPS[*]}") $1 --bind0
 echo -- Prepare nodes ---
 
 #input: $IP, $I
