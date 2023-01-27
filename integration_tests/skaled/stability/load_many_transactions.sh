@@ -17,7 +17,7 @@ do
 done
 }
 
-killer_func >blockchain-killer.log&
+killer_func 2>&1 >blockchain-killer.log&
 
 cd ../..
 
