@@ -1,8 +1,32 @@
 {
+ "params":{
+  "minGasLimit": "ffffffff",
+  "maxGasLimit": "7fffffffffffffff"
+ },
+ "genesis":{
+  "gasLimit": "ffffffff"
+ },
  "skaleConfig": {
+  "nodeInfo":{
+   "minCacheSize": 32000000,
+   "maxCacheSize": 64000000,
+   "collectionQueueSize": 20,
+   "collectionDuration": 60,
+   "transactionQueueSize": 100000,
+   "maxOpenLeveldbFiles": 256,
+   "info-acceptors": 1
+  },
   "sChain": {
-   "dbStorageLimit": 20000000,
-   "contractStorageLimit": 2000000000
+   "dbStorageLimit": 12653999554,
+   "contractStorageLimit": 37961998663,
+   "snapshotIntervalSec": 86400,
+   "emptyBlockIntervalMs": 10000,
+   "freeContractDeployment": true,
+   "maxConsensusStorageBytes": 63269997772,
+   "maxSkaledLeveldbStorageBytes": 63269997772,
+   "maxFileStorageBytes": 63269997772,
+   "maxReservedStorageBytes": 21089999257,
+   "multiTransactionMode": true
   }
  },
  "accounts": {
