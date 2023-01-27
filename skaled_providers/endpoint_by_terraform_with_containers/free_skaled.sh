@@ -23,5 +23,6 @@ done
 wait
 
 ./destroy.sh
+rm output.json
 
 cd ..
