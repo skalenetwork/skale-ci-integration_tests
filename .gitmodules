@@ -1,52 +1,52 @@
 [submodule "integration_tests/skale-manager/ts_1/third_party/IMA"]
 	path = integration_tests/skale-manager/ts_1/third_party/IMA
-	url = https://github.com/skalenetwork/IMA.git
+	url = git@github.com:skalenetwork/IMA.git
 [submodule "integration_tests/skale-manager/ts_1/third_party/automation_validator_cli"]
 	path = integration_tests/skale-manager/ts_1/third_party/automation_validator_cli
-	url = https://github.com/skalenetwork/automation_validator_cli.git
+	url = git@github.com:skalenetwork/automation_validator_cli
 [submodule "integration_tests/skale-manager/ts_1/third_party/integration_tests_for_skale-manager"]
 	path = integration_tests/skale-manager/ts_1/third_party/integration_tests_for_skale-manager
-	url = https://github.com/skalenetwork/integration_tests_for_skale-manager.git
+	url = git@github.com:skalenetwork/integration_tests_for_skale-manager.git
 [submodule "integration_tests/skaled/load_js/third_party/SkaleExperimental"]
 	path = integration_tests/skaled/load_js/third_party/SkaleExperimental
-	url = https://github.com/skalenetwork/SkaleExperimental
+	url = git@github.com:skalenetwork/SkaleExperimental
 [submodule "integration_tests/skaled/internals/third_party/skale-node-tests"]
 	path = integration_tests/skaled/internals/third_party/skale-node-tests
-	url = https://github.com/skalenetwork/skale-node-tests
+	url = git@github.com:skalenetwork/skale-node-tests
 [submodule "integration_tests/skaled/load_python/third_party/skale-node-tests"]
 	path = integration_tests/skaled/load_python/third_party/skale-node-tests
-	url = https://github.com/skalenetwork/skale-node-tests
+	url = git@github.com:skalenetwork/skale-node-tests
 [submodule "integration_tests/skaled/contractsRunningTest/third_party/SkaleExperimental"]
 	path = integration_tests/skaled/contractsRunningTest/third_party/SkaleExperimental
-	url = https://github.com/skalenetwork/SkaleExperimental
+	url = git@github.com:skalenetwork/SkaleExperimental
 [submodule "integration_tests/skaled/filestorage/third_party/filestorage.js"]
 	path = integration_tests/skaled/filestorage/third_party/filestorage.js
-	url = https://github.com/skalenetwork/filestorage.js
+	url = git@github.com:skalenetwork/filestorage.js
 [submodule "integration_tests/skaled/api/third_party/SkaleExperimental"]
 	path = integration_tests/skaled/api/third_party/SkaleExperimental
-	url = http://github.com/skalenetwork/SkaleExperimental
+	url = git@github.com:skalenetwork/SkaleExperimental
 [submodule "skaled_providers/endpoint_by_terraform_with_containers/config_tools"]
 	path = skaled_providers/endpoint_by_terraform_with_containers/config_tools
-	url = https://github.com/skalenetwork/config_tools
+	url = git@github.com:skalenetwork/config_tools
 [submodule "integration_tests/skaled/stability/third_party/skale-node-tests"]
 	path = integration_tests/skaled/stability/third_party/skale-node-tests
-	url = https://github.com/skalenetwork/skale-node-tests
+	url = git@github.com:skalenetwork/skale-node-tests
 [submodule "integration_tests/skaled/upgrade_test/third_party/skale-node-tests"]
 	path = integration_tests/skaled/upgrade_test/third_party/skale-node-tests
-	url = https://github.com/skalenetwork/skale-node-tests
+	url = git@github.com:skalenetwork/skale-node-tests
 	branch = skale-ci-branch
 [submodule "integration_tests/skaled/upgrade_test/third_party/skaled-debug"]
 	path = integration_tests/skaled/upgrade_test/third_party/skaled-debug
-	url = https://github.com/skalenetwork/skaled-debug
+	url = git@github.com:skalenetwork/skaled-debug
 [submodule "integration_tests/skaled/sync_node/third_party/config_tools"]
 	path = integration_tests/skaled/sync_node/third_party/config_tools
-	url = https://github.com/skalenetwork/config_tools
+	url = git@github.com:skalenetwork/config_tools
 [submodule "integration_tests/skaled/sync_node/third_party/skaled-debug"]
 	path = integration_tests/skaled/sync_node/third_party/skaled-debug
-	url = https://github.com/skalenetwork/skaled-debug
+	url = git@github.com:skalenetwork/skaled-debug
 [submodule "integration_tests/skaled/stability/third_party/rpc_bomber"]
 	path = integration_tests/skaled/stability/third_party/rpc_bomber
-	url = https://github.com/skalenetwork/rpc_bomber
+	url = git@github.com:skalenetwork/rpc_bomber
 [submodule "integration_tests/skaled/stability/third_party/blockchain-killer"]
 	path = integration_tests/skaled/stability/third_party/blockchain-killer
 	url = git@github.com:skalenetwork/blockchain-killer
