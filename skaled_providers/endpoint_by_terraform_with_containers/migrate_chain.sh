@@ -1,4 +1,4 @@
-# source it!
+#!/bin/bash
 
 # params:
 # SKALED_RELEASE - dockerhub schain container version
@@ -20,21 +20,24 @@ ORIG_CWD="$( pwd )"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$SCRIPT_DIR"
 
-#SGX_URL="https://35.161.69.138:1026"
-#SGX_URL="https://45.76.3.64:1026"
 SGX_URL="https://34.223.63.227:1026"
 
-echo -- Free skaled --
-./free_skaled.sh || true
-
-echo -- Terraform --
-SUFFIX=
-. create_instances.sh
-
-echo -- Load IPs --
+# read tf/output.json -> OLD_IPS, OLD_LONG_IPS
 for i in $( seq 0 $(($NUM_NODES-1)) )
 do
-	IPS[$i]=$( jq -r '.public_ips.value."skale-ci-'${i}'"' tf/output.json )
+	OLD_IPS[$i]=$( jq -r '.public_ips.value."skale-ci-'${i}'"' tf/output.json )
+	if [ "${IPS[$i]}" = "null" ]; then exit 1; fi
+	OLD_LONG_IPS[$i]=${IPS[$i]}:1231
+done
+
+echo -- Terraform --
+SUFFIX=_young
+. create_instances.sh
+
+# read tf/output_young.json -> IPS, LONG_IPS
+for i in $( seq 0 $(($NUM_NODES-1)) )
+do
+	IPS[$i]=$( jq -r '.public_ips.value."skale-ci-'${i}'"' tf/output_young.json )
 	if [ "${IPS[$i]}" = "null" ]; then exit 1; fi
 	LONG_IPS[$i]=${IPS[$i]}:1231
 done
@@ -46,10 +49,50 @@ SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "$
 echo -- Prepare nodes ---
 . prepare_nodes.sh
 
+echo -- Copy old data ---
+
+# $OLD_IP $NEW_IP
+# $I for different names
+HOST_COPY(){
+    
+	# need keys from old in new
+    ssh -o "StrictHostKeyChecking no" ubuntu@$OLD_IP <<- ****
+    sudo -i
+    chmod -R +xr /root
+    if [[ ! -f ~/.ssh/id_rsa ]]
+    then
+        ssh-keygen -f ~/.ssh/id_rsa -N ""
+    fi
+	****
+	
+	scp -o "StrictHostKeyChecking no" ubuntu@$OLD_IP:/root/.ssh/id_rsa.pub id_rsa_$I.pub
+	ssh-copy-id -o "StrictHostKeyChecking no" -f -i id_rsa_$I.pub ubuntu@$NEW_IP
+	
+	# copy data!
+	ssh -o "StrictHostKeyChecking no" ubuntu@$OLD_IP <<- ****
+	sudo scp -o "StrictHostKeyChecking no" -r /home/ubuntu/data_dir ubuntu@$NEW_IP:/home/ubuntu/data_dir
+	****
+}
+
+for i in $( seq 0 $(($NUM_NODES-1)) )
+do
+	I=$i OLD_IP=${OLD_IPS[$i]} NEW_IP=${IPS[$i]} HOST_COPY&
+done
+
+wait
+
+#echo "waiting"
+#read dummy
+
+echo -- Free old nodes --
+./free_skaled.sh
+# pretend new nodes are old ones (for free_skaled.sh)
+mv tf/output_young.json tf/output.json  
+mv tf/tf_scripts/terraform.tfstate_young tf/tf_scripts/terraform.tfstate
+
 echo -- Start nodes ---
 . start_nodes.sh
 
-#echo -- Create prom_targets ---
 ./make_prom_targets.sh >skale_ci.yml
 ssh -o "StrictHostKeyChecking no" -i ~/grafana_ci root@116.203.203.249 <<- 111
 sudo -i
@@ -66,16 +109,3 @@ export CHAIN_ID=$( python3 config.py extract $SCRIPT_DIR/config.json params.chai
 export SCHAIN_OWNER=$( python3 config.py extract $SCRIPT_DIR/config.json skaleConfig.sChain.schainOwner )
 
 cd "$ORIG_CWD"
-
-#input: $IP, $I
-HOST_RESTART () {
-	ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
-
-	for J in {0..0}
-	do
-	    sudo docker stop skale-ci-\$J
-		sudo docker start skale-ci-\$J
-	done
-
-	****
-}

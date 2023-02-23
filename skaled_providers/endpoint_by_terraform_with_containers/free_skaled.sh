@@ -1,9 +1,20 @@
 #!/bin/bash
 
+# params:
+# NUM_NODES - number of hosts to launch
+
+export NUM_NODES="${NUM_NODES:-4}"
+
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 echo -- De-Terraform --
 cd $SCRIPT_DIR/tf
+
+if [ ! -f "output.json" ]
+then
+    cd ..
+    exit
+fi
 
 PARALLEL_FUNC () {
     ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- 111
