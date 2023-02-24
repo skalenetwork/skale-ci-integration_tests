@@ -58,19 +58,22 @@ HOST_COPY(){
 	# need keys from old in new
     ssh -o "StrictHostKeyChecking no" ubuntu@$OLD_IP <<- ****
     sudo -i
-    chmod -R +xr /root
     if [[ ! -f ~/.ssh/id_rsa ]]
     then
         ssh-keygen -f ~/.ssh/id_rsa -N ""
     fi
+    cp /root/.ssh/id_rsa.pub /home/ubuntu
+    chmod +r /home/ubuntu/id_rsa.pub
 	****
 	
-	scp -o "StrictHostKeyChecking no" ubuntu@$OLD_IP:/root/.ssh/id_rsa.pub id_rsa_$I.pub
+	scp -o "StrictHostKeyChecking no" ubuntu@$OLD_IP:/home/ubuntu/id_rsa.pub id_rsa_$I.pub
 	ssh-copy-id -o "StrictHostKeyChecking no" -f -i id_rsa_$I.pub ubuntu@$NEW_IP
 	
 	# copy data!
 	ssh -o "StrictHostKeyChecking no" ubuntu@$OLD_IP <<- ****
-	sudo scp -o "StrictHostKeyChecking no" -r /home/ubuntu/data_dir ubuntu@$NEW_IP:/home/ubuntu/data_dir
+	    #stop skaled
+	    sudo docker stop skale-ci-0
+	    sudo scp -o "StrictHostKeyChecking no" -r /home/ubuntu/data_dir ubuntu@$NEW_IP:/home/ubuntu
 	****
 }
 
