@@ -17,7 +17,7 @@ do
 done
 }
 
-killer_func 2>&1 >blockchain-killer.log&
+#killer_func 2>&1 >blockchain-killer.log&
 
 cd ../..
 
@@ -26,7 +26,7 @@ cd third_party/rpc_bomber
 I=1
 for URL in ${@:2}
 do
-	node rpc_bomber.js -t --from $((I*1000)) $URL 2>&1 >bomber_${I}.log&
+	node rpc_bomber.js -t --from $((I*1000)) -d 54000 -b 50 $URL 2>&1 >bomber_${I}.log&
 	I=$((I+1))
 done
 
