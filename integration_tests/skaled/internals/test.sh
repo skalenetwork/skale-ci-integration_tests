@@ -62,6 +62,8 @@ case "$TEST_NAME" in
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_early'
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_late_join'
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_wrong_stateRoot_in_proposal'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_without_majority'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_with_majority'
       ;;
 
       "test_snapshot_api")
