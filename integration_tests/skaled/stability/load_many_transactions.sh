@@ -27,8 +27,11 @@ I=1
 for URL in ${@:2}
 do
 	node rpc_bomber.js -t --from $((I*1000)) -d 54000 -b 50 $URL 2>&1 >bomber_${I}.log&
+	PIDS[$I]=$!
 	I=$((I+1))
 done
+
+trap 'kill -INT ${PIDS[*]}' INT
 
 wait
 

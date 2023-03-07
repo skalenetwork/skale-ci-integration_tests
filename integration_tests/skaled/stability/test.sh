@@ -32,6 +32,9 @@ do
 done
 #python3 txn_stream.py 0 ${URLS[*]}&
 bash ./load_many_transactions.sh ${URLS[*]}&
+load_pid=$!
+
+trap 'kill -INT $load_pid' INT
 
 set +x
 
