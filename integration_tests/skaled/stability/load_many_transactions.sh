@@ -17,21 +17,35 @@ do
 done
 }
 
-#killer_func 2>&1 >blockchain-killer.log&
+killer_func 2>&1 >blockchain-killer.log&
 
 cd ../..
 
 cd third_party/rpc_bomber 
 
+# 1 bomb with data
 I=1
 for URL in ${@:2}
 do
-	node rpc_bomber.js -t --from $((I*1000)) -d 54000 -b 50 $URL 2>&1 >bomber_${I}.log&
+	node rpc_bomber.js -t --from $((I*1000)) -d 54000 --time 3600 -a 50 $URL 2>&1 >bomber_${I}.log&
 	PIDS[$I]=$!
 	I=$((I+1))
 done
 
-trap 'kill -INT ${PIDS[*]}' INT
+trap 'kill -INT ${PIDS[*]}' INT EXIT
+
+wait
+
+# 2 bomb without data
+I=1
+for URL in ${@:2}
+do
+	node rpc_bomber.js -t --from $((I*1000)) $URL 2>&1 >>bomber_${I}.log&
+	PIDS[$I]=$!
+	I=$((I+1))
+done
+
+trap 'kill -INT ${PIDS[*]}' INT EXIT
 
 wait
 
