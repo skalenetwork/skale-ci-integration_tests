@@ -17,7 +17,7 @@ then
 fi
 
 PARALLEL_FUNC () {
-    ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- 111
+    ssh -o ConnectTimeout=10 -o ConnectionAttempts=1 -o "StrictHostKeyChecking no" ubuntu@$IP <<- 111
 	sudo -i
 	docker stop skale-ci-0
     umount /dev/xvdd
