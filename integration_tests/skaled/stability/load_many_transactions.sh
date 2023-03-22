@@ -34,7 +34,9 @@ done
 
 trap 'kill -INT ${PIDS[*]}' INT EXIT
 
-wait
+echo "Waiting for bombers to finish"
+wait ${PIDS[@]}
+echo "Bombers finished"
 
 # 2 bomb without data
 I=1
@@ -47,6 +49,8 @@ done
 
 trap 'kill -INT ${PIDS[*]}' INT EXIT
 
-wait
+echo "Waiting for bombers to finish 2"
+wait ${PIDS[@]}
+echo "Bombers finished 2"
 
 cd ../..
