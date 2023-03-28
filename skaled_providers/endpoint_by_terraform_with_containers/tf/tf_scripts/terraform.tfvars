@@ -15,4 +15,4 @@ key_name = "d4_aws"
 #path_to_pem = "/home/dimalit/.just_works/k2_aws.pem"
 path_to_pem = "/home/dimalit/.just_works/d4_aws.pem"
 
-spot_price = {"t2.small" = "0.007", "t2.medium" = "0.020", "t2.large" = "0.035", "t2.xlarge" = "0.056", "t2.2xlarge" = "0.112"}
+spot_price = {"t2.small" = "0.007", "t2.medium" = "0.020", "t2.large" = "0.037", "t2.xlarge" = "0.056", "t2.2xlarge" = "0.112"}
