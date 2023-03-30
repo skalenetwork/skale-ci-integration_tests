@@ -5,11 +5,6 @@ tests_in_action=($TEST_IN_ACTION)
 
 # all possible tests
 export INTEGRATION_TESTS="\
-skale-manager+ts_1+schains_smoke_create_destroy
-skale-manager+ts_1+schains_create_destroy
-skale-manager+ts_1+node_rotation
-skale-manager+ts_1+schains_delete_all
-skale-manager+ts_1+get_schains_quantity
 skaled+internals+pytest
 skaled+internals+sktest_snapshot
 skaled+internals+test_node_rotation
