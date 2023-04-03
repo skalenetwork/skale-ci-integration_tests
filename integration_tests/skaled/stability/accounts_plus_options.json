@@ -1,10 +1,10 @@
 {
  "params":{
-  "minGasLimit": "ffffffff",
+  "minGasLimit": "fffffff",
   "maxGasLimit": "7fffffffffffffff"
  },
  "genesis":{
-  "gasLimit": "ffffffff"
+  "gasLimit": "fffffff"
  },
  "skaleConfig": {
   "nodeInfo":{
@@ -19,7 +19,7 @@
   "sChain": {
    "dbStorageLimit": 12653999554,
    "contractStorageLimit": 37961998663,
-   "snapshotIntervalSec": 86400,
+   "snapshotIntervalSec": 3600,
    "emptyBlockIntervalMs": 10000,
    "freeContractDeployment": true,
    "maxConsensusStorageBytes": 63269997772,
