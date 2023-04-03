@@ -92,8 +92,7 @@ kill_cmd () {
   local J=$2
   IP=${IPS[$I]}
   ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
-    sudo docker stop -t 0 skale-ci-$J
-    sudo docker start skale-ci-$J
+    sudo kill -9 $(pgrep -f '/skaled/skaled')
 ****
 }
 
