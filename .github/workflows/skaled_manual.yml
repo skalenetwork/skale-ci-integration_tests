@@ -32,7 +32,7 @@ on:
 
       kick_interval:
         description: 'KICK_INTERVAL (stability test)'
-        default: '7200'
+        default: '450'
         required: true
 
 jobs:

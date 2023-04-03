@@ -87,6 +87,16 @@ down_cmd () {
 ****
 }
 
+kill_cmd () {
+  local I=$1
+  local J=$2
+  IP=${IPS[$I]}
+  ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
+    sudo docker stop -t 0 skale-ci-$J
+    sudo docker start skale-ci-$J
+****
+}
+
 ban_cmd () {
   local I=$1
   local J=$2
@@ -131,6 +141,10 @@ ban () {
 
 unban () {
   cmd_node_node unban_cmd $1 $2
+}
+
+kill () {
+  cmd_node_schain kill_cmd $1 $2
 }
 
 ${@:1}
