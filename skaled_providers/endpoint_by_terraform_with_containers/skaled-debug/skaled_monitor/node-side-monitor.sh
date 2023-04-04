@@ -69,7 +69,7 @@ input:
 ${INPUT}
 metrics:
 - type: gauge
-  name: logs_BLOCK_COMMIT
+  name: logs_BLOCK_COMMITED
   help: Block committed in bin-consensus
   match: '%{C_PREFIX_BLOCK}:BLOCK_COMMITED: PRPSR:%{NUMBER:proposer}:BID: %{NUMBER:block_id}'
   value: '{{.block_id}}'
@@ -160,7 +160,13 @@ metrics:
   value: '1'
   labels:
     logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
-
+- type: counter
+  name: logs_PARTIAL
+  help: PARTIAL catch-up
+  match: '%{TIME_PREFIX}PARTIAL'
+  value: '1'
+  labels:
+    logfile: '{{gsub .logfile ".*/log_links/(.+)/.*-json.log" "\\\\1"}}'
 server:
   port: ${PORT}
 ********************************************
