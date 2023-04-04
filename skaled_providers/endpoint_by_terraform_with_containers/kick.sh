@@ -92,7 +92,7 @@ kill_cmd () {
   local J=$2
   IP=${IPS[$I]}
   ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
-    sudo kill -9 $(pgrep -f '/skaled/skaled')
+    sudo kill -9 \$(pgrep -f '/skaled/skaled')
 ****
 }
 
