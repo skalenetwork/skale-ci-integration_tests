@@ -1,10 +1,10 @@
 {
  "params":{
-  "minGasLimit": "fffffff",
+  "minGasLimit": "ffffffff",
   "maxGasLimit": "7fffffffffffffff"
  },
  "genesis":{
-  "gasLimit": "fffffff"
+  "gasLimit": "ffffffff"
  },
  "skaleConfig": {
   "nodeInfo":{
