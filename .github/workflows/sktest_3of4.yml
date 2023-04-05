@@ -43,9 +43,9 @@ jobs:
     - uses: docker-practice/actions-setup-docker@master
     
     - uses: actions/checkout@v2
-
-    - name: Update submodules
-      run: git submodule update --init --recursive
+      with:
+        ssh-key: '${{secrets.RUNNER_SSH_KEY}}'
+        submodules: 'recursive'
 
     - name: Update Environment
       run: |
