@@ -17,7 +17,8 @@ do
 done
 }
 
-killer_func 2>&1 >blockchain-killer.log
+killer_func 2>&1 >blockchain-killer.log&
+KILLER_PID=$!
 
 cd ../..
 
@@ -52,5 +53,7 @@ trap 'kill -INT ${PIDS[*]}' INT EXIT
 echo "Waiting for bombers to finish 2"
 wait ${PIDS[@]}
 echo "Bombers finished 2"
+
+wait $KILLER_PID
 
 cd ../..
