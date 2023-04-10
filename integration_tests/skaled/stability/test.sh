@@ -31,7 +31,7 @@ do
 
 done
 #python3 txn_stream.py 0 ${URLS[*]}&
-bash ./load_many_transactions.sh ${URLS[*]} 2>&1 1>load.log
+bash ./load_many_transactions.sh ${URLS[*]} 2>&1 1>load.log&
 load_pid=$!
 
 trap 'kill -INT $load_pid' INT EXIT
@@ -189,7 +189,6 @@ done
 fi
 
 sleep 21600
-kill $(jobs -p)
 result=0
 
 . $SKALED_PROVIDER/free_skaled.sh
