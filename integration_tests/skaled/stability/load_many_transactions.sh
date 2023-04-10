@@ -12,7 +12,7 @@ done
 killer_func () {
 while true
 do
-	npx hardhat setStorageUsage --size 1g --network custom
+	timeout 5m npx hardhat setStorageUsage --size 1g --network custom
 	sleep 10
 done
 }
@@ -22,7 +22,7 @@ KILLER_PID=$!
 
 cd ../..
 
-cd third_party/rpc_bomber 
+cd third_party/rpc_bomber
 
 # 1 bomb with data
 I=1
