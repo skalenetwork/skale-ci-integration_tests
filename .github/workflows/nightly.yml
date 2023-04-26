@@ -37,6 +37,8 @@ jobs:
         sudo apt-get install python3-pip python3-venv jq btrfs-progs nodejs npm
         sudo npm install -g truffle
         sudo npm install -g yarn
+        curl -O https://download.docker.com/linux/debian/dists/buster/pool/stable/amd64/containerd.io_1.4.3-1_amd64.deb
+        sudo apt install ./containerd.io_1.4.3-1_amd64.deb  # for docker! https://stackoverflow.com/questions/65555109/docker-ce-depends-containerd-io-1-4-1-but-it-is-not-going-to-be-installe
         sudo chown -R runner:runner ~/.config   # HACK
 
     - name: Add secrets
