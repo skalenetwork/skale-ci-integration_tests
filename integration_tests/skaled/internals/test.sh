@@ -84,7 +84,7 @@ esac
 
 result=$?
 
-sudo umount btrfs
+sudo umount btrfs || true
 
 echo "----- integration_tests/skaled/internals/test.sh ----- end"
 echo
