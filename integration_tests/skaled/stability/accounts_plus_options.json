@@ -13,7 +13,6 @@
    "collectionQueueSize": 20,
    "collectionDuration": 60,
    "transactionQueueSize": 100,
-   "futureTransactionQueueSize": 100,
    "maxOpenLeveldbFiles": 256,
    "info-acceptors": 1
   },
