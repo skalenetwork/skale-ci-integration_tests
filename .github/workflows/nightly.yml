@@ -102,6 +102,9 @@ jobs:
     - name: skaled+internals+test_node_rotation
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_node_rotation
 
+    - name: skaled+internals+stop_in_snapshot
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+stop_in_snapshot
+
     - name: Fix access rights
       run: |
         sudo chown -R runner:runner /tmp/tmp* || true

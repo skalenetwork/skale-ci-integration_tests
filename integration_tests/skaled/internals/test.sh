@@ -28,7 +28,7 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/internals/test.sh::pytest -----"
 
-            pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py test_race.py test_stop.py
+            pytest --full-trace --showlocals -v -s test_chainid.py test_rotation.py test_race.py && pytest --full-trace --showlocals -v -s -k "not snapshot" test_stop.py
 
       ;;
 
@@ -75,6 +75,14 @@ case "$TEST_NAME" in
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_corner_cases'
             sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_download_download'
             #sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_stateRoot_conflict'
+      ;;
+
+      "stop_in_snapshot")
+
+            echo
+            echo "----- integration_tests/skaled/internals/test.sh::stop_in_snapshot -----"
+
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_stop.py::test_in_snapshot'
       ;;
       *)
             echo "Test [${TEST_NAME}] doesn't exist. Try another."
