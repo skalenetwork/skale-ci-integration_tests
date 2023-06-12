@@ -2,7 +2,7 @@ import json
 import copy
 import os
 import sys
-import collections
+import typing, collections.abc
 
 # (c) https://gist.github.com/angstwad/bf22d1822c38a92ec0a9
 def _dict_merge(dct, merge_dct):
@@ -16,7 +16,7 @@ def _dict_merge(dct, merge_dct):
     """
     for k, v in merge_dct.items():
         if (k in dct and isinstance(dct[k], dict)
-                and isinstance(merge_dct[k], collections.Mapping)):
+                and isinstance(merge_dct[k], collections.abc.Mapping)):
             _dict_merge(dct[k], merge_dct[k])
         else:
             dct[k] = merge_dct[k]
@@ -25,7 +25,7 @@ def merge(base, more):
     _dict_merge(base, more)
 
 def to_string(config):
-    return json.dumps(config, indent = 1)
+    return json.dumps(config, indent = 4)
 
 def _merge_cmd( arr_files ):
     res = {}
@@ -42,16 +42,21 @@ def _extract_cmd( file, key_arr ):
         obj = json.load( f )
 
     for k in key_arr:
-        if k in obj:
+        try:
+            k = int(k)
             obj = obj[k]
-        else:
-            return ""
+        except:
+            if k in obj:
+                obj = obj[k]
+            else:
+                return ""
 
     return obj
 
 def _usage():
     print("USAGE:")
     print("python3 " + sys.argv[0] + " merge file1.json [file2.json...]")
+    print("python3 " + sys.argv[0] + " extract file.json path.to.needed.parameter")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
