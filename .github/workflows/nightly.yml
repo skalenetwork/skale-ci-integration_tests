@@ -76,7 +76,6 @@ jobs:
       run: |
         ./update_environment.sh skaled+internals
         ./update_environment.sh skaled+load_python
-        ./update_environment.sh skaled+load_js
         ./update_environment.sh skaled+contractsRunningTest
         ./update_environment.sh skaled+filestorage
         ./update_environment.sh skaled+api
