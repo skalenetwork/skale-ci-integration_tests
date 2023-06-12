@@ -12,7 +12,7 @@ echo "SKALE_EXPERIMANTAL = $SKALE_EXPERIMANTAL"
 
 cd $SKALE_EXPERIMANTAL/skaled-tests/cat-cycle
 
-npm install $SKALE_EXPERIMANTAL/skaled-tests/cat-cycle
+npm install
 
 echo "----- integration_tests/skaled/load_js/environment.sh ----- end"
 echo
