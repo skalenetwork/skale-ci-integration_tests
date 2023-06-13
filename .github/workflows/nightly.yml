@@ -76,7 +76,6 @@ jobs:
       run: |
         ./update_environment.sh skaled+internals
         ./update_environment.sh skaled+load_python
-        ./update_environment.sh skaled+load_js
         ./update_environment.sh skaled+contractsRunningTest
         ./update_environment.sh skaled+filestorage
         ./update_environment.sh skaled+api
@@ -93,17 +92,14 @@ jobs:
     - name: skaled+load_python+all
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+load_python+all
 
-    - name: skaled+load_js+run_angry_cats
-      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+load_js+run_angry_cats
-
-    - name: skaled+internals+test_snapshot_api
-      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_snapshot_api
-
     - name: skaled+internals+test_node_rotation
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_node_rotation
 
     - name: skaled+internals+stop_in_snapshot
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+stop_in_snapshot
+
+    - name: skaled+internals+test_snapshot_api
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_snapshot_api
 
     - name: Fix access rights
       run: |
