@@ -82,7 +82,7 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/internals/test.sh::stop_in_snapshot -----"
 
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_stop.py::test_in_snapshot'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_stop.py::test_stop_in_snapshot'
       ;;
       *)
             echo "Test [${TEST_NAME}] doesn't exist. Try another."
