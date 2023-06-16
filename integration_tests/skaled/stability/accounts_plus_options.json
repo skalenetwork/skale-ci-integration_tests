@@ -12,7 +12,7 @@
    "maxCacheSize": 64000000,
    "collectionQueueSize": 20,
    "collectionDuration": 60,
-   "transactionQueueSize": 100000,
+   "transactionQueueSize": 100,
    "maxOpenLeveldbFiles": 256,
    "info-acceptors": 1
   },
@@ -26,7 +26,7 @@
    "maxSkaledLeveldbStorageBytes": 63269997772,
    "maxFileStorageBytes": 63269997772,
    "maxReservedStorageBytes": 21089999257,
-   "multiTransactionMode": true
+   "multiTransactionMode": false
   }
  },
  "accounts": {

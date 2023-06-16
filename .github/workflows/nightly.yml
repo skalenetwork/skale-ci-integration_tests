@@ -34,9 +34,11 @@ jobs:
     - name: Install packages
       run: |
         sudo apt-get update
-        sudo apt-get install python3-pip python3-venv jq btrfs-progs nodejs npm
+        sudo apt-get install python3-pip python3-venv jq btrfs-progs nodejs npm cpulimit
         sudo npm install -g truffle
         sudo npm install -g yarn
+        curl -O https://download.docker.com/linux/debian/dists/buster/pool/stable/amd64/containerd.io_1.4.3-1_amd64.deb
+        sudo apt install ./containerd.io_1.4.3-1_amd64.deb  # for docker! https://stackoverflow.com/questions/65555109/docker-ce-depends-containerd-io-1-4-1-but-it-is-not-going-to-be-installe
         sudo chown -R runner:runner ~/.config   # HACK
 
     - name: Add secrets
@@ -48,7 +50,7 @@ jobs:
         echo "password ${{ secrets.DIMALIT_ACCESS_TOKEN }}" >> ~/.netrc
         echo "${{ secrets.elvis_oregon_pem }}" > ~/elvis-oregon.pem
 
-    - uses: docker-practice/actions-setup-docker@0.0.1
+    - uses: docker-practice/actions-setup-docker@v1
     
     - uses: hashicorp/setup-terraform@v1.1.0
       with:
@@ -74,7 +76,6 @@ jobs:
       run: |
         ./update_environment.sh skaled+internals
         ./update_environment.sh skaled+load_python
-        ./update_environment.sh skaled+load_js
         ./update_environment.sh skaled+contractsRunningTest
         ./update_environment.sh skaled+filestorage
         ./update_environment.sh skaled+api
@@ -91,14 +92,14 @@ jobs:
     - name: skaled+load_python+all
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+load_python+all
 
-    - name: skaled+load_js+run_angry_cats
-      run: SKALED_PROVIDER=skaled_providers/endpoint_by_container ./run_tests.sh skaled+load_js+run_angry_cats
+    - name: skaled+internals+test_node_rotation
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_node_rotation
+
+    - name: skaled+internals+stop_in_snapshot
+      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+stop_in_snapshot
 
     - name: skaled+internals+test_snapshot_api
       run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_snapshot_api
-
-    - name: skaled+internals+test_node_rotation
-      run: SKALED_PROVIDER=skaled_providers/binary_from_container ./run_tests.sh skaled+internals+test_node_rotation
 
     - name: Fix access rights
       run: |
@@ -117,6 +118,7 @@ jobs:
           skaled_providers
           !skaled_providers/**/skaled
           /tmp/tmp*
+          /tmp/*.log
           *.log
           ./integration_tests/skaled/internals/third_party/skale-node-tests/btrfs
           !**/.env

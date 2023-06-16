@@ -28,7 +28,7 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/internals/test.sh::pytest -----"
 
-            pytest --full-trace --showlocals -v -s test_chainid.py test_stop.py test_rotation.py test_race.py
+            pytest --full-trace --showlocals -v -s -x test_chainid.py test_rotation.py test_race.py && pytest --full-trace --showlocals -v -s -x -k "not snapshot" test_stop.py
 
       ;;
 
@@ -54,16 +54,16 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/internals/test.sh::test_node_rotation -----"
 
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[True-False]'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[True-True]'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[False-False]'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_snapshot[False-True]'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_restart'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_early'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_late_join'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_wrong_stateRoot_in_proposal'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_without_majority'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_node_rotation.py::test_download_with_majority'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_node_rotation.py::test_download_snapshot[True-False]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_node_rotation.py::test_download_snapshot[True-True]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_node_rotation.py::test_download_snapshot[False-False]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_node_rotation.py::test_download_snapshot[False-True]'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_node_rotation.py::test_restart'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_node_rotation.py::test_download_early'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_node_rotation.py::test_late_join'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_node_rotation.py::test_wrong_stateRoot_in_proposal'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_node_rotation.py::test_download_without_majority'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_node_rotation.py::test_download_with_majority'
       ;;
 
       "test_snapshot_api")
@@ -71,10 +71,18 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/internals/test.sh::test_snapshot_api -----"
 
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_main'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_corner_cases'
-            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_download_download'
-            #sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s 'test_snapshot_api.py::test_stateRoot_conflict'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_snapshot_api.py::test_main'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_snapshot_api.py::test_corner_cases'
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_snapshot_api.py::test_download_download'
+            #sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_snapshot_api.py::test_stateRoot_conflict'
+      ;;
+
+      "stop_in_snapshot")
+
+            echo
+            echo "----- integration_tests/skaled/internals/test.sh::stop_in_snapshot -----"
+
+            sudo -E ../../create_btrfs.sh; sudo -E NO_ULIMIT_CHECK=1 DATA_DIR=btrfs ./venv/bin/python3 -m pytest -s -x 'test_stop.py::test_stop_in_snapshot'
       ;;
       *)
             echo "Test [${TEST_NAME}] doesn't exist. Try another."
@@ -83,6 +91,8 @@ case "$TEST_NAME" in
 esac
 
 result=$?
+
+sudo umount btrfs || true
 
 echo "----- integration_tests/skaled/internals/test.sh ----- end"
 echo
