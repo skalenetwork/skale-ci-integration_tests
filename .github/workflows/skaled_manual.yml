@@ -72,6 +72,8 @@ jobs:
     - name: Clean up
       run: |
         pwd
+        mounts=$(mount | grep ' on /' | awk '{print $3}' | grep '/btrfs$')
+        for m in $mounts; do sudo umount $m; done
         sudo rm -rf *
 
     - uses: actions/checkout@v2
