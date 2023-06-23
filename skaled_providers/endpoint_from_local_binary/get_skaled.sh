@@ -27,4 +27,4 @@ export ENDPOINT_URL="http://127.0.0.1:1234"
 export CHAIN_ID=$( python3 $SCRIPT_DIR/config.py extract $SCRIPT_DIR/data_dir/config.json params.chainID )
 export SCHAIN_OWNER=$( python3 $SCRIPT_DIR/config.py extract $SCRIPT_DIR/data_dir/config.json skaleConfig.sChain.schainOwner )
 
-sleep 5
+sleep 20
