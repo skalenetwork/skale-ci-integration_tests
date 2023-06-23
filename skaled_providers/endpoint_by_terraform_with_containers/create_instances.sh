@@ -14,7 +14,12 @@ if [[ ! -f ~/.ssh/id_rsa ]]
 then
 	ssh-keygen -f ~/.ssh/id_rsa -N ""
 fi
-cat ~/.ssh/id_rsa.pub >>tf_scripts/scripts/authorized_keys
+
+if ! grep -Fxq "$USER@$HOSTNAME" tf_scripts/scripts/authorized_keys
+then
+    cat ~/.ssh/id_rsa.pub >>tf_scripts/scripts/authorized_keys
+fi
+
 # allow something to root too (for access to /skale_node_data)
 sudo mkdir /root/.ssh || true
 sudo cp ~/.ssh/id_rsa* /root/.ssh
