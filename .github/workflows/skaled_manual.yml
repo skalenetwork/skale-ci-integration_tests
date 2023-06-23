@@ -73,6 +73,7 @@ jobs:
       run: |
         pwd
         mounts=$(mount | grep ' on /' | awk '{print $3}' | grep '/btrfs$') || true
+        echo $mounts
         for m in $mounts; do sudo umount $m; done
         sudo rm -rf *
 
