@@ -14,7 +14,9 @@
    "collectionDuration": 60,
    "transactionQueueSize": 100,
    "maxOpenLeveldbFiles": 256,
-   "info-acceptors": 1
+   "info-acceptors": 1,
+   "transactionQueueLimitBytes": 69206016,
+   "futureTransactionQueueLimitBytes": 140509184
   },
   "sChain": {
    "dbStorageLimit": 12653999554,
