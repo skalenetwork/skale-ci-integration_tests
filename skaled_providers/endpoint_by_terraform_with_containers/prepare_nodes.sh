@@ -2,7 +2,7 @@
 
 # params:
 # IPS array of node IPs
-# 
+# SKALED_RELEASE
 
 #input: $IP, $I
 HOST_PREPARE () {
@@ -15,6 +15,8 @@ HOST_PREPARE () {
 	sudo scp -r -o "StrictHostKeyChecking no" /skale_node_data ubuntu@$IP:/home/ubuntu
 
 	ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
+
+    sudo apt-get install net-tools
 
     sudo fallocate -l 1G /swapfile
     sudo chmod 600 /swapfile
