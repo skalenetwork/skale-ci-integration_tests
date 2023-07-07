@@ -34,7 +34,11 @@ done
 bash ./load_many_transactions.sh ${URLS[*]} 2>&1 1>load.log&
 load_pid=$!
 
-trap 'kill -INT $load_pid' INT EXIT
+kill_load() {
+    kill -INT $load_pid
+}
+
+trap kill_load INT EXIT
 
 set +x
 
