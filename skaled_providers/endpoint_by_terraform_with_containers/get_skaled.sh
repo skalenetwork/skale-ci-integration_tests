@@ -51,31 +51,18 @@ echo -- Start nodes ---
 
 #echo -- Create prom_targets ---
 ./make_prom_targets.sh >skale_ci.yml
-ssh -o "StrictHostKeyChecking no" -i ~/grafana_ci root@116.203.203.249 <<- 111
-sudo -i
-cat >/opt/prometheus/conf/skale_ci.yml <<- 222
-$(cat skale_ci.yml)
-222
-docker restart prometheus
-111
+#ssh -o "StrictHostKeyChecking no" -i ~/grafana_ci root@116.203.203.249 <<- 111
+#sudo -i
+#cat >/opt/prometheus/conf/skale_ci.yml <<- 222
+#$(cat skale_ci.yml)
+#222
+#docker restart prometheus
+#111
 
 export ENDPOINT_URL="http://${IPS[0]}:1234"
-export IPS=
+echo "IPS=" ${IPS[*]}
 export PORTS=(1234)
 export CHAIN_ID=$( python3 config.py extract $SCRIPT_DIR/config.json params.chainID )
 export SCHAIN_OWNER=$( python3 config.py extract $SCRIPT_DIR/config.json skaleConfig.sChain.schainOwner )
 
 cd "$ORIG_CWD"
-
-#input: $IP, $I
-HOST_RESTART () {
-	ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
-
-	for J in {0..0}
-	do
-	    sudo docker stop skale-ci-\$J
-		sudo docker start skale-ci-\$J
-	done
-
-	****
-}
