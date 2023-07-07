@@ -1,6 +1,8 @@
 name: Skaled Manually-Running Tests
 
 on:
+  schedule:
+    - cron: '00 12 * * 5'
   workflow_dispatch:
     inputs:
       suite:
@@ -25,7 +27,7 @@ on:
 
       skaled_release:
         description: 'Skaled Release'
-        default: 'develop-latest'
+        default: '3.18.0-develop-latest'
         required: true
 
       kick_interval:
@@ -50,7 +52,7 @@ jobs:
       TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
       TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       NO_ULIMIT_CHECK: 1
-      KICK_INTERVAL: ${{ github.event.inputs.kick_interval || '7200' }}
+      KICK_INTERVAL: ${{ github.event.inputs.kick_interval || '450' }}
 
     steps:
 
