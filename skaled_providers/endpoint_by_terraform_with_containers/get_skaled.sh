@@ -51,13 +51,13 @@ echo -- Start nodes ---
 
 #echo -- Create prom_targets ---
 ./make_prom_targets.sh >skale_ci.yml
-#ssh -o "StrictHostKeyChecking no" -i ~/grafana_ci root@116.203.203.249 <<- 111
-#sudo -i
-#cat >/opt/prometheus/conf/skale_ci.yml <<- 222
-#$(cat skale_ci.yml)
-#222
-#docker restart prometheus
-#111
+ssh -o "StrictHostKeyChecking no" -i ~/grafana_ci root@116.203.203.249 <<- 111
+sudo -i
+cat >/opt/prometheus/conf/skale_ci.yml <<- 222
+$(cat skale_ci.yml)
+222
+docker restart prometheus
+111
 
 export ENDPOINT_URL="http://${IPS[0]}:1234"
 echo "IPS=" ${IPS[*]}
