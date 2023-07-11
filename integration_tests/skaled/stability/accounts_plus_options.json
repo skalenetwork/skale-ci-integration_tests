@@ -12,6 +12,7 @@
    "maxCacheSize": 64000000,
    "collectionQueueSize": 20,
    "collectionDuration": 60,
+   "transactionQueueSize": 100,
    "maxOpenLeveldbFiles": 256,
    "info-acceptors": 1,
    "transactionQueueLimitBytes": 69206016,
