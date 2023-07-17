@@ -10,6 +10,7 @@ true
 done
 
 killer_func () {
+sleep 3600
 while true
 do
 	timeout 5m npx hardhat setStorageUsage --size 1g --network custom
