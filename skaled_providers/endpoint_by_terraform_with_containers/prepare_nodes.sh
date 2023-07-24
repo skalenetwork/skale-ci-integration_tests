@@ -2,6 +2,7 @@
 
 # params:
 # IPS array of node IPs
+# HISTORIC & HISTORIC_IP
 # SKALED_RELEASE
 
 #input: $IP, $I
@@ -47,5 +48,11 @@ do
 	I=$((I+1))
 	IP=$IP I=$I HOST_PREPARE&
 done
+
+if $HISTORIC
+then
+	scp -o "StrictHostKeyChecking no" config-historic.json ubuntu@$HISTORIC_IP:/home/ubuntu/config.json
+    IP=$HISTORIC_IP I=100 SKALED_RELEASE="${SKALED_RELEASE}-historic" HOST_PREPARE&
+fi
 
 wait

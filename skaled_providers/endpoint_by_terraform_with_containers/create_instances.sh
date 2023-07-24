@@ -3,6 +3,7 @@
 # params:
 # NUM_NODES - number of hosts to launch
 # SUFFIX - nodes "batch" ID
+# HISTORIC - true or false
 
 # returns
 # tf/output.json
@@ -23,5 +24,11 @@ fi
 # allow something to root too (for access to /skale_node_data)
 sudo mkdir /root/.ssh || true
 sudo cp ~/.ssh/id_rsa* /root/.ssh
-./create.sh $SUFFIX
+if $HISTORIC
+then
+    # HACK +1 because inside create.sh NUM_NODES is divided by 2
+    NUM_NODES="$((${NUM_NODES:-4}+2))" ./create.sh $SUFFIX
+else
+    NUM_NODES="${NUM_NODES:-4}" ./create.sh $SUFFIX
+fi
 cd ..
