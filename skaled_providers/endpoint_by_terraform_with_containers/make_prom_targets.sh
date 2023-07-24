@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NUM_NODES=${NUM_NODES:-$( jq -r '.public_ips.value|length' tf/output.json )}
+NUM_NODES=$( jq -r '.public_ips.value|length' tf/output.json )
 NUM_SCHAINS=${NUM_SCHAINS:-5}
 
 for i in $( seq 0 $(($NUM_NODES-1)) )
