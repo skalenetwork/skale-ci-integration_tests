@@ -10,7 +10,7 @@ SGX_URL="https://${SGX_IP}:1026"
 
 export STABILITY=$INTEGRATION_TESTS_DIR/skaled/stability
 
-. $SKALED_PROVIDER/get_skaled.sh $STABILITY/accounts_plus_options.json
+. $SKALED_PROVIDER/get_skaled.sh $STABILITY/accounts_plus_options.json --historic
 
 cd $STABILITY
 
