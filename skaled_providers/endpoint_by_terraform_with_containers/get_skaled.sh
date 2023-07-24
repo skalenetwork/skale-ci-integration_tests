@@ -4,6 +4,7 @@
 # SKALED_RELEASE - dockerhub schain container version
 # NUM_NODES - number of hosts to launch
 # arg1 - config with additional params (optional)
+# --historic if need historic
 
 # returns
 # ENDPOINT_URL - URL for running skaled instance
@@ -13,6 +14,12 @@
 export NUM_NODES="${NUM_NODES:-4}"
 export SKALED_RELEASE="${SKALED_RELEASE:-develop-latest}"
 export NUM_SCHAINS="${NUM_SCHAINS:-5}"
+
+HISTORIC=false
+if [[ "$@" == *"--historic"* ]]
+then
+  HISTORIC=true
+fi
 
 sudo echo "We need to obtain root now for future"
 
@@ -41,7 +48,14 @@ done
 
 echo -- Make configs ---
 set -x
-SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "${LONG_IPS[*]}") "$1" --bind0
+if ! $HISTORIC
+then
+    SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "${LONG_IPS[*]}") "$1" --bind0
+else
+    HISTORIC_IP=$( jq -r '.public_ips.value."skale-ci-'${NUM_NODES}'"' tf/output.json )
+    echo IP $HISTORIC_IP
+    SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "${LONG_IPS[*]}") "$1" --bind0 --historic $HISTORIC_IP:1231
+fi
 
 echo -- Prepare nodes ---
 . prepare_nodes.sh
