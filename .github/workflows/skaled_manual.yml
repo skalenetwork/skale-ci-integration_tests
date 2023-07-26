@@ -52,7 +52,7 @@ jobs:
       TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY }}
       TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       NO_ULIMIT_CHECK: 1
-      KICK_INTERVAL: ${{ github.event.inputs.kick_interval || '450' }}
+      KICK_INTERVAL: ${{ github.event.inputs.kick_interval || '1800' }}
 
     steps:
 
