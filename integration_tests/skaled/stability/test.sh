@@ -28,17 +28,23 @@ do
     #ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
     #sudo ./files_faucet.sh ./data_dir/0/a5cf2af8/blocks_and_extras/* </dev/null 2>/dev/null >/dev/null &
 #****
-
 done
+
 #python3 txn_stream.py 0 ${URLS[*]}&
+
 bash ./load_many_transactions.sh ${URLS[*]} 2>&1 1>load.log&
 load_pid=$!
-
 kill_load() {
     kill -INT $load_pid
 }
-
 trap kill_load INT EXIT
+
+bash ./load_requests.sh ${URLS[5]} ${URLS[6]} 2>&1 1>requests.log&
+requests_pid=$!
+kill_requests() {
+    kill -INT $requests_pid
+}
+trap kill_requests INT EXIT
 
 set +x
 
@@ -46,6 +52,13 @@ if [ "$TEST_NAME" == "down_up" ]
 then
 
 ARGS=()
+	ARGS+=("kill 6 0")
+	ARGS+=("kill 7 0")
+	ARGS+=("kill 8 0")
+	ARGS+=("kill 9 0")
+	ARGS+=("kill 10 0")
+	ARGS+=("kill 11 0")
+	ARGS+=("kill 12 0")
 ARGS+=("down 15 0")
 	ARGS+=("kill 6 0")
 	ARGS+=("kill 7 0")
