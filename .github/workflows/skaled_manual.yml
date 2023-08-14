@@ -27,7 +27,7 @@ on:
 
       skaled_release:
         description: 'Skaled Release'
-        default: '3.18.0-develop-latest'
+        default: 'develop-latest'
         required: true
 
       kick_interval:
@@ -45,7 +45,7 @@ jobs:
       SUITE: ${{ github.event.inputs.suite || 'stability' }}
       TEST: ${{ github.event.inputs.test || 'down_up' }}
       SKALED_PROVIDER: skaled_providers/${{ github.event.inputs.skaled_provider || 'endpoint_by_terraform_with_containers' }}
-      SKALED_RELEASE: ${{ github.event.inputs.skaled_release || '3.18.0-develop-latest' }}
+      SKALED_RELEASE: ${{ github.event.inputs.skaled_release || 'develop-latest' }}
       NUM_NODES: ${{ github.event.inputs.num_nodes || '16' }}
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
