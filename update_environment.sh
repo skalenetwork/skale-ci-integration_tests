@@ -12,7 +12,8 @@ skaled+contractsRunningTest
 skaled+filestorage
 skaled+api
 skaled+stability
-skaled+upgrade_test"
+skaled+upgrade_test
+skaled+network"
 
 test_suites=()
 while IFS= read -r line ; do test_suites+=($line); done <<< "$TEST_SUITES"
