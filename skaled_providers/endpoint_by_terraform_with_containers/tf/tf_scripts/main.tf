@@ -203,11 +203,15 @@ resource "aws_spot_instance_request" "node_alt" {
   # }
 }
 
-resource "aws_instance" "node" {
+resource "aws_instance" "node_alt" {
+
+  provider = aws.alt
+
+
   count = !var.spot_instance ? var.COUNT : 0
-  ami   = data.aws_ami.ubuntu.id
+  ami   = data.aws_ami.ubuntu_alt.id
   instance_type = var.instance_type
-  availability_zone = var.availability_zone
+  availability_zone = var.availability_zone_alt
   key_name = var.key_name
   # vpc_security_group_ids = [aws_security_group.security_group.id]
 
