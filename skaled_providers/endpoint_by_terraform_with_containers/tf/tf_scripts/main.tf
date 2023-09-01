@@ -1,9 +1,9 @@
 # https://cloud-images.ubuntu.com/locator/ec2/ for ami identication
 
 
-variable "COUNT" {
-  default = 0
-}
+# variable "COUNT" {
+#   default = 0
+# }
 
 provider "aws" {
   access_key = var.access_key
