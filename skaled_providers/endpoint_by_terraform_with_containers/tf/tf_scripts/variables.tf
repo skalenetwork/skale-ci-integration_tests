@@ -13,3 +13,4 @@ variable "path_to_pem" {}
 variable "COUNT" {}
 variable "spot_price" {}
 variable "spot_instance" {}
+variable "security_group" {}
