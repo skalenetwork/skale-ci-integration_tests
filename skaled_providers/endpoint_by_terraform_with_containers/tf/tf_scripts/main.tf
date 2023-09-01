@@ -1,18 +1,17 @@
+# https://cloud-images.ubuntu.com/locator/ec2/ for ami identication
+
+
+variable "COUNT" {
+  default = 0
+}
+
 provider "aws" {
   access_key = var.access_key
   secret_key = var.secret_key
   region = var.region
 }
 
-provider "aws" {
-  access_key = var.access_key
-  secret_key = var.secret_key
-  region = var.region_alt
-  alias = "alt"
-}
-
 data "aws_ami" "ubuntu" {
-
   most_recent = true
 
   filter {
@@ -28,13 +27,29 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
+
 resource "aws_volume_attachment" "ebs_att" {
   count = var.COUNT
   # skip_destroy = true
   device_name = "/dev/sdd"
-  
+
   volume_id   = aws_ebs_volume.lvm_volume[count.index].id
   instance_id = var.spot_instance ? aws_spot_instance_request.node[count.index].spot_instance_id : aws_instance.node[count.index].id
+
+  provisioner "remote-exec" {
+    inline = [
+      "export VOLUME_SIZE=${var.lvm_volume_size}",
+      "echo /dev/`lsblk -do NAME,SIZE | grep $VOLUME_SIZE | cut -d ' ' -f 1` | sudo tee /root/lvm-block-device",
+    ]
+    connection {
+      type     = "ssh"
+      user     = "ubuntu"
+      host = aws_eip.node_eip[count.index].public_ip
+      # host = "${var.spot_instance ? aws_spot_instance_request.node[count.index].public_ip : aws_instance.node[count.index].public_ip}"
+      private_key = file(var.ssh_private_key_path)
+    }
+  }
+
 }
 
 resource "aws_ebs_volume" "lvm_volume" {
@@ -43,24 +58,21 @@ resource "aws_ebs_volume" "lvm_volume" {
   size = var.lvm_volume_size
 
   tags = {
-    Name = "${var.prefix}-${count.index}"
-  }  
+    Name = "${var.prefix}-${count.index}-lvm-volume"
+  }
 }
+
 
 resource "aws_spot_instance_request" "node" {
   count = var.spot_instance ? var.COUNT : 0
-  ami   = data.aws_ami.ubuntu.id
-  
+  spot_price    = var.spot_price[var.instance_type]
+  ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   availability_zone = var.availability_zone
-  # pem name
-  key_name = var.key_name
-  # Our Security group to allow HTTP and SSH access
-  # vpc_security_group_ids = [aws_security_group.default.id]
-  # for spot
-  spot_price    = var.spot_price[var.instance_type]
   wait_for_fulfillment = true
-  #
+  # vpc_security_group_ids = [aws_security_group.security_group.id]
+  key_name = var.key_name
+
   root_block_device {
     volume_size = var.root_volume_size
   }
@@ -68,23 +80,10 @@ resource "aws_spot_instance_request" "node" {
   tags = {
     Name = "${var.prefix}-${count.index}"
   }
-
-  connection {
-    type     = "ssh"
-    user     = "ubuntu"
-    # password = "${var.root_password}"
-    host     = self.public_ip
-    private_key = file(var.path_to_pem)
-    # host = aws_spot_instance_request.node[count.index].public_ip
-  }
-
-  # copy authorized_keys
-  provisioner "file" {
-    source = "./scripts/authorized_keys"
-    destination = "/home/ubuntu/.ssh/authorized_keys"
-  }
+  # provisioner "local-exec" {
+  #   command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
+  # }
 }
-
 
 resource "aws_instance" "node" {
   count = !var.spot_instance ? var.COUNT : 0
@@ -106,100 +105,89 @@ resource "aws_instance" "node" {
   # }
 }
 
-##################### ALT ####################
 
-data "aws_ami" "ubuntu_alt" {
-
-  provider = aws.alt
-
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
+data "aws_vpc" "default" {
+  default = true
 }
 
-resource "aws_volume_attachment" "ebs_att_alt" {
-  
-  provider = aws.alt
+resource "aws_security_group" "security_group" {
+  vpc_id       = data.aws_vpc.default.id
+  name         = var.security_group
+  description  = "Security group for nodes"
 
-  count = var.COUNT
-  # skip_destroy = true
-  device_name = "/dev/sdd"
-  
-  volume_id   = aws_ebs_volume.lvm_volume_alt[count.index].id
-  instance_id = aws_spot_instance_request.node_alt[count.index].spot_instance_id
-}
+  # allow ingress of port 22
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-resource "aws_ebs_volume" "lvm_volume_alt" {
+  ingress {
+    from_port   = 9100
+    to_port     = 9100
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-  provider = aws.alt
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-  count = var.COUNT
-  availability_zone = var.availability_zone_alt
-  size = var.lvm_volume_size
+  ingress {
+    from_port   = 10000
+    to_port     = 12000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
+  ingress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 3009
+    to_port     = 3009
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # allow egress of all ports
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = {
-    Name = "${var.prefix}-${count.index}"
-  }  
+    Name = var.security_group
+    Description = "Security Group for nodes"
+  }
 }
 
-resource "aws_spot_instance_request" "node_alt" {
 
-  provider = aws.alt
-
+resource "aws_eip_association" "eip_assoc" {
   count = var.COUNT
-  ami   = data.aws_ami.ubuntu_alt.id
-  
-  instance_type = var.instance_type
-  availability_zone = var.availability_zone_alt
-  # pem name
-  key_name = var.key_name
-  # Our Security group to allow HTTP and SSH access
-  # vpc_security_group_ids = [aws_security_group.default.id]
-  # for spot
-  spot_price    = var.spot_price[var.instance_type]
-  wait_for_fulfillment = true
-  #
-  root_block_device {
-    volume_size = var.root_volume_size
-  }
-
-  tags = {
-    Name = "${var.prefix}-${var.COUNT+count.index}"
-  }
-
-  connection {
-    type     = "ssh"
-    user     = "ubuntu"
-    # password = "${var.root_password}"
-    host     = self.public_ip
-    private_key = file(var.path_to_pem)
-    # host = aws_spot_instance_request.node[count.index].public_ip
-  }
-
-  # copy authorized_keys
-  provisioner "file" {
-    source = "./scripts/authorized_keys"
-    destination = "/home/ubuntu/.ssh/authorized_keys"
+  allocation_id = aws_eip.node_eip[count.index].id
+  instance_id = var.spot_instance ? aws_spot_instance_request.node[count.index].spot_instance_id : aws_instance.node[count.index].id
+  provisioner "local-exec" {
+    command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
   }
 }
 
-// outputs
-output "public_ips" {
-  description = "map output of the hostname and public ip for each instance"
-  value = zipmap(
-  # data.template_file.node_names.*.rendered,
-  concat(aws_spot_instance_request.node.*.tags.Name, aws_spot_instance_request.node_alt.*.tags.Name),
-  concat(aws_spot_instance_request.node.*.public_ip, aws_spot_instance_request.node_alt.*.public_ip)
-  #aws_eip.ip.*.public_ip
-  )
+resource "aws_eip" "node_eip" {
+  count = var.COUNT
 }
