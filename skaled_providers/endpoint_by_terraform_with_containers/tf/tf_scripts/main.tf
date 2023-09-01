@@ -31,19 +31,19 @@ resource "aws_volume_attachment" "ebs_att" {
   volume_id   = aws_ebs_volume.lvm_volume[count.index].id
   instance_id = var.spot_instance ? aws_spot_instance_request.node[count.index].spot_instance_id : aws_instance.node[count.index].id
 
-  provisioner "remote-exec" {
-    inline = [
-      "export VOLUME_SIZE=${var.lvm_volume_size}",
-      "echo /dev/`lsblk -do NAME,SIZE | grep $VOLUME_SIZE | cut -d ' ' -f 1` | sudo tee /root/lvm-block-device",
-    ]
-    connection {
-      type     = "ssh"
-      user     = "ubuntu"
-      host = aws_eip.node_eip[count.index].public_ip
-      # host = "${var.spot_instance ? aws_spot_instance_request.node[count.index].public_ip : aws_instance.node[count.index].public_ip}"
-      private_key = file(var.path_to_pem)    
-    }
-  }
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "export VOLUME_SIZE=${var.lvm_volume_size}",
+  #     "echo /dev/`lsblk -do NAME,SIZE | grep $VOLUME_SIZE | cut -d ' ' -f 1` | sudo tee /root/lvm-block-device",
+  #   ]
+  #   connection {
+  #     type     = "ssh"
+  #     user     = "ubuntu"
+  #     host = aws_eip.node_eip[count.index].public_ip
+  #     # host = "${var.spot_instance ? aws_spot_instance_request.node[count.index].public_ip : aws_instance.node[count.index].public_ip}"
+  #     private_key = file(var.path_to_pem)    
+  #   }
+  # }
 
 }
 
@@ -106,7 +106,7 @@ resource "aws_instance" "node" {
     private_key = file(var.path_to_pem)
     # host = aws_spot_instance_request.node[count.index].public_ip
   }
-  
+
   # copy authorized_keys
   provisioner "file" {
     source = "./scripts/authorized_keys"
