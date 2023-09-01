@@ -34,7 +34,7 @@ resource "aws_volume_attachment" "ebs_att" {
   device_name = "/dev/sdd"
   
   volume_id   = aws_ebs_volume.lvm_volume[count.index].id
-  instance_id = aws_spot_instance_request.node[count.index].spot_instance_id
+  instance_id = var.spot_instance ? aws_spot_instance_request.node[count.index].spot_instance_id : aws_instance.node[count.index].id
 }
 
 resource "aws_ebs_volume" "lvm_volume" {
@@ -48,7 +48,7 @@ resource "aws_ebs_volume" "lvm_volume" {
 }
 
 resource "aws_spot_instance_request" "node" {
-  count = var.COUNT
+  count = var.spot_instance ? var.COUNT : 0
   ami   = data.aws_ami.ubuntu.id
   
   instance_type = var.instance_type
@@ -83,6 +83,27 @@ resource "aws_spot_instance_request" "node" {
     source = "./scripts/authorized_keys"
     destination = "/home/ubuntu/.ssh/authorized_keys"
   }
+}
+
+
+resource "aws_instance" "node" {
+  count = !var.spot_instance ? var.COUNT : 0
+  ami   = data.aws_ami.ubuntu.id
+  instance_type = var.instance_type
+  availability_zone = var.availability_zone
+  key_name = var.key_name
+  # vpc_security_group_ids = [aws_security_group.security_group.id]
+
+  root_block_device {
+    volume_size = var.root_volume_size
+  }
+
+  tags = {
+    Name = "${var.prefix}-${count.index}"
+  }
+  # provisioner "local-exec" {
+  #   command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
+  # }
 }
 
 ##################### ALT ####################
