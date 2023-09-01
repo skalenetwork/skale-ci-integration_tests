@@ -41,7 +41,8 @@ resource "aws_volume_attachment" "ebs_att" {
       user     = "ubuntu"
       host = aws_eip.node_eip[count.index].public_ip
       # host = "${var.spot_instance ? aws_spot_instance_request.node[count.index].public_ip : aws_instance.node[count.index].public_ip}"
-      private_key = file(var.path_to_pem)    }
+      private_key = file(var.path_to_pem)    
+    }
   }
 
 }
