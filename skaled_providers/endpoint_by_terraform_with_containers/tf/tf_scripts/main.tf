@@ -238,10 +238,6 @@ resource "aws_instance" "node" {
 
 }
 
-data "aws_vpc" "default" {
-  default = true
-}
-
 
 resource "aws_eip_association" "eip_assoc_alt" {
   count = var.COUNT
