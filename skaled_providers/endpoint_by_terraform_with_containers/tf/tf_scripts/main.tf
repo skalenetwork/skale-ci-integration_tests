@@ -98,7 +98,15 @@ resource "aws_instance" "node" {
   # provisioner "local-exec" {
   #   command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
   # }
-
+  connection {
+    type     = "ssh"
+    user     = "ubuntu"
+    # password = "${var.root_password}"
+    host     = self.public_ip
+    private_key = file(var.path_to_pem)
+    # host = aws_spot_instance_request.node[count.index].public_ip
+  }
+  
   # copy authorized_keys
   provisioner "file" {
     source = "./scripts/authorized_keys"
