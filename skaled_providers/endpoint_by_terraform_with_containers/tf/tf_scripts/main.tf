@@ -1,10 +1,5 @@
 # https://cloud-images.ubuntu.com/locator/ec2/ for ami identication
 
-
-# variable "COUNT" {
-#   default = 0
-# }
-
 provider "aws" {
   access_key = var.access_key
   secret_key = var.secret_key
@@ -46,8 +41,7 @@ resource "aws_volume_attachment" "ebs_att" {
       user     = "ubuntu"
       host = aws_eip.node_eip[count.index].public_ip
       # host = "${var.spot_instance ? aws_spot_instance_request.node[count.index].public_ip : aws_instance.node[count.index].public_ip}"
-      private_key = file(var.ssh_private_key_path)
-    }
+      private_key = file(var.path_to_pem)    }
   }
 
 }
@@ -103,6 +97,13 @@ resource "aws_instance" "node" {
   # provisioner "local-exec" {
   #   command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
   # }
+
+  # copy authorized_keys
+  provisioner "file" {
+    source = "./scripts/authorized_keys"
+    destination = "/home/ubuntu/.ssh/authorized_keys"
+  }
+
 }
 
 
