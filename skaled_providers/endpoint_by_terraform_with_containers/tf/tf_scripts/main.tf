@@ -170,7 +170,7 @@ resource "aws_ebs_volume" "lvm_volume_alt" {
 resource "aws_spot_instance_request" "node_alt" {
   provider = aws.alt
 
-  count = var.spot_instance ? var.COUNT_ALT : 0
+  count = var.spot_instance ? local.COUNT_ALT : 0
   ami           = data.aws_ami.ubuntu_alt.id
 
   instance_type = var.instance_type
@@ -196,8 +196,7 @@ resource "aws_instance" "node_alt" {
 
   provider = aws.alt
 
-
-  count = !var.spot_instance ? var.COUNT_ALT : 0
+  count = !var.spot_instance ? local.COUNT_ALT : 0
   ami   = data.aws_ami.ubuntu_alt.id
   instance_type = var.instance_type
   availability_zone = var.availability_zone_alt
