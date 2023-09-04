@@ -148,8 +148,8 @@ resource "aws_volume_attachment" "ebs_att_alt" {
 
   provider = aws.alt
 
-  volume_id   = aws_ebs_volume.lvm_volume_alt[count].id
-  instance_id = var.spot_instance ? aws_spot_instance_request.node_alt[count].spot_instance_id : aws_instance.node_alt[count].id
+  volume_id   = aws_ebs_volume.lvm_volume_alt[count.index].id
+  instance_id = var.spot_instance ? aws_spot_instance_request.node_alt[count.index].spot_instance_id : aws_instance.node_alt[count.index].id
 }
 
 resource "aws_ebs_volume" "lvm_volume_alt" {
