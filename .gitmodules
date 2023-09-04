@@ -30,7 +30,7 @@
 	url = git@github.com:skalenetwork/config_tools
 [submodule "integration_tests/skaled/stability/third_party/skale-node-tests"]
 	path = integration_tests/skaled/stability/third_party/skale-node-tests
-	url = git@github.com:skalenetwork/skale-node-tests
+	url = https://github.com/skalenetwork/skale-node-tests
 [submodule "integration_tests/skaled/upgrade_test/third_party/skale-node-tests"]
 	path = integration_tests/skaled/upgrade_test/third_party/skale-node-tests
 	url = git@github.com:skalenetwork/skale-node-tests
