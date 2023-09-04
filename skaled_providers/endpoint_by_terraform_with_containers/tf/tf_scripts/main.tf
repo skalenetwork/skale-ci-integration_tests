@@ -1,5 +1,11 @@
 # https://cloud-images.ubuntu.com/locator/ec2/ for ami identication
 
+
+locals {
+  COUNT_ALT = var.COUNT * 1 + 8
+}
+
+
 provider "aws" {
   access_key = var.access_key
   secret_key = var.secret_key
@@ -137,7 +143,7 @@ data "aws_ami" "ubuntu_alt" {
 
 
 resource "aws_volume_attachment" "ebs_att_alt" {
-  count = var.COUNT+8
+  count = local.COUNT_ALT
   device_name = "/dev/sdd"
 
   provider = aws.alt
@@ -151,7 +157,7 @@ resource "aws_ebs_volume" "lvm_volume_alt" {
   provider = aws.alt
 
 
-  count = var.COUNT+8
+  count = local.COUNT_ALT
   availability_zone = var.availability_zone_alt
   size = var.lvm_volume_size
 
