@@ -46,7 +46,7 @@ resource "aws_ebs_volume" "lvm_volume" {
   size = var.lvm_volume_size
 
   tags = {
-    Name = "${var.prefix}-${count.index}-lvm-volume"
+    Name = "${var.prefix}-${count.index}"
   }
 }
 
@@ -109,23 +109,23 @@ resource "aws_instance" "node" {
 }
 
 
-data "aws_vpc" "default" {
-  default = true
-}
+# data "aws_vpc" "default" {
+#   default = true
+# }
 
 
-resource "aws_eip_association" "eip_assoc" {
-  count = var.COUNT
-  allocation_id = aws_eip.node_eip[count.index].id
-  instance_id = var.spot_instance ? aws_spot_instance_request.node[count.index].spot_instance_id : aws_instance.node[count.index].id
-  provisioner "local-exec" {
-    command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
-  }
-}
-
-resource "aws_eip" "node_eip" {
-  count = var.COUNT
-}
+# resource "aws_eip_association" "eip_assoc" {
+#   count = var.COUNT
+#   allocation_id = aws_eip.node_eip[count.index].id
+#   instance_id = var.spot_instance ? aws_spot_instance_request.node[count.index].spot_instance_id : aws_instance.node[count.index].id
+#   provisioner "local-exec" {
+#     command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
+#   }
+# }
+# 
+# resource "aws_eip" "node_eip" {
+#   count = var.COUNT
+# }
 
 
 ##################### ALT ####################
@@ -173,7 +173,7 @@ resource "aws_ebs_volume" "lvm_volume_alt" {
   size = var.lvm_volume_size
 
   tags = {
-    Name = "${var.prefix}-${count.index}-lvm-volume"
+    Name = "${var.prefix}-${count.index}"
   }
 }
 
@@ -196,7 +196,7 @@ resource "aws_spot_instance_request" "node_alt" {
   }
 
   tags = {
-    Name = "${var.prefix}-${count.index}"
+    Name = "${var.prefix}-${var.COUNT+count.index}"
   }
   # provisioner "local-exec" {
   #   command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
@@ -243,18 +243,18 @@ resource "aws_instance" "node_alt" {
 }
 
 
-resource "aws_eip_association" "eip_assoc_alt" {
-  count = var.COUNT
-  allocation_id = aws_eip.node_eip_alt[count.index].id
-  instance_id = var.spot_instance ? aws_spot_instance_request.node_alt[count.index].spot_instance_id : aws_instance.node_alt[count.index].id
-  provisioner "local-exec" {
-    command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
-  }
-}
-
-resource "aws_eip" "node_eip_alt" {
-  count = var.COUNT
-}
+# resource "aws_eip_association" "eip_assoc_alt" {
+#   count = var.COUNT
+#   allocation_id = aws_eip.node_eip_alt[count.index].id
+#   instance_id = var.spot_instance ? aws_spot_instance_request.node_alt[count.index].spot_instance_id : aws_instance.node_alt[count.index].id
+#   provisioner "local-exec" {
+#     command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
+#   }
+# }
+# 
+# resource "aws_eip" "node_eip_alt" {
+#   count = var.COUNT
+# }
 
 
 output "public_ips" {
