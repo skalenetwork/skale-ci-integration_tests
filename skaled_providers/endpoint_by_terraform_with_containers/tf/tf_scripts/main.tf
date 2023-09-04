@@ -137,7 +137,7 @@ data "aws_ami" "ubuntu_alt" {
 
 
 resource "aws_volume_attachment" "ebs_att_alt" {
-  count = var.COUNT+8
+  count = var.COUNT
   device_name = "/dev/sdd"
 
   provider = aws.alt
@@ -151,7 +151,7 @@ resource "aws_ebs_volume" "lvm_volume_alt" {
   provider = aws.alt
 
 
-  count = var.COUNT+8
+  count = var.COUNT
   availability_zone = var.availability_zone_alt
   size = var.lvm_volume_size
 
@@ -203,7 +203,7 @@ resource "aws_instance" "node_alt" {
   }
 
   tags = {
-    Name = "${var.prefix}-${count.index}"
+    Name = "${var.prefix}-${var.COUNT+count.index}"
   }
   # provisioner "local-exec" {
   #   command = "echo 'node${count.index} ansible_host=${self.public_ip}' >> hosts"
