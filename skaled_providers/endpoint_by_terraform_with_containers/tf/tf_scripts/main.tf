@@ -255,3 +255,14 @@ resource "aws_eip_association" "eip_assoc_alt" {
 resource "aws_eip" "node_eip_alt" {
   count = var.COUNT
 }
+
+
+output "public_ips" {
+  description = "map output of the hostname and public ip for each instance"
+  value = zipmap(
+  # data.template_file.node_names.*.rendered,
+  concat(aws_instance.node.*.tags.Name, aws_instance.node_alt.*.tags.Name),
+  concat(aws_instance.node.*.public_ip, aws_instance.node_alt.*.public_ip)
+  #aws_eip.ip.*.public_ip
+  )
+}
