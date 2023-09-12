@@ -23,6 +23,13 @@ KILLER_PID=$!
 
 cd ../..
 
+# 2 send contract calls
+echo "Sending contract calls"
+python3 load_with_calls.py $2&
+PID=$!
+sleep 3600
+kill $PID
+
 cd third_party/rpc_bomber
 
 # 1 bomb with data
@@ -40,7 +47,7 @@ echo "Waiting for bombers to finish"
 wait ${PIDS[@]}
 echo "Bombers finished"
 
-# 2 bomb without data
+# 3 bomb without data
 I=1
 for URL in ${@:2}
 do
