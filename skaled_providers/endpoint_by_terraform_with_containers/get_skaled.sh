@@ -76,7 +76,7 @@ docker restart prometheus
 export ENDPOINT_URL="http://${IPS[0]}:1234"
 echo "IPS=" ${IPS[*]}
 export PORTS=(1234)
-export CHAIN_ID=$( python3 config.py extract $SCRIPT_DIR/config.json params.chainID )
-export SCHAIN_OWNER=$( python3 config.py extract $SCRIPT_DIR/config.json skaleConfig.sChain.schainOwner )
+export CHAIN_ID=$( python3 config.py extract $SCRIPT_DIR/config_tools/config.json params.chainID )
+export SCHAIN_OWNER=$( python3 config.py extract $SCRIPT_DIR/config_tools/config.json skaleConfig.sChain.schainOwner )
 
 cd "$ORIG_CWD"
