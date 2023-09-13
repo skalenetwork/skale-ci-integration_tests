@@ -45,8 +45,6 @@
             "collectionQueueSize": 20,
             "collectionDuration": 60,
             "transactionQueueSize": 1000,
-            "transactionQueueLimitBytes": 69206016,
-            "futureTransactionQueueLimitBytes": 140509184,
             "maxOpenLeveldbFiles": 1000
   },
   "sChain": {
@@ -61,7 +59,6 @@
             "revertableFSPatchTimestamp": 1678100400,
             "contractStoragePatchTimestamp": 1678100400,
             "verifyDaSigsPatchTimestamp": 1678100400,
-            "storageDestructionPatchTimestamp": 1689163200,
             "snapshotIntervalSec": 3600,
             "emptyBlockIntervalMs": 10000,
             "snapshotDownloadTimeout": 18000,
