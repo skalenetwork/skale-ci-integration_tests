@@ -143,8 +143,13 @@ count = 0
 while True:
 
   for i in range(num_addresses):
-    raw_call = transaction_obj(gas=181000 + 99000, _from=i, to=contractAddress, value=1, chain_id=chainId)
-    call_hash = eth.sendRawTransaction(raw_call)
+    while True:
+        try:
+            raw_call = transaction_obj(gas=181000 + 99000, _from=i, to=contractAddress, value=1, chain_id=chainId)
+            call_hash = eth.sendRawTransaction(raw_call)
+            break
+        except:
+            time.sleep(0.1+start_address/10000)
     call_receipt = None
     print(f"from = {i}")
 
