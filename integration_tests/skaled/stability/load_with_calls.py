@@ -5,6 +5,7 @@ import pickle
 import binascii
 from web3.auto import w3
 
+start_address = 0
 num_addresses = 1000
 addresses = []
 address2key = {}
@@ -70,13 +71,15 @@ def transaction_obj(**kwargs):
 
 
 if len(sys.argv) < 2:
-    print(f"USAGE: {sys.argv[0]} url")
+    print(f"USAGE: {sys.argv[0]} url start_address(0) num_addresses(1000)")
     exit(1)
 
 url = sys.argv[1]
+start_address = int(sys.argv[2]) if len(sys.argv)>2 else start_address
+num_addresses = int(sys.argv[3]) if len(sys.argv)>3 else num_addresses
 
-print(f"Loading {num_addresses} accounts...")
-address2key = load_addresses_and_keys(0, num_addresses)
+print(f"Loading {num_addresses} accounts at {start_address}...")
+address2key = load_addresses_and_keys(start_address, num_addresses)
 addresses = list(address2key.keys())
 
 print(f"Accessing {url}...", end='', flush=True)

@@ -25,10 +25,17 @@ cd ../..
 
 # 2 send contract calls
 echo "Sending contract calls"
-python3 load_with_calls.py $2&
-PID=$!
+I=1
+for URL in ${@:2}
+do
+	python3 load_with_calls.py $URL $((I*1000)) 1000 2>&1 >calls_${I}.log&
+	PIDS[$I]=$!
+	I=$((I+1))
+done
+trap 'kill -INT ${PIDS[*]}' INT EXIT
 sleep 3600
-kill $PID
+kill -INT ${PIDS[*]}
+unset PIDS
 
 cd third_party/rpc_bomber
 
