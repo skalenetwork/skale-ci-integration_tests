@@ -25,10 +25,19 @@ cd ../..
 
 # 2 send contract calls
 echo "Sending contract calls"
-I=1
+I=0
 for URL in ${@:2}
 do
-	python3 load_with_calls.py $URL $((I*1000)) 1000 2>&1 >calls_${I}.log&
+	python3 load_with_calls.py $URL $((I*250)) 250 2>&1 >calls_${I}.log&
+	PIDS[$I]=$!
+	I=$((I+1))
+	python3 load_with_calls.py $URL $((I*250)) 250 2>&1 >calls_${I}.log&
+	PIDS[$I]=$!
+	I=$((I+1))
+	python3 load_with_calls.py $URL $((I*250)) 250 2>&1 >calls_${I}.log&
+	PIDS[$I]=$!
+	I=$((I+1))
+	python3 load_with_calls.py $URL $((I*250)) 250 2>&1 >calls_${I}.log&
 	PIDS[$I]=$!
 	I=$((I+1))
 done
