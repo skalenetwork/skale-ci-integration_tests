@@ -37,14 +37,14 @@ load_pid=$!
 kill_load() {
     kill -INT $load_pid
 }
-trap kill_load INT EXIT
+trap kill_load INT TERM EXIT
 
 bash ./load_requests.sh ${URLS[5]} ${URLS[6]} 2>&1 1>requests.log&
 requests_pid=$!
 kill_requests() {
     kill -INT $requests_pid
 }
-trap kill_requests INT EXIT
+trap kill_requests INT TERM EXIT
 
 set +x
 

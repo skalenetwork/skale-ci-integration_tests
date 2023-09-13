@@ -41,7 +41,7 @@ do
 	PIDS[$I]=$!
 	I=$((I+1))
 done
-trap 'kill -INT ${PIDS[*]}' INT EXIT
+trap 'kill -INT ${PIDS[*]}' INT TERM EXIT
 sleep 3600
 kill -INT ${PIDS[*]}
 unset PIDS
@@ -57,7 +57,7 @@ do
 	I=$((I+1))
 done
 
-trap 'kill -INT ${PIDS[*]}' INT EXIT
+trap 'kill -INT ${PIDS[*]}' INT TERM EXIT
 
 echo "Waiting for bombers to finish"
 wait ${PIDS[@]}
@@ -72,7 +72,7 @@ do
 	I=$((I+1))
 done
 
-trap 'kill -INT ${PIDS[*]}' INT EXIT
+trap 'kill -INT ${PIDS[*]}' INT TERM EXIT
 
 echo "Waiting for bombers to finish 2"
 wait ${PIDS[@]}
