@@ -142,7 +142,7 @@ print(f"code={code}")
 count = 0
 while True:
 
-  for i in range(1000):
+  for i in range(num_addresses):
     raw_call = transaction_obj(gas=181000 + 99000, _from=i, to=contractAddress, value=1, chain_id=chainId)
     call_hash = eth.sendRawTransaction(raw_call)
     call_receipt = None
@@ -157,4 +157,4 @@ while True:
     time.sleep(0.1)
 
   count += 1
-  print(f"COUNT = {count} k")
+  print(f"COUNT = {count} batches")
