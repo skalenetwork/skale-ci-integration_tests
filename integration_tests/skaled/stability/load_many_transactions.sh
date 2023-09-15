@@ -41,9 +41,9 @@ do
 	PIDS[$I]=$!
 	I=$((I+1))
 done
-trap 'kill -INT ${PIDS[*]}' INT TERM EXIT
+trap 'kill ${PIDS[*]}' INT TERM EXIT
 sleep 86400
-kill -INT ${PIDS[*]}
+kill ${PIDS[*]}
 unset PIDS
 
 cd third_party/rpc_bomber
@@ -57,7 +57,7 @@ do
 	I=$((I+1))
 done
 
-trap 'kill -INT ${PIDS[*]}' INT TERM EXIT
+trap 'kill ${PIDS[*]}' INT TERM EXIT
 
 echo "Waiting for bombers to finish"
 wait ${PIDS[@]}
@@ -72,7 +72,7 @@ do
 	I=$((I+1))
 done
 
-trap 'kill -INT ${PIDS[*]}' INT TERM EXIT
+trap 'kill ${PIDS[*]}' INT TERM EXIT
 
 echo "Waiting for bombers to finish 2"
 wait ${PIDS[@]}
