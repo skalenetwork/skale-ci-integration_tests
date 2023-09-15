@@ -35,14 +35,14 @@ done
 bash ./load_many_transactions.sh ${URLS[*]} 2>&1 1>load.log&
 load_pid=$!
 kill_load() {
-    kill -INT $load_pid
+    kill $load_pid
 }
 trap kill_load INT TERM EXIT
 
 bash ./load_requests.sh ${URLS[5]} ${URLS[6]} 2>&1 1>requests.log&
 requests_pid=$!
 kill_requests() {
-    kill -INT $requests_pid
+    kill $requests_pid
 }
 trap kill_requests INT TERM EXIT
 

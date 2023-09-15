@@ -14,7 +14,7 @@ do
 	I=$((I+1))
 done
 
-trap 'kill -INT ${PIDS[*]}' INT EXIT
+trap 'kill ${PIDS[*]}' INT EXIT
 
 echo "Waiting for request bombers to finish"
 wait ${PIDS[@]}
