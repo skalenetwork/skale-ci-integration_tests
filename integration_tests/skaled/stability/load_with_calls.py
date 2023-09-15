@@ -85,7 +85,7 @@ addresses = list(address2key.keys())
 print(f"Accessing {url}...", end='', flush=True)
 
 if url.startswith("http"):
-    provider = web3.Web3.HTTPProvider(url, request_kwargs = {'timeout': 20})
+    provider = web3.Web3.HTTPProvider(url, request_kwargs = {'timeout': 60})
 else:
     provider = web3.Web3.WebsocketProvider(url)
 

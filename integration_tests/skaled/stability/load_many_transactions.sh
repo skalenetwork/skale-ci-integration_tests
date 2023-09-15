@@ -18,8 +18,8 @@ do
 done
 }
 
-killer_func 2>&1 >blockchain-killer.log&
-KILLER_PID=$!
+#killer_func 2>&1 >blockchain-killer.log&
+#KILLER_PID=$!
 
 cd ../..
 
@@ -42,7 +42,7 @@ do
 	I=$((I+1))
 done
 trap 'kill -INT ${PIDS[*]}' INT TERM EXIT
-sleep 3600
+sleep 86400
 kill -INT ${PIDS[*]}
 unset PIDS
 
