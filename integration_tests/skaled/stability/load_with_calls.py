@@ -63,6 +63,9 @@ def transaction_obj(**kwargs):
     if "code" in kwargs:
         transaction["code"] = kwargs["code"]
 
+#    estimate = eth.estimateGas(transaction)
+#    print(f"estimate: {estimate}")
+
     signed = w3.eth.account.sign_transaction(
         transaction,
         private_key=address2key[from_addr]
@@ -146,7 +149,7 @@ while True:
   for i in range(num_addresses):
     while True:
         try:
-            raw_call = transaction_obj(gas=181000 + 20*99000, _from=i, to=contractAddress, value=10, chain_id=chainId)
+            raw_call = transaction_obj(gas=22000 + 10*21000, _from=i, to=contractAddress, value=10, chain_id=chainId)
             call_hash = eth.sendRawTransaction(raw_call)
             break
         except:
