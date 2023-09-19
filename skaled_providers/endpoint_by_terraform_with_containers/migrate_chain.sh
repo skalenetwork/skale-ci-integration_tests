@@ -20,7 +20,7 @@ ORIG_CWD="$( pwd )"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$SCRIPT_DIR"
 
-SGX_URL="https://34.223.63.227:1026"
+SGX_URL="https://167.235.155.228:1026"
 
 # read tf/output.json -> OLD_IPS, OLD_LONG_IPS
 for i in $( seq 0 $(($NUM_NODES-1)) )

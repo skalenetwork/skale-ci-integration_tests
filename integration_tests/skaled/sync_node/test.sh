@@ -7,7 +7,7 @@ export SYNC_NODE=$INTEGRATION_TESTS_DIR/skaled/sync_node
 echo "SYNC_NODE = $SYNC_NODE"
 
 TEST_NAME=$1
-SGX_URL="https://34.223.63.227:1026"
+SGX_URL="https://167.235.155.228:1026"
 
 # exit children on our own exit
 trap 'kill $(jobs -p)' EXIT
