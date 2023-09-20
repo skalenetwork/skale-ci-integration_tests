@@ -39,6 +39,8 @@ kill_load() {
 }
 trap kill_load INT TERM EXIT
 
+sleep 86400
+
 bash ./load_requests.sh ${URLS[5]} ${URLS[6]} 2>&1 1>requests.log&
 requests_pid=$!
 kill_requests() {
