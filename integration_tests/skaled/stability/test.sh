@@ -4,7 +4,7 @@ echo
 echo "----- integration_tests/skaled/stability/test.sh ----- begin"
 
 TEST_NAME=$1
-KICK_INTERVAL=${KICK_INTERVAL:-30}
+export KICK_INTERVAL=${KICK_INTERVAL:-30}
 SGX_IP="167.235.155.228"
 SGX_URL="https://${SGX_IP}:1026"
 
@@ -38,8 +38,6 @@ kill_load() {
     kill $load_pid
 }
 trap kill_load INT TERM EXIT
-
-sleep 86400
 
 bash ./load_requests.sh ${URLS[5]} ${URLS[6]} 2>&1 1>requests.log&
 requests_pid=$!
@@ -209,6 +207,9 @@ fi
 
 sleep 21600
 result=0
+
+kill_load
+kill_requests
 
 . $SKALED_PROVIDER/free_skaled.sh
 

@@ -1,29 +1,26 @@
 #!/bin/bash
 
-cd third_party/blockchain-killer
-echo ENDPOINT=$1 >.env
-echo PRIVATE_KEY=0x21ec9f01cee2a87f8071c4c6ca6a8b218607bd4faa8b1bdacc71ff8c0618b2dd >>.env
+KICK_INTERVAL=${KICK_INTERVAL:-30}
 
-while ! npx hardhat run scripts/deploy.ts --network custom
+cd third_party/rpc_bomber
+
+# 1 bomb 1 hr with data
+I=1
+for URL in ${@:2}
 do
-true
+	node rpc_bomber.js -t --from $((I*1000)) -d 54000 --time $((KICK_INTERVAL*2)) -a 50 $URL 2>&1 >bomber_${I}.log&
+	PIDS[$I]=$!
+	I=$((I+1))
 done
 
-killer_func () {
-sleep 3600
-while true
-do
-	timeout 5m npx hardhat setStorageUsage --size 1g --network custom
-	sleep 10
-done
-}
+trap 'kill ${PIDS[*]}' INT TERM EXIT
 
-#killer_func 2>&1 >blockchain-killer.log&
-#KILLER_PID=$!
+echo "Waiting for bombers to finish"
+wait ${PIDS[@]}
+echo "Bombers finished"
+unset PIDS
 
-cd ../..
-
-# 2 send contract calls
+# 2 send contract calls for 1 hr
 echo "Sending contract calls"
 I=0
 for URL in ${@:2}
@@ -42,28 +39,35 @@ do
 	I=$((I+1))
 done
 trap 'kill ${PIDS[*]}' INT TERM EXIT
-sleep 86400
+sleep $((KICK_INTERVAL*2))
 kill ${PIDS[*]}
 unset PIDS
 
-cd third_party/rpc_bomber
+# 3 start killer forever
+cd third_party/blockchain-killer
+echo ENDPOINT=$1 >.env
+echo PRIVATE_KEY=0x21ec9f01cee2a87f8071c4c6ca6a8b218607bd4faa8b1bdacc71ff8c0618b2dd >>.env
 
-# 1 bomb with data
-I=1
-for URL in ${@:2}
+while ! npx hardhat run scripts/deploy.ts --network custom
 do
-	node rpc_bomber.js -t --from $((I*1000)) -d 54000 --time 3600 -a 50 $URL 2>&1 >bomber_${I}.log&
-	PIDS[$I]=$!
-	I=$((I+1))
+true
 done
 
-trap 'kill ${PIDS[*]}' INT TERM EXIT
+killer_func () {
+while true
+do
+	timeout 5m npx hardhat setStorageUsage --size 2g --network custom
+	sleep 10
+done
+}
 
-echo "Waiting for bombers to finish"
-wait ${PIDS[@]}
-echo "Bombers finished"
+killer_func 2>&1 >blockchain-killer.log&
+KILLER_PID=$!
 
-# 3 bomb without data
+cd ../..
+
+
+# 4 bomb without data
 I=1
 for URL in ${@:2}
 do
