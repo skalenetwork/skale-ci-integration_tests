@@ -2,9 +2,10 @@
 
 KICK_INTERVAL=${KICK_INTERVAL:-30}
 
+# 1 bomb 1 hr with data
+
 cd third_party/rpc_bomber
 
-# 1 bomb 1 hr with data
 I=1
 for URL in ${@:2}
 do
@@ -19,6 +20,8 @@ echo "Waiting for bombers to finish"
 wait ${PIDS[@]}
 echo "Bombers finished"
 unset PIDS
+
+cd ../..
 
 # 2 send contract calls for 1 hr
 echo "Sending contract calls"
@@ -44,7 +47,9 @@ kill ${PIDS[*]}
 unset PIDS
 
 # 3 start killer forever
+
 cd third_party/blockchain-killer
+
 echo ENDPOINT=$1 >.env
 echo PRIVATE_KEY=0x21ec9f01cee2a87f8071c4c6ca6a8b218607bd4faa8b1bdacc71ff8c0618b2dd >>.env
 
@@ -66,8 +71,10 @@ KILLER_PID=$!
 
 cd ../..
 
-
 # 4 bomb without data
+
+cd third_party/rpc_bomber
+
 I=1
 for URL in ${@:2}
 do
