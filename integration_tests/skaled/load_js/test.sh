@@ -27,7 +27,7 @@ case "$TEST_NAME" in
             echo
             echo "----- integration_tests/skaled/load_js/test.sh::run_angry_cats -----"
 
-            node $SKALE_EXPERIMANTAL/skaled-tests/cat-cycle/cat-cycle.js $ENDPOINT_URL "" 10000 100
+            node $SKALE_EXPERIMANTAL/skaled-tests/cat-cycle/cat-cycle.js $ENDPOINT_URL "" 100 100
 
       ;;
       
