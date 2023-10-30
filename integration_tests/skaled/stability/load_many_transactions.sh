@@ -91,4 +91,6 @@ echo "Bombers finished 2"
 
 wait $KILLER_PID
 
+rm bomber*.log
+
 cd ../..
