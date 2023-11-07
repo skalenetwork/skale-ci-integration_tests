@@ -6,7 +6,8 @@ KICK_INTERVAL=${KICK_INTERVAL:-30}
 
 cd third_party/rpc_bomber
 
-I=1
+I=0
+#skip $1 and $2 - both are URLs
 for URL in ${@:2}
 do
 	node rpc_bomber.js -t --from $((I*1000)) -d 54000 --time $((KICK_INTERVAL*2)) -a 50 $URL 2>&1 >bomber_${I}.log&
@@ -26,6 +27,7 @@ cd ../..
 # 2 send contract calls for 1 hr
 echo "Sending contract calls"
 I=0
+#skip $1 and $2 - both are URLs
 for URL in ${@:2}
 do
 	python3 load_with_calls.py $URL $((I*250)) 250 2>&1 >calls_${I}.log&
@@ -41,6 +43,13 @@ do
 	PIDS[$I]=$!
 	I=$((I+1))
 done
+
+# 2.1 in parallel - send requests
+cd third_party/rpc_bomber
+node rpc_bomber.js -r -b 1000 --time $((KICK_INTERVAL*2)) $2 2>&1 >bomber_r.log&
+PIDS[$I]=$!
+cd ../..
+
 trap 'kill ${PIDS[*]}' INT TERM EXIT
 sleep $((KICK_INTERVAL*2))
 kill ${PIDS[*]}
