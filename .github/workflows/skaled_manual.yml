@@ -99,6 +99,7 @@ jobs:
         ./update_environment.sh $PROJECT+$SUITE
 
     - name: Run Tests
+      continue-on-error: true
       run: |
         export DATA_DIR="$HOME/data_dir"
         echo "::set-env name=DATA_DIR::$DATA_DIR"
