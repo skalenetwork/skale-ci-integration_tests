@@ -32,6 +32,8 @@ done
 
 #python3 txn_stream.py 0 ${URLS[*]}&
 
+sleep 600
+
 bash ./load_many_transactions.sh ${URLS[*]} 2>&1 1>load.log&
 load_pid=$!
 kill_load() {
