@@ -59,6 +59,7 @@
             "revertableFSPatchTimestamp": 1678100400,
             "contractStoragePatchTimestamp": 1678100400,
             "verifyDaSigsPatchTimestamp": 1678100400,
+            "EIP1559TransactionsPatchTimestamp": 1,
             "snapshotIntervalSec": 3600,
             "emptyBlockIntervalMs": 10000,
             "snapshotDownloadTimeout": 18000,
@@ -66,6 +67,12 @@
   }
  },
  "accounts": {
+  "0xf15f970E370486d5137461c5936dC6019898e6C8": {
+    "balance": "1000000000000000000000"
+  },
+  "0xb04a7f2Cd74Eb624Df4BD8bed8f7034B5Aed89C0": {
+    "balance": "99000000000000000000000"
+  },
   "0xEc8F9978BF30F02F023488e93EFFf600650d20f0": {
     "balance": "99000000000000000000000"
   },
