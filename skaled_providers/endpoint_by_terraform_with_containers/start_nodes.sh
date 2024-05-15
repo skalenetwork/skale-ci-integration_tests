@@ -41,7 +41,8 @@ for IP in ${IPS[*]} #:0:11}
 do
     if [[ $I -ge 6 && $I -le 8 ]]
     then
-        IP=$IP PARAMS="--download-snapshot dummy" HOST_START&
+        IP=$IP HOST_START&
+#        IP=$IP PARAMS="--download-snapshot dummy" HOST_START&
     else
         IP=$IP HOST_START&
     fi
