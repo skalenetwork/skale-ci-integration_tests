@@ -60,6 +60,7 @@
             "contractStoragePatchTimestamp": 1678100400,
             "verifyDaSigsPatchTimestamp": 1678100400,
             "fastConsensusPatchTimestamp": 1,
+            "EIP1559TransactionsPatchTimestamp": 1,
             "snapshotIntervalSec": 3600,
             "emptyBlockIntervalMs": 10000,
             "snapshotDownloadTimeout": 18000,
