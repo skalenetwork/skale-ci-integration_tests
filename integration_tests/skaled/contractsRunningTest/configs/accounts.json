@@ -2,5 +2,10 @@
     "accounts":{
         "0xa68f946090c600eda6f139783077ee802afeb990": { "balance": "1000000000000000000000000000000" },
         "0x88fd5e01078629cc194c933d9631b9448fe10b1d": { "balance": "1000000000000000000000000000000" }
+    },
+    "skaleConfig": {
+        "nodeInfo": {
+            "testSignatures": true
+        }
     }
 }
