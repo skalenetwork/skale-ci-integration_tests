@@ -72662,10 +72662,5 @@
   "0x26A8D7bBB00cd74b6c1aAf5e0cDDFa960AF53b00": {
    "balance": "24000000000000000000000000"
   }
- },
- "skaleConfig": {
-    "nodeInfo": {
-        "testSignatures": true
-    }
  }
 }
