@@ -101,6 +101,9 @@
     "skaleConfig": {
         "sChain": {
             "schainOwner": "0xa68f946090c600eda6f139783077ee802afeb990"
-        }
+        },
+		"nodeInfo": {
+			"testSignatures": true
+		}
     }
 }
