@@ -2,6 +2,11 @@
 
 This repostory is a collection of tests written by different developers whith keep in mind to test a main functionality of theirs code.
 
+## Server preparation
+1. Install `jq`
+2. Install `nodejs` 20, `npm`, `npx`, `hardhat`
+3. Run `npx hardhat run scripts/deploy.ts --network custom` in `blockchain-killer` and ensure it works
+
 ## How to use
 1. Update environment for test suites. Run command: "bash ./update_environment.sh ["*test suite name*"]". List of possible test suites is located at header of the script. If not a single test suite is provided then all tests suites' environments will be updated.
 2. Run tests. Run command: "bash ./run_tests.sh ["*test name*"]". List of possible test is located at header of the script. If not a single test is provided then all tests will be run.
