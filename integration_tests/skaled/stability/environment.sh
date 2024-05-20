@@ -25,6 +25,7 @@ cd ../..
 
 cd third_party/blockchain-killer
 yarn
+npm i
 cd ../..
 
 echo "----- integration_tests/skaled/stability/environment.sh ----- end"
