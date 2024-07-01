@@ -29,4 +29,3 @@ docker rm temp_container
 chmod +x $SCRIPT_DIR/skaled-historic
 
 export SKTEST_EXE=$SCRIPT_DIR/skaled
-export HISTORIC_SKTEST_EXE=$SCRIPT_DIR/skaled-historic
