@@ -112,7 +112,7 @@ jobs:
         cd skaled_providers/endpoint_by_terraform_with_containers
         NUM_NODES=${{ env.NUM_NODES }} ./free_skaled.sh
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_terraform_with_containers' }}
       continue-on-error: true
       with:
@@ -127,7 +127,7 @@ jobs:
         sudo chown $USER:$USER aleth.*
       continue-on-error: true
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       if: ${{ always() && env.SKALED_PROVIDER == 'skaled_providers/endpoint_by_container' }}
       continue-on-error: true
       with:
@@ -135,7 +135,7 @@ jobs:
           skaled_providers/endpoint_by_container/data_dir/config.json
           aleth.*
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       if: ${{ always() && startsWith(env.SKALED_PROVIDER, 'skaled_providers/binary_') }}
       continue-on-error: true
       with:
@@ -144,7 +144,7 @@ jobs:
           ${{ env.DATA_DIR }}/**/aleth.*
           ${{ env.DATA_DIR }}/**/config.json
           
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       if: ${{ always() && env.TEST == 'skaled_chart' }}
       continue-on-error: true
       with:
