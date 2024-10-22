@@ -2,20 +2,30 @@
 
 # params:
 # IPS array of node IPs
+# REMOTE_USER
 # HISTORIC & HISTORIC_IP
 # SKALED_RELEASE
+
+REMOTE_USER="${REMOTE_USER:-ubuntu}"
+REMOTE_HOME="/home/$REMOTE_USER"
+if [ "$REMOTE_USER" = "root" ]
+then
+  REMOTE_HOME="/root"
+fi
 
 #input: $IP, $I
 HOST_PREPARE () {
 
-	scp -o "StrictHostKeyChecking no" config$I.json ubuntu@$IP:/home/ubuntu/config.json
-	scp -o "StrictHostKeyChecking no" filebeat.yml ubuntu@$IP:/home/ubuntu
-	scp -o "StrictHostKeyChecking no" create_btrfs.sh ubuntu@$IP:/home/ubuntu
+	scp -o "StrictHostKeyChecking no" config$I.json $REMOTE_USER@$IP:$REMOTE_HOME/config.json
 
-	scp -r -o "StrictHostKeyChecking no" skaled-debug/skaled_monitor ubuntu@$IP:/home/ubuntu
-	sudo scp -r -o "StrictHostKeyChecking no" /skale_node_data ubuntu@$IP:/home/ubuntu
+	scp -o "StrictHostKeyChecking no" filebeat.yml $REMOTE_USER@$IP:$REMOTE_HOME
 
-	ssh -o "StrictHostKeyChecking no" ubuntu@$IP <<- ****
+	scp -o "StrictHostKeyChecking no" create_btrfs.sh $REMOTE_USER@$IP:$REMOTE_HOME
+
+	scp -r -o "StrictHostKeyChecking no" skaled-debug/skaled_monitor $REMOTE_USER@$IP:$REMOTE_HOME
+	sudo scp -r -o "StrictHostKeyChecking no" /skale_node_data $REMOTE_USER@$IP:$REMOTE_HOME
+
+	ssh -o "StrictHostKeyChecking no" $REMOTE_USER@$IP <<- ****
 
     sudo apt-get install net-tools
 
@@ -32,6 +42,7 @@ HOST_PREPARE () {
 	sudo chown root:root filebeat.yml
 
 	sudo BTRFS_DIR_PATH=data_dir BTRFS_FILE_PATH=/dev/xvdd ./create_btrfs.sh
+	#sudo BTRFS_DIR_PATH=data_dir BTRFS_FILE_PATH=/dev/nvme1n1 ./create_btrfs.sh
 	sudo chown \$USER:\$USER data_dir
     mkdir shared_space
     mkdir shared_space/data
@@ -51,7 +62,7 @@ done
 
 if $HISTORIC
 then
-	scp -o "StrictHostKeyChecking no" config-historic.json ubuntu@$HISTORIC_IP:/home/ubuntu/config.json
+	scp -o "StrictHostKeyChecking no" config-historic.json $REMOTE_USER@$HISTORIC_IP:$REMOTE_HOME/config.json
     IP=$HISTORIC_IP I=100 SKALED_RELEASE="${SKALED_RELEASE}-historic" HOST_PREPARE&
 fi
 

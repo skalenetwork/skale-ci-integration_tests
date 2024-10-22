@@ -14,6 +14,10 @@
 export NUM_NODES="${NUM_NODES:-4}"
 export SKALED_RELEASE="${SKALED_RELEASE:-develop-latest}"
 export NUM_SCHAINS="${NUM_SCHAINS:-5}"
+export CREATE_NODES="${CREATE_NODES:-1}"
+#SGX_URL="https://35.161.69.138:1026"
+#SGX_URL="https://45.76.3.64:1026"
+export SGX_URL="${SGX_URL:-https://167.235.155.228:1026}"
 
 HISTORIC=false
 if [[ "$@" == *"--historic"* ]]
@@ -27,9 +31,8 @@ ORIG_CWD="$( pwd )"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$SCRIPT_DIR"
 
-#SGX_URL="https://35.161.69.138:1026"
-#SGX_URL="https://45.76.3.64:1026"
-SGX_URL="https://167.235.155.228:1026"
+if [ "${CREATE_NODES}" = "1" ]
+then
 
 echo -- Free skaled --
 ./free_skaled.sh || true
@@ -37,6 +40,8 @@ echo -- Free skaled --
 echo -- Terraform --
 SUFFIX=
 . create_instances.sh
+
+fi
 
 echo -- Load IPs --
 for i in $( seq 0 $(($NUM_NODES-1)) )
@@ -50,11 +55,17 @@ echo -- Make configs ---
 set -x
 if ! $HISTORIC
 then
-    SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "${LONG_IPS[*]}") "$1" --bind0
+    sudo SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "${LONG_IPS[*]}") "$1" --bind0
 else
-    HISTORIC_IP=$( jq -r '.public_ips.value."skale-ci-'${NUM_NODES}'"' tf/output.json )
+    HISTORIC_IP=$( sudo jq -r '.public_ips.value."skale-ci-'${NUM_NODES}'"' tf/output.json )
     echo IP $HISTORIC_IP
-    SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "${LONG_IPS[*]}") "$1" --bind0 --historic $HISTORIC_IP:1231
+    sudo SGX_URL="$SGX_URL" ./config_tools/make_configs.sh $NUM_NODES $(IFS=$','; echo "${LONG_IPS[*]}") "$1" --bind0 --historic $HISTORIC_IP:1231
+fi
+
+if [ ! -s config1.json ]
+then
+  echo "Error: config1.json size is zero"
+  exit 1
 fi
 
 echo -- Prepare nodes ---
