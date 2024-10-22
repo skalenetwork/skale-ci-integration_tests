@@ -3,7 +3,7 @@
 This repostory is a collection of tests written by different developers whith keep in mind to test a main functionality of theirs code.
 
 ## Server preparation
-1. Install `jq`
+1. Install `jq zip unzip`
 2. Install `nodejs` 20, `npm`, `npx`, `hardhat`
 3. Run `npx hardhat run scripts/deploy.ts --network custom` in `blockchain-killer` and ensure it works
 
